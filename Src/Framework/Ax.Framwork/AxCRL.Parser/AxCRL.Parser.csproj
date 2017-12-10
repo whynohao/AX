@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0FAD3400-65A1-458F-9280-89925A6F7731}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AxCRL.Parser</RootNamespace>
+    <AssemblyName>AxCRL.Parser</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\Service\Ax.Server\bin\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Ax.Server\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Basic|AnyCPU'">
+    <OutputPath>bin\Basic\</OutputPath>
+    <DefineConstants>BASIC</DefineConstants>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Extend|AnyCPU'">
+    <OutputPath>bin\Extend\</OutputPath>
+    <DefineConstants>EXTEND</DefineConstants>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>axframwork.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="APP\Coding.cs" />
+    <Compile Include="Compiler\CompilingException.cs" />
+    <Compile Include="Compiler\CodeGeneration.cs" />
+    <Compile Include="Compiler\Numeric.cs" />
+    <Compile Include="Compiler\Logger.cs" />
+    <Compile Include="Compiler\Operand.cs" />
+    <Compile Include="Compiler\Position.cs" />
+    <Compile Include="Compiler\SymbolTable.cs" />
+    <Compile Include="HostType\DynamicDelegate.cs" />
+    <Compile Include="HostType\GenericArgument.cs" />
+    <Compile Include="HostType\GenericArguments.cs" />
+    <Compile Include="HostType\HostCoding.cs" />
+    <Compile Include="HostType\HostFunction.cs" />
+    <Compile Include="HostType\HostOperation.cs" />
+    <Compile Include="HostType\HostValization.cs" />
+    <Compile Include="HostType\HostTypeException.cs" />
+    <Compile Include="HostType\PersistentAttribute.cs" />
+    <Compile Include="HostType\Tuple.cs" />
+    <Compile Include="HostType\ValizerScript.cs" />
+    <Compile Include="VAL\Export.cs" />
+    <Compile Include="VAL\Valization.cs" />
+    <Compile Include="VM\Computer.cs" />
+    <Compile Include="HostType\HostEvent.cs" />
+    <Compile Include="HostType\HostType.cs" />
+    <Compile Include="Compiler\Library.cs" />
+    <Compile Include="VM\Context.cs" />
+    <Compile Include="VM\FunctionChain.cs" />
+    <Compile Include="VM\IUserDefinedFunction.cs" />
+    <Compile Include="VM\Memory.cs" />
+    <Compile Include="Compiler\Module.cs" />
+    <Compile Include="APP\Script.cs" />
+    <Compile Include="VM\RuntimeException.cs" />
+    <Compile Include="VM\SystemFunction.cs" />
+    <Compile Include="VM\CPU.cs" />
+    <Compile Include="Compiler\Error.cs" />
+    <Compile Include="Compiler\Instruction.cs" />
+    <Compile Include="Compiler\Constant.cs" />
+    <Compile Include="Compiler\Expression.cs" />
+    <Compile Include="Compiler\JParser.cs" />
+    <Compile Include="Compiler\JLex.cs" />
+    <Compile Include="VM\StackSegment.cs" />
+    <Compile Include="Compiler\Token.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VM\Register.cs" />
+    <Compile Include="VAL\VAL.cs" />
+    <Compile Include="VAL\VALL.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="axframwork.snk" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

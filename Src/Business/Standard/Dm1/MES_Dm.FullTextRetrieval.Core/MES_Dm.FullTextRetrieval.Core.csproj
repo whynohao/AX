@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EAB505B1-8546-471E-AAFB-6C6BF54EAAE8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MES_Dm.FullTextRetrieval.Core</RootNamespace>
+    <AssemblyName>MES_Dm.FullTextRetrieval.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\Service\Ax.Server\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>axsn.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Lucene.Net, Version=1.0.0.0, Culture=neutral, PublicKeyToken=18b4fae7850ca5f1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Lucene.Net.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.PowerPoint, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>lib\Microsoft.Office.Interop.PowerPoint.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Word, Version=11.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>lib\Microsoft.Office.Interop.Word.dll</HintPath>
+    </Reference>
+    <Reference Include="office, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>lib\office.dll</HintPath>
+    </Reference>
+    <Reference Include="PanGu, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6af128e8186f4524, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\PanGu.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PanGu.HighLight, Version=1.0.0.0, Culture=neutral, PublicKeyToken=eb1868cac502f106, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\PanGu.HighLight.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PanGu.Lucene.Analyzer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=76c3e1575c5749fb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\PanGu.Lucene.Analyzer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AnyToTxt\Excel2Txt.cs" />
+    <Compile Include="AnyToTxt\IFile2TxtBase.cs" />
+    <Compile Include="AnyToTxt\PPT2Txt.cs" />
+    <Compile Include="AnyToTxt\Word2Txt.cs" />
+    <Compile Include="HightLight\HightLighterImp.cs" />
+    <Compile Include="HightLight\IHightLighter.cs" />
+    <Compile Include="Factory.cs" />
+    <Compile Include="IFactory.cs" />
+    <Compile Include="Index\IIndexManager.cs" />
+    <Compile Include="Index\IndexManagerImp.cs" />
+    <Compile Include="Interface\IIndexerService.cs" />
+    <Compile Include="Model\AbstractFileBase.cs" />
+    <Compile Include="Model\TextFileInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AxIndexer.cs" />
+    <Compile Include="Util\DocumentEnvironment.cs" />
+    <Compile Include="Util\FileEncoding.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="axsn.snk" />
+    <None Include="ReadMe.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="lib\Lucene.Net.dll" />
+    <Content Include="lib\Microsoft.Office.Interop.PowerPoint.dll" />
+    <Content Include="lib\Microsoft.Office.Interop.Word.dll" />
+    <Content Include="lib\office.dll" />
+    <Content Include="lib\PanGu.dll" />
+    <Content Include="lib\PanGu.HighLight.dll" />
+    <Content Include="lib\PanGu.Lucene.Analyzer.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MES_Dm_DMCommon\MES_Dm_DMCommon.csproj">
+      <Project>{0DE5A64A-D6B1-403D-AE56-7431825F4D36}</Project>
+      <Name>MES_Dm_DMCommon</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="H:\供应链\AxSolution\AxFramwork\AxCRL.Bcf\AxCRL.Bcf.csproj">
+      <Project>{de450df1-2558-4b05-a59d-3beb1de64359}</Project>
+      <Name>AxCRL.Bcf</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="H:\供应链\AxSolution\AxFramwork\AxCRL.Comm\AxCRL.Comm.csproj">
+      <Project>{99dff188-2dd7-474d-9559-19b357a331ff}</Project>
+      <Name>AxCRL.Comm</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="H:\供应链\AxSolution\AxFramwork\AxCRL.Core\AxCRL.Core.csproj">
+      <Project>{966682f1-dcfb-4062-b5d6-f7d43bfba2e0}</Project>
+      <Name>AxCRL.Core</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="H:\供应链\AxSolution\AxFramwork\AxCRL.Data\AxCRL.Data.csproj">
+      <Project>{86f19ebb-40fe-4674-9d7f-8f9fd3e5c125}</Project>
+      <Name>AxCRL.Data</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

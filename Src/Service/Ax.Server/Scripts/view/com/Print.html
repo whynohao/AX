@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width"/>
+  <title>Print</title>
+  <script src=../../../Scripts/vendor/jquery.min.js></script>
+  <link href=../../../Scripts/extjs/packages/ext-theme-neptune/ext-theme-neptune-all.css rel=stylesheet>
+  <link href=../../../Scripts/extjs/ext.css rel=stylesheet>
+  <link href=../../../Scripts/vendor/toastr/toastr.min.css rel=stylesheet>
+  <script src=../../../Scripts/extjs/ext-all-debug.js></script>
+  <script src=../../../Scripts/extjs/ext-locale-zh_CN.js></script>
+  <link href="../../../Scripts/extjs/packages/ext-theme-neptune/ext-theme-neptune-all.css" rel="stylesheet">
+  <script src="../../../Scripts/vendor/bootstrap/js/bootstrap.min.js"></script>
+  <script src="../../../Scripts/extjs/ext-locale-zh_CN.js"></script>
+  <script src="../../../Scripts/vendor/barcode-print/LodopFuncs.js"></script>
+</head>
+<body>
+
+<div id="buttons" style="height:50px ; width:700px ">
+  <button onclick="print()" BackColor="#cccccc"
+          style="border-right: #7b9ebd 1px solid; width:80px;height:50px; padding-right: 2px; border-top: #7b9ebd 1px solid; padding-left: 2px; font-size: 13px; filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#ffffff, EndColorStr=#cecfde); border-left: #7b9ebd 1px solid; cursor: hand; color: black; padding-top: 2px;  border-bottom: #7b9ebd 1px solid;">
+    设计
+  </button>
+  <button onclick="save()" BackColor="#cccccc"
+          style="border-right: #7b9ebd 1px solid;width:80px;height:50px; padding-right: 2px; border-top: #7b9ebd 1px solid; padding-left: 2px; font-size: 13px; filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr=#ffffff, EndColorStr=#cecfde); border-left: #7b9ebd 1px solid; cursor: hand; color: black; padding-top: 2px; border-bottom: #7b9ebd 1px solid;">
+    保存
+  </button>
+</div>
+<object id="LODOP_OB" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width="800" height="400">
+  <param name="Caption" value="显示区">
+  <param name="Border" value="0">
+  <param name="Color" value="#3399FF">
+  <embed id="LODOP_EM" type="application/x-print-lodop" width="780" height="400" border="0" color="#3399FF"
+         pluginspage="install_lodop.exe">
+</object>
+<div id="textareapanel"></div>
+<script>
+  Ext.onReady(function () {
+    var panel = Ext.create('Ext.panel.Panel', {
+      height: 100,
+      width: 800,
+      border: false,
+      bodyPadding: 10,
+      items: [{
+        xtype: 'textareafield',
+        id: 'textarea',
+        grow: true,
+        height: 80,
+        width: 600,
+        name: 'message',
+        fieldLabel: '模板代码内容',
+        anchor: '100%'
+      }]
+    });
+    panel.render("textareapanel");
+  });
+</script>
+@*模板内容<textarea id="tpltextarea">111</textarea>*@
+<script type="text/javascript">
+  var strResult = "";
+  var LODOP = "";
+  function checkIsInstall () {
+    try {
+
+      LODOP = getLodop(document.getElementById('LODOP_OB'), document.getElementById('LODOP_EM'));
+      var labelTemplateJs = Ext.decode(parent.DesktopApp.LabelTemplateJs);
+      eval(labelTemplateJs);
+      LODOP.PREVIEW();
+      Ext.getCmp('textarea').setValue(labelTemplateJs);
+      if (parent.DesktopApp.LabelTemplateJsAfter) {
+        parent.DesktopApp.LabelTemplateJsAfter = '';
+      }
+    } catch (err) {
+      //alert("Error:本机未安装或需要升级!");
+    }
+  };
+  checkIsInstall();
+  function print () {
+    var LODOP = getLodop(document.getElementById('LODOP_OB'), document.getElementById('LODOP_EM'));
+    var labelTemplateJs = Ext.decode(parent.DesktopApp.LabelTemplateJs);
+    eval(labelTemplateJs);
+    var strResult = LODOP.PRINT_DESIGN();
+    LODOP.SHOW_CHART();
+    var imgsrc = "<img src='../content/images/";
+    strResult = strResult.replace(/[A-Za-z]:\\.*\\(.*.[jpg|png|bmp|jpg|jpeg|gif])/ig, imgsrc + "$1" + "'>");
+    Ext.getCmp('textarea').setValue(strResult);
+
+  };
+  function save () {
+    var strResult = Ext.getCmp('textarea').getValue();
+    parent.DesktopApp.LabelTemplateJsAfter = Ext.encode(strResult);
+    Ext.MessageBox.alert("提示", "保存成功!");
+  }
+</script>
+</body>
+</html>

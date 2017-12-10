@@ -1,0 +1,51 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width" />
+    <title>EditTxt</title>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/desk/DocumentManage/DMSaveDoc.js"></script>
+    <script type="text/javascript">
+        window.onunload = function () {
+            if(SaveSuccess)
+                saveDoc("@ViewData["NewFileName"]", false, "@ViewData["FileId"]", "@ViewData["DirId"]", "@ViewData["DirType"]", "@ViewData["UserHandle"]", "");
+        };
+        var SaveSuccess = false;
+        function save() {
+            $.ajax({
+                url: '/Document/SaveTxt',
+                data: {
+                    fileId: "@ViewData["FileId"]",
+                    userHandle: "@ViewData["UserHandle"]",
+                    contents: $("#contents").val(),
+                    fileName: "@ViewData["NewFileName"]"
+                },
+                type: 'POST',
+                success: function () {
+                    //alert("ok");
+                    $('#success').css('display', 'inline-block');
+                    setTimeout(function () { $('#success').css('display', 'none'); }, 3000);
+                    SaveSuccess = true;
+                },
+                error: function(){
+                    $('#failure').css('display', 'inline-block');
+                    setTimeout(function () { $('#failure').css('display', 'none'); }, 3000);
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+    <input type="button" onclick="save()" value="保存" /><font id="success" color="red" style="display:none;">保存成功</font><font id="failure" color="red" style="display:none;">保存失败</font>
+    <hr />
+    <div>
+        <textarea id="contents" style="width:100%; height:800px;" name="contents">@ViewData["Contents"]</textarea><br />
+    </div>
+</body>
+</html>

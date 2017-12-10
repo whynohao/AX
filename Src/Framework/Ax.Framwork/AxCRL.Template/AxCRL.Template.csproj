@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{34ACDB52-11E2-4390-9B82-C8178CC19DDE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AxCRL.Template</RootNamespace>
+    <AssemblyName>AxCRL.Template</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\Service\Ax.Server\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Ax.Server\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>axframwork.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\Service\Ax.Server\bin\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Cache\LibSqlModelCache.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataSource\DataSetExtensions.cs" />
+    <Compile Include="DataSource\DataSourceHelper.cs" />
+    <Compile Include="DataSource\DataSource.cs" />
+    <Compile Include="DataSource\LibSqlModel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DataSource\RelativeSource.cs" />
+    <Compile Include="DataSource\TreeListingConfig.cs" />
+    <Compile Include="Layout\IViewLayout.cs" />
+    <Compile Include="Layout\JsBuilder.cs" />
+    <Compile Include="Layout\LibBillLayout.cs" />
+    <Compile Include="Layout\LibLayoutBlock.cs" />
+    <Compile Include="LibDataType.cs" />
+    <Compile Include="LibDisplayScheme.cs" />
+    <Compile Include="LibTemplate.cs" />
+    <Compile Include="LibViewTemplate.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewTemplate\LibBillTpl.cs" />
+    <Compile Include="ViewTemplate\LibDataFuncTpl.cs" />
+    <Compile Include="ViewTemplate\LibRptTpl.cs" />
+    <Compile Include="ViewTemplate\LibGridTpl.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AxCRL.Comm\AxCRL.Comm.csproj">
+      <Project>{99dff188-2dd7-474d-9559-19b357a331ff}</Project>
+      <Name>AxCRL.Comm</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="axframwork.snk" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

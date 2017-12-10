@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="10/11/2017 22:52:22" ReportInfo.Modified="10/11/2017 23:58:02" ReportInfo.CreatorVersion="2016.2.0.0">
+  <Dictionary>
+    <TableDataSource Name="COMBOM" ReferenceName="Data.COMBOM" DataType="System.Int32" Enabled="true">
+      <Column Name="BOMID" Alias="BOM代码" DataType="System.String"/>
+      <Column Name="BOMNAME" Alias="BOM名称" DataType="System.String"/>
+      <Column Name="BOMTYPEID" Alias="BOM类型" DataType="System.String"/>
+      <Column Name="STRUCTBOMTYPENAME" Alias="BOM类别名称" DataType="System.String"/>
+      <Column Name="FROMBILLNO" Alias="投产单编号" DataType="System.String"/>
+      <Column Name="CONTRACTNO" Alias="合同号" DataType="System.String"/>
+      <Column Name="FROMROWID" Alias="出厂编号" DataType="System.Int32"/>
+      <Column Name="FACTORYNO" Alias="出厂组编号" DataType="System.String"/>
+      <Column Name="PRODUCTSPEC" Alias="规格型号" DataType="System.String"/>
+      <Column Name="MATERIALID" Alias="标准编码" DataType="System.String"/>
+      <Column Name="MATERIALNAME" Alias="产品名称" DataType="System.String"/>
+      <Column Name="SPECIFICATION" Alias="规格型号" DataType="System.String"/>
+      <Column Name="FIGURENO1" Alias="阀体图号" DataType="System.String"/>
+      <Column Name="FIGURENO" Alias="执行器图号" DataType="System.String"/>
+      <Column Name="TEXTUREID" Alias="控制附件图号" DataType="System.String"/>
+      <Column Name="PRODUCTIONSPEC" Alias="投产规格书" DataType="System.String"/>
+      <Column Name="FROMBOMID" Alias="标准BOM" DataType="System.String"/>
+      <Column Name="TESTSTANDARD" Alias="检测标准" DataType="System.Int32"/>
+      <Column Name="PRODUCTBILLNO" Alias="生产总结单号" DataType="System.String"/>
+      <Column Name="COSTSUM" Alias="成本金额" DataType="System.Decimal"/>
+      <Column Name="CREATORID" Alias="创建人" DataType="System.String"/>
+      <Column Name="CREATORNAME" Alias="创建人名称" DataType="System.String"/>
+      <Column Name="CREATETIME" Alias="创建时间" DataType="System.Int64"/>
+      <Column Name="AUDITSTATE" Alias="审核状态" DataType="System.Int32"/>
+      <Column Name="SUMMITAUDITTIME" Alias="提交审核时间" DataType="System.Int64"/>
+      <Column Name="FLOWLEVEL" Alias="审核层级" DataType="System.Int32"/>
+      <Column Name="APPROVRID" Alias="审核人" DataType="System.String"/>
+      <Column Name="APPROVRNAME" Alias="审核人名称" DataType="System.String"/>
+      <Column Name="APPROVALTIME" Alias="审核时间" DataType="System.Int64"/>
+      <Column Name="LASTUPDATEID" Alias="最后修改人" DataType="System.String"/>
+      <Column Name="LASTUPDATENAME" Alias="最后修改人名称" DataType="System.String"/>
+      <Column Name="LASTUPDATETIME" Alias="最后修改时间" DataType="System.Int64"/>
+      <Column Name="ISUSED" Alias="被用标识" DataType="System.Boolean" BindableControl="CheckBox"/>
+      <Column Name="INTERNALID" Alias="内码" DataType="System.String"/>
+      <Column Name="REMARK" Alias="备注" DataType="System.String"/>
+      <Column Name="CURRENTSTATE" Alias="资料状态" DataType="System.Int32"/>
+      <Column Name="VALIDITYSTARTDATE" Alias="有效期从" DataType="System.Int32"/>
+      <Column Name="VALIDITYENDDATE" Alias="有效期至" DataType="System.Int32"/>
+      <Column Name="ISVALIDITY" Alias="是否有效" DataType="System.Boolean" BindableControl="CheckBox"/>
+      <Column Name="ATTACHMENTSRC" Alias="附件" DataType="System.String"/>
+    </TableDataSource>
+    <TableDataSource Name="COMBOMDETAIL" ReferenceName="Data.COMBOMDETAIL" DataType="System.Int32" Enabled="true">
+      <Column Name="BOMID" Alias="BOM代码" DataType="System.String"/>
+      <Column Name="PARENTROWID" Alias="父行标识" DataType="System.Int32"/>
+      <Column Name="ROW_ID" Alias="行标识" DataType="System.Int32"/>
+      <Column Name="BOMLEVEL" Alias="层级" DataType="System.Int32"/>
+      <Column Name="NODENAME" Alias="节点名称" DataType="System.String"/>
+      <Column Name="ROWNO" Alias="行号" DataType="System.Int32"/>
+      <Column Name="FACTORYNODETAIL" Alias="出厂编号明细" DataType="System.Int32"/>
+      <Column Name="MATERIALID" Alias="物料编码" DataType="System.String"/>
+      <Column Name="MATERIALNAME" Alias="物料名称" DataType="System.String"/>
+      <Column Name="SPECIFICATION" Alias="规格型号" DataType="System.String"/>
+      <Column Name="ATTRIBUTEDESC" Alias="物料描述" DataType="System.String"/>
+      <Column Name="ATTRIBUTEID" Alias="特征" DataType="System.String"/>
+      <Column Name="TEXTUREIDID" Alias="材质" DataType="System.String"/>
+      <Column Name="UNITID" Alias="单位代码" DataType="System.String"/>
+      <Column Name="UNITNAME" Alias="单位" DataType="System.String"/>
+      <Column Name="FIGURENO" Alias="图号" DataType="System.String"/>
+      <Column Name="TEXTUREID" Alias="标识" DataType="System.String"/>
+      <Column Name="MATSTYLE" Alias="采购模式" DataType="System.Int32"/>
+      <Column Name="MATERIALTYLE" Alias="部件分类" DataType="System.Int32"/>
+      <Column Name="UNITQTY" Alias="单位用量" DataType="System.Decimal"/>
+      <Column Name="ISPROCESS" Alias="原料裁剪" DataType="System.Int32"/>
+      <Column Name="MATERIALSPEC" Alias="备料规格" DataType="System.String"/>
+      <Column Name="DRAWTYPE" Alias="图类型" DataType="System.Int32"/>
+      <Column Name="HOURS" Alias="工时" DataType="System.Decimal"/>
+      <Column Name="COST" Alias="成本" DataType="System.Decimal"/>
+      <Column Name="REMARK" Alias="备注" DataType="System.String"/>
+      <Column Name="BOMTYPE" Alias="BOM物料类别" DataType="System.Int32"/>
+    </TableDataSource>
+    <TableDataSource Name="COMFACTORYNODETAIL" ReferenceName="Data.COMFACTORYNODETAIL" DataType="System.Int32" Enabled="true">
+      <Column Name="BOMID" Alias="BOM代码" DataType="System.String"/>
+      <Column Name="PARENTROWID" Alias="父行标识" DataType="System.Int32"/>
+      <Column Name="ROW_ID" Alias="行标识" DataType="System.Int32"/>
+      <Column Name="ROWNO" Alias="行号" DataType="System.Int32"/>
+      <Column Name="FACTORYNO" Alias="出厂编号" DataType="System.String"/>
+      <Column Name="MATERIALID" Alias="物料编码" DataType="System.String"/>
+      <Column Name="MATERIALNAME" Alias="产品名称" DataType="System.String"/>
+      <Column Name="SPECIFICATION" Alias="规格型号" DataType="System.String"/>
+      <Column Name="TEXTUREID" Alias="标识" DataType="System.String"/>
+      <Column Name="FIGURENO" Alias="图号" DataType="System.String"/>
+      <Column Name="TEXTUREIDID" Alias="材质" DataType="System.String"/>
+      <Column Name="MATSTYLE" Alias="业务属性" DataType="System.Int32"/>
+      <Column Name="MATERIALTYLE" Alias="物料属性" DataType="System.Int32"/>
+    </TableDataSource>
+    <TableDataSource Name="COMBOMDETAIL1" ReferenceName="Data.COMBOMDETAIL1" DataType="System.Int32" Enabled="true">
+      <Column Name="BOMID" Alias="BOM代码" DataType="System.String"/>
+      <Column Name="PARENTROWID" Alias="父行标识" DataType="System.Int32"/>
+      <Column Name="ROW_ID" Alias="行标识" DataType="System.Int32"/>
+      <Column Name="ROWNO" Alias="行号" DataType="System.Int32"/>
+      <Column Name="BOMLEVEL" Alias="层级" DataType="System.Int32"/>
+      <Column Name="MATERIALID" Alias="物料编码" DataType="System.String"/>
+      <Column Name="MATERIALNAME" Alias="产品名称" DataType="System.String"/>
+      <Column Name="SPECIFICATION" Alias="规格型号" DataType="System.String"/>
+      <Column Name="TEXTUREID" Alias="标识" DataType="System.String"/>
+      <Column Name="FIGURENO" Alias="图号" DataType="System.String"/>
+      <Column Name="TEXTUREIDID" Alias="材质" DataType="System.String"/>
+      <Column Name="MATSTYLE" Alias="业务属性" DataType="System.Int32"/>
+      <Column Name="MATERIALTYLE" Alias="物料属性" DataType="System.Int32"/>
+      <Column Name="BASEQTY" Alias="单台用量" DataType="System.Decimal"/>
+    </TableDataSource>
+    <TableDataSource Name="COMBOMDETAIL2" ReferenceName="Data.COMBOMDETAIL2" DataType="System.Int32" Enabled="true">
+      <Column Name="BOMID" Alias="BOM代码" DataType="System.String"/>
+      <Column Name="PARENTROWID" Alias="父行标识" DataType="System.Int32"/>
+      <Column Name="ROW_ID" Alias="行标识" DataType="System.Int32"/>
+      <Column Name="ROWNO" Alias="行号" DataType="System.Int32"/>
+      <Column Name="BOMLEVEL" Alias="层级" DataType="System.Int32"/>
+      <Column Name="MATERIALID" Alias="物料编码" DataType="System.String"/>
+      <Column Name="MATERIALNAME" Alias="产品名称" DataType="System.String"/>
+      <Column Name="SPECIFICATION" Alias="规格型号" DataType="System.String"/>
+      <Column Name="TEXTUREID" Alias="标识" DataType="System.String"/>
+      <Column Name="FIGURENO" Alias="图号" DataType="System.String"/>
+      <Column Name="TEXTUREIDID" Alias="材质" DataType="System.String"/>
+      <Column Name="MATSTYLE" Alias="业务属性" DataType="System.Int32"/>
+      <Column Name="MATERIALTYLE" Alias="物料属性" DataType="System.Int32"/>
+      <Column Name="BASEQTY" Alias="单台用量" DataType="System.Decimal"/>
+    </TableDataSource>
+  </Dictionary>
+  <ReportPage Name="Page1">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="113.4">
+      <BarcodeObject Name="Barcode1" Left="18.9" Top="9.45" Width="80" Height="94.5" Text="[COMBOM.出厂组编号]" AllowExpressions="true" Barcode="2/5 Interleaved"/>
+      <BarcodeObject Name="Barcode2" Left="113.4" Top="9.45" Width="155" Height="94.5" Text="[COMBOM.出厂组编号]" AllowExpressions="true" Barcode="2/5 Industrial"/>
+      <BarcodeObject Name="Barcode3" Left="292.95" Top="9.45" Width="115.31" Height="94.5" Text="[COMBOM.出厂组编号]" AllowExpressions="true" Barcode="2/5 Matrix" Barcode.WideBarRatio="2.25"/>
+      <BarcodeObject Name="Barcode4" Left="434.7" Top="9.45" Width="126.25" Height="94.5" Text="[COMBOM.出厂组编号]" AllowExpressions="true" Barcode="Codabar"/>
+      <BarcodeObject Name="Barcode5" Left="595.35" Top="9.45" Width="98.75" Height="94.5" Text="[COMBOM.出厂组编号]" AllowExpressions="true" Barcode="Code128" Barcode.AutoEncode="true"/>
+    </ReportTitleBand>
+    <PageHeaderBand Name="PageHeader1" Top="117.4" Width="718.2" Height="28.35"/>
+    <DataBand Name="Data1" Top="149.75" Width="718.2" Height="113.4" DataSource="COMBOMDETAIL">
+      <TableObject Name="Table1" Left="103.95" Top="9.45" Width="538.65" Height="94.5">
+        <TableColumn Name="Column1" Width="113.4"/>
+        <TableColumn Name="Column2" Width="122.85"/>
+        <TableColumn Name="Column3" Width="151.2"/>
+        <TableColumn Name="Column4"/>
+        <TableColumn Name="Column5" Width="85.05"/>
+        <TableRow Name="Row1">
+          <TableCell Name="Cell1" Text="[COMBOMDETAIL.物料名称]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell2" Text="[COMBOMDETAIL.规格型号]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell3" Text="[COMBOMDETAIL.物料描述]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell4" Text="[COMBOMDETAIL.材质]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell5" Text="[COMBOMDETAIL.单位用量]" Font="宋体, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row2">
+          <TableCell Name="Cell6" Font="宋体, 9pt"/>
+          <TableCell Name="Cell7" Font="宋体, 9pt"/>
+          <TableCell Name="Cell8" Font="宋体, 9pt"/>
+          <TableCell Name="Cell9" Font="宋体, 9pt"/>
+          <TableCell Name="Cell10" Font="宋体, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row3">
+          <TableCell Name="Cell11" Font="宋体, 9pt"/>
+          <TableCell Name="Cell12" Font="宋体, 9pt"/>
+          <TableCell Name="Cell13" Font="宋体, 9pt"/>
+          <TableCell Name="Cell14" Font="宋体, 9pt"/>
+          <TableCell Name="Cell15" Font="宋体, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row4">
+          <TableCell Name="Cell16" Font="宋体, 9pt"/>
+          <TableCell Name="Cell17" Font="宋体, 9pt"/>
+          <TableCell Name="Cell18" Font="宋体, 9pt"/>
+          <TableCell Name="Cell19" Font="宋体, 9pt"/>
+          <TableCell Name="Cell20" Font="宋体, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row5">
+          <TableCell Name="Cell21" Font="宋体, 9pt"/>
+          <TableCell Name="Cell22" Font="宋体, 9pt"/>
+          <TableCell Name="Cell23" Font="宋体, 9pt"/>
+          <TableCell Name="Cell24" Font="宋体, 9pt"/>
+          <TableCell Name="Cell25" Font="宋体, 9pt"/>
+        </TableRow>
+      </TableObject>
+    </DataBand>
+    <PageFooterBand Name="PageFooter1" Top="267.15" Width="718.2" Height="66.15">
+      <TextObject Name="Text7" Left="37.8" Top="37.8" Width="94.5" Height="18.9" Text="创建人：" Font="宋体, 9pt"/>
+      <TextObject Name="Text8" Left="141.75" Top="37.8" Width="94.5" Height="18.9" Text="[COMBOM.创建人名称]" Font="宋体, 9pt"/>
+      <TextObject Name="Text9" Left="330.75" Top="37.8" Width="94.5" Height="18.9" Text="创建时间" Font="宋体, 9pt"/>
+      <TextObject Name="Text10" Left="444.15" Top="37.8" Width="122.85" Height="18.9" Text="[COMBOM.创建时间]" Format="Date" Format.Format="F" Font="宋体, 9pt"/>
+      <TextObject Name="Text11" Left="292.95" Top="9.45" Width="94.5" Height="18.9" Text="[Page]" Font="宋体, 9pt"/>
+    </PageFooterBand>
+  </ReportPage>
+</Report>

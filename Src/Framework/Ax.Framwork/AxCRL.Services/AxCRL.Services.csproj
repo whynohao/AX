@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CD7ED7C8-35E9-43A5-90BD-134F883E3178}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AxCRL.Services</RootNamespace>
+    <AssemblyName>AxCRL.Services</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\Service\Ax.Server\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>0</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Ax.Server\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>axframwork.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AxCRL.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c84a53ece4927174, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Wisdom_ZhongDe\Src\Service\Ax.Server\bin\AxCRL.Core.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\Wisdom_ZhongDe\Src\Service\Ax.Server\bin\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Entity\TreeListingQuery.cs" />
+    <Compile Include="Inspector\MyMessageInspector.cs" />
+    <Compile Include="Inspector\ParameterInspector.cs" />
+    <Compile Include="Interface\IBillService.cs" />
+    <Compile Include="Interface\IFileTransferService.cs" />
+    <Compile Include="Interface\IMailService.cs" />
+    <Compile Include="Interface\ISystemManager.cs" />
+    <Compile Include="Interface\ISystemService.cs" />
+    <Compile Include="Interface\IWsService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceMethods\BcfTemplateMethods.cs" />
+    <Compile Include="Services\BillService.cs" />
+    <Compile Include="Services\FileTransferService.cs" />
+    <Compile Include="Services\MailService.cs" />
+    <Compile Include="Services\SystemManager.cs" />
+    <Compile Include="Services\SystemService.cs" />
+    <Compile Include="Services\WsService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AxCRL.Bcf\AxCRL.Bcf.csproj">
+      <Project>{de450df1-2558-4b05-a59d-3beb1de64359}</Project>
+      <Name>AxCRL.Bcf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AxCRL.Comm\AxCRL.Comm.csproj">
+      <Project>{99dff188-2dd7-474d-9559-19b357a331ff}</Project>
+      <Name>AxCRL.Comm</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\AxCRL.DataCore\AxCRL.DataCore.csproj">
+      <Project>{D349B6D8-992F-443F-BB57-57E50DD98794}</Project>
+      <Name>AxCRL.DataCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AxCRL.Data\AxCRL.Data.csproj">
+      <Project>{86f19ebb-40fe-4674-9d7f-8f9fd3e5c125}</Project>
+      <Name>AxCRL.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AxCRL.Template\AxCRL.Template.csproj">
+      <Project>{34acdb52-11e2-4390-9b82-c8178cc19dde}</Project>
+      <Name>AxCRL.Template</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="axframwork.snk" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

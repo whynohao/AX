@@ -1,0 +1,70 @@
+﻿
+ .ledheader {
+background: #000;	
+border: 0px ;
+font-color:white;
+width:100%;
+}
+ .YJheader {
+background: #000080;	
+border: 0px ;
+font-color:white;
+width:100%;
+}
+ .YJ_fontwhiteheader {
+background: #000080;	
+border: 0px;
+font-color:white;
+width:100%;
+}
+ .ledheader td{
+border: 0px ;
+color:red;
+font-family:宋体;
+FONT-SIZE: 12pt;
+}
+ .YJheader td{
+border: 0px ;
+color:white;
+font-family:宋体;
+FONT-SIZE: 12pt;
+}
+ .YJ_fontwhiteheader td{
+border: 0px ;
+color:white;
+font-family:宋体;
+FONT-SIZE: 12pt;
+}
+ .ledtable {
+background: #000;	
+border: 1px solid green !important;
+font-color:red;
+}
+ .ledtable td{
+border: 1px solid green !important;
+color:red;
+font-family:宋体;
+FONT-SIZE: 12pt;
+}
+ .YJtable {
+background: #000080;	
+border: 1px solid white !important;
+font-color:#DC143C;
+}
+ .YJ_fontwhitetable {
+background: #000080;	
+border: 1px solid white !important;
+font-color:#DC143C;
+}
+ .YJtable td{
+border: 1px solid #86ecf2 !important;
+color:white;
+font-family:宋体;
+FONT-SIZE: 12pt;
+}
+ .YJ_fontwhitetable td{
+border: 1px solid #86ecf2 !important;
+color:white;
+font-family:宋体;
+FONT-SIZE: 12pt;
+}

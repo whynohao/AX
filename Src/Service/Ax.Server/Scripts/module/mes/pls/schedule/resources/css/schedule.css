@@ -1,0 +1,400 @@
+.taskTip {
+    width     : 100%;
+    min-width : 100px
+}
+
+.taskTip td {
+    width       : 70px;
+    padding     : 5px 0 0 0;
+    white-space : nowrap;
+}
+
+.tipHeader {
+    white-space   : nowrap;
+    margin-bottom : 4px;
+}
+
+.id {
+    background-color : #F6F6F6 !important;
+    background-image : -moz-linear-gradient(left center, #F6F6F6, #E9E9E9) !important;
+    background-image : -webkit-linear-gradient(left, #F6F6F6, #E9E9E9) !important;
+    background-image : linear-gradient(left, #F6F6F6, #E9E9E9) !important;
+}
+
+.gnt-color-palette {
+    background-color : #E9F2FF;
+    border           : 1px solid #8EAACE;
+    position         : absolute;
+    height           : 95px;
+    width            : 152px;
+}
+
+.first-row .sch-gantt-labelct-left {
+    display : none;
+}
+
+.sch-ganttview .kickoff {
+    border-left : 2px dotted #00a000;
+}
+
+.line-text {
+    position         : absolute;
+    top              : 5px;
+    left             : -2px;
+    background-color : #00a000;
+    color            : #fff;
+    display          : block;
+    font-size        : 0.8em;
+    height           : 13px;
+    white-space      : nowrap;
+    width            : auto;
+    padding-left     : 3px;
+    padding-right    : 3px;
+}
+
+.sch-timeline {
+    overflow : visible;
+}
+
+.sch-rollup-wrap .sch-gantt-progress-bar span {
+    display : none;
+}
+
+
+
+.gnt-taskarea {
+    display : none;
+}
+
+.enable-taskarea .gnt-taskarea {
+    display : block;
+}
+
+.filterfield input {
+    border-left   : 0;
+    border-right  : 0;
+    border-bottom : 0;
+    background    : #fff url(../images/search.png) no-repeat 5px center;
+    padding-left  : 25px;
+}
+
+
+
+.gnt-taskarea {
+    position         : absolute;
+    top              : 100%;
+    left             : 0;
+    background-color : inherit;
+    border-width     : 0;
+    opacity          : 0.2;
+    filter           : alpha(opacity=20);
+    width            : inherit;
+    border-radius    : 4px;
+    z-index          : -1;
+    pointer-events   : none;
+}
+
+.gnt-taskarea-inner {
+    width            : 100%;
+    border-radius    : inherit;
+    border-width     : 1px;
+    border-style     : solid;
+    border-color     : inherit;
+    height           : 100%;
+    opacity          : 0.7;
+    filter           : alpha(opacity=70);
+    background-color : transparent;
+}
+/* Left tree styles */
+.sch-ganttpanel .x-grid-cell {
+    height : 28px;
+}
+
+.x-touch .sch-ganttpanel .x-grid-cell {
+    height : 43px;
+}
+
+.sch-ganttpanel .x-tree-icon-parent {
+    display : none;
+}
+
+.sch-ganttpanel .x-tree-icon-leaf {
+    display : none;
+}
+
+.sch-ganttpanel .x-grid-inner-locked .x-grid-cell {
+    border-left-color   : transparent;
+    border-bottom-color : transparent;
+    border-top-color    : transparent;
+    color               : #555;
+}
+
+.x-grid-inner-locked .x-grid-cell,
+.sch-gantt-label {
+    transition : color 0.3s;
+}
+
+.x-grid-inner-locked .x-grid-item-selected .x-grid-cell,
+.x-grid-item-selected .sch-gantt-label {
+    color : #222;
+}
+
+.x-grid-inner-locked :not(.x-grid-item-selected) .x-grid-cell {
+    background-color : transparent;
+}
+
+.x-grid-inner-locked .x-grid-cell-inner,
+.x-grid-inner-locked .x-tree-node-text {
+    line-height : 20px;
+}
+
+.x-touch .x-grid-inner-locked .x-grid-cell-inner,
+.x-touch .x-grid-inner-locked .x-tree-node-text {
+    line-height : 40px;
+}
+
+
+.root-row .x-grid-cell-inner {
+    padding-left : 10px;
+    font-size    : 120%;
+}
+
+.root-row .x-grid-cell {
+    border-bottom : 1px solid #bbb;
+}
+
+
+
+
+
+/* EOF Left tree styles */
+
+.sch-gantt-task {
+    top    : 10%;
+    height : 80%;
+}
+
+.sch-gantt-task-bar,
+.sch-gantt-task-segment {
+    border-radius : 1px;
+    background    : #5ea6f2;
+    border-width  : 0;
+}
+
+.sch-gantt-progress-bar {
+    color            : #fff;
+    background-image : none;
+    background-color : #117be9;
+    line-height      : 21px;
+    text-align       : right;
+    text-indent      : 3px;
+    font-size        : 0.9em;
+    overflow         : visible;
+}
+
+.x-touch .sch-gantt-progress-bar {
+    line-height : 34px;
+}
+
+.x-touch .x-tree-elbow-img {
+    height : 38px;
+}
+
+.sch-gantt-task-segment .sch-gantt-progress-bar-label {
+    display : none;
+}
+
+.sch-segment-in-progress .sch-gantt-progress-bar-label {
+    display : inline;
+}
+
+.sch-gantt-parenttask-bar {
+    background-color : #ffce2a;
+    border-color     : #ffaa2a !important;
+    border-width     : 0;
+    box-shadow       : 1px 1px 2px rgba(150,150,150,0.3);
+}
+
+.sch-gantt-parenttask-bar .sch-gantt-progress-bar {
+    background-color : #ffaa2a;
+}
+
+.sch-gantt-progress-bar span {
+    margin-right : 2px;
+}
+
+.sch-gantt-milestone-diamond {
+    border-color : #bfa448;
+    background   : #ffca2a;
+}
+
+.Important .sch-gantt-progress-bar {
+    background-image  : url(../images/pattern.png);
+    background-repeat : repeat;
+}
+
+.x-strict div.sch-event-fixed {
+    background : #8b0000;
+}
+
+.CustomerApproval {
+    border           : 2px solid #ddd;
+    background-color : #222;
+}
+
+.sch-gantt-task .sch-gantt-labelct {
+    line-height : 19px;
+}
+
+.sch-gantt-label {
+    color : #bbb;
+}
+
+.sch-dependency,
+.sch-dependency-arrow {
+    border-color : #43b48f;
+}
+
+
+
+.my-toolbar {
+    background : #f3f6f8;
+}
+
+.my-toolbar .x-btn {
+    background : transparent !important;
+    border     : 0 none !important;
+}
+
+.my-toolbar .icon{
+}
+
+.my-toolbar .x-btn-over .x-btn-icon-el {
+    opacity : 0.8;
+}
+
+.my-toolbar .x-btn-pressed .x-btn-icon-el {
+    opacity : 1;
+}
+
+.my-toolbar .x-btn-icon-el {
+    background-size : 20px 20px;
+    background-position : center center;
+    opacity         : 0.4;
+}
+
+.icon-right { background-image : url(../images/arrow-right.png); }
+
+.icon-left { background-image : url(../images/arrow-left.png); }
+
+.icon-zoomin { background-image : url(../images/zoom-in.png); }
+
+.icon-zoomout { background-image : url(../images/zoom-out.png); }
+
+.icon-zoomfit { background-image : url(../images/move.png); }
+
+.icon-fullscreen { background-image : url(../images/fullscreen-enter.png); }
+
+.icon-collapseall { background-image : url(../images/collapse.png); }
+
+.icon-expandall { background-image : url(../images/expand.png); }
+
+.icon-criticalpath { background-image : url(../images/hot.png); }
+
+.icon-add { background-image : url(../images/add.png); }
+
+.icon-delete { background-image : url(../images/delete.png)}
+
+.icon-indent { background-image : url(../images/indent.png)}
+
+.icon-outdent { background-image : url(../images/outdent.png)}
+
+.icon-save { background-image:url(../images/save.png);
+    background-size : 18px 18px !important;
+}
+
+.icon-calendarmgr {
+    background-size : 18px 18px !important;
+    background-image : url(../images/calendar.png);
+}
+
+/* IE8 hacks */
+
+.x-ie8 .my-toolbar .x-btn-icon-el {
+    background-image : none !important;
+}
+
+.x-ie8 .icon-right {
+    filter     : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='resources/images/arrow-right.png', sizingMethod='scale')";
+    -ms-filter : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='resources/images/arrow-right.png', sizingMethod='scale')";
+}
+
+.x-ie8 .icon-left {
+    filter     : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='resources/images/arrow-left.png', sizingMethod='scale')";
+    -ms-filter : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='resources/images/arrow-left.png', sizingMethod='scale')";
+}
+
+.x-ie8 .icon-zoomin {
+    filter     : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='resources/images/zoom-in.png', sizingMethod='scale')";
+    -ms-filter : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='resources/images/zoom-in.png', sizingMethod='scale')";
+}
+
+.x-ie8 .icon-zoomout {
+    filter     : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='resources/images/zoom-out.png', sizingMethod='scale')";
+    -ms-filter : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='resources/images/zoom-out.png', sizingMethod='scale')";
+}
+
+.x-ie8 .icon-zoomfit {
+    filter     : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='resources/images/move.png', sizingMethod='scale')";
+    -ms-filter : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='resources/images/move.png', sizingMethod='scale')";
+}
+
+.x-ie8 .icon-fullscreen {
+    filter     : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='resources/images/fullscreen-enter.png', sizingMethod='scale')";
+    -ms-filter : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='resources/images/fullscreen-enter.png', sizingMethod='scale')";
+}
+
+.x-ie8 .icon-collapseall {
+    filter     : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='resources/images/collapse.png', sizingMethod='scale')";
+    -ms-filter : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='resources/images/collapse.png', sizingMethod='scale')";
+}
+
+.x-ie8 .icon-expandall {
+    filter     : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='resources/images/expand.png', sizingMethod='scale')";
+    -ms-filter : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='resources/images/expand.png', sizingMethod='scale')";
+}
+
+.x-ie8 .icon-criticalpath {
+    filter     : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='resources/images/hot.png', sizingMethod='scale')";
+    -ms-filter : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='resources/images/hot.png', sizingMethod='scale')";
+}
+
+.x-ie8 .icon-add {
+    filter     : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='resources/images/add.png', sizingMethod='scale')";
+    -ms-filter : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='resources/images/add.png', sizingMethod='scale')";
+}
+
+.x-ie8 .icon-delete {
+    filter     : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='resources/images/delete.png', sizingMethod='scale')";
+    -ms-filter : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='resources/images/delete.png', sizingMethod='scale')";
+}
+
+.x-ie8 .icon-indent {
+    filter     : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='resources/images/indent.png', sizingMethod='scale')";
+    -ms-filter : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='resources/images/indent.png', sizingMethod='scale')";
+}
+
+.x-ie8 .icon-outdent {
+    filter     : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='resources/images/outdent.png', sizingMethod='scale')";
+    -ms-filter : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='resources/images/outdent.png', sizingMethod='scale')";
+}
+
+.x-ie8 .icon-save {
+    filter     : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='resources/images/save.png', sizingMethod='scale')";
+    -ms-filter : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='resources/images/save.png', sizingMethod='scale')";
+}
+
+.icon-calendarmgr {
+    filter     : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='resources/images/calendar.png', sizingMethod='scale')";
+    -ms-filter : "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='resources/images/calendar.png', sizingMethod='scale')";
+}

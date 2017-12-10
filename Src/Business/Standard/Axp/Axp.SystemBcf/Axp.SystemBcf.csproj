@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9AAE4D20-0310-4895-9331-D5E0614948CF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Axp.SystemBcf</RootNamespace>
+    <AssemblyName>Axp.SystemBcf</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\..\AxPath\Bcf\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\..\AxPath\Bcf\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>axsn.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AxCRL.Bcf">
+      <HintPath>..\..\..\..\Service\Ax.Server\bin\AxCRL.Bcf.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AxCRL.Comm">
+      <HintPath>..\..\..\..\Service\Ax.Server\bin\AxCRL.Comm.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AxCRL.Core">
+      <HintPath>..\..\..\..\Service\Ax.Server\bin\AxCRL.Core.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AxCRL.Data">
+      <HintPath>..\..\..\..\Service\Ax.Server\bin\AxCRL.Data.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\..\..\Service\Ax.Server\bin\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Word, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\..\..\Ax.Server\bin\Microsoft.Office.Interop.Word.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\..\Service\Ax.Server\bin\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AxpApproveDataVersionBcf.cs" />
+    <Compile Include="AxpApproveFlowBcf.cs" />
+    <Compile Include="AxpApproveTaskBcf.cs" />
+    <Compile Include="AxpAttachmentRecordBcf.cs" />
+    <Compile Include="AxpAttachmentTplBcf.cs" />
+    <Compile Include="AxpBillMoveConfigBcf.cs" />
+    <Compile Include="AxpBusinessFlowConfigBcf.cs" />
+    <Compile Include="AxpBusinessTaskBcf.cs" />
+    <Compile Include="AxpBusinessTempTaskBcf.cs" />
+    <Compile Include="AxpChangeDataReasonBcf.cs" />
+    <Compile Include="AxpExecTaskDataBcf.cs" />
+    <Compile Include="AxpFuncButtonBcf.cs" />
+    <Compile Include="AxpFuncListBcf.cs" />
+    <Compile Include="AxpFuncPublishBcf.cs" />
+    <Compile Include="AxpLinkSiteBcf.cs" />
+    <Compile Include="AxpPermissionGroupBcf.cs" />
+    <Compile Include="AxpPrintTplBcf.cs" />
+    <Compile Include="AxpPurchaseSpecBcf.cs" />
+    <Compile Include="AxpRoleBcf.cs" />
+    <Compile Include="AxpRptSearchField.cs" />
+    <Compile Include="AxpScheduleTaskBcf.cs" />
+    <Compile Include="AxpSyncDataHistoryBcf.cs" />
+    <Compile Include="AxpSyncDataSettingBcf.cs" />
+    <Compile Include="AxpToExcelBcf.cs" />
+    <Compile Include="AxpUserBcf.cs" />
+    <Compile Include="AxpUserLoginBcf.cs" />
+    <Compile Include="AxpUserNewsBcf.cs" />
+    <Compile Include="AxpValidityCalcBcf.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="axsn.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Framework\Ax.Framwork\AxCRL.Services\AxCRL.Services.csproj">
+      <Project>{CD7ED7C8-35E9-43A5-90BD-134F883E3178}</Project>
+      <Name>AxCRL.Services</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Framework\Ax.Framwork\AxCRL.Template\AxCRL.Template.csproj">
+      <Project>{34acdb52-11e2-4390-9b82-c8178cc19dde}</Project>
+      <Name>AxCRL.Template</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>4</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

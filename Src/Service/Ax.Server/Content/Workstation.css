@@ -1,0 +1,60 @@
+﻿.stationNum {
+    font-family: Georgia, "宋体";
+    font-size: 32px;
+    float: right;
+}
+
+.floatRight {
+    float: right;
+}
+
+.wsLoginlable {
+    font-size: medium;
+    color: white;
+    font-weight: bold;
+    margin: 4px 4px;
+}
+
+.header {
+    background-color: rgba(109, 168, 24, 0.69);
+}
+
+.badness01 {
+    background-image: url(images/badness/01.gif);
+    background-repeat: no-repeat;
+}
+
+.badness02 {
+    background-image: url(images/badness/02.gif);
+    background-repeat: no-repeat;
+}
+
+.badness03 {
+    background-image: url(images/badness/03.gif);
+    background-repeat: no-repeat;
+}
+
+.badness04 {
+    background-image: url(images/badness/04.gif);
+    background-repeat: no-repeat;
+}
+
+.badness05 {
+    background-image: url(images/badness/05.gif);
+    background-repeat: no-repeat;
+}
+
+.badness06 {
+    background-image: url(images/badness/06.gif);
+    background-repeat: no-repeat;
+}
+
+.badness07 {
+    background-image: url(images/badness/07.gif);
+    background-repeat: no-repeat;
+}
+
+.badness08 {
+    background-image: url(images/badness/08.gif);
+    background-repeat: no-repeat;
+}

@@ -1,0 +1,1 @@
+create table AXPPROG(progid VARCHAR2(200) not null,assemblyrowid NUMBER(10) not null,viewpath VARCHAR2(200),viewclass VARCHAR2(200),vclpath VARCHAR2(200),vclclass VARCHAR2(200),progidtype NUMBER(2) not null,classname VARCHAR2(512) not null,dllname VARCHAR2(200),ISUSED NUMBER(1) not null)

@@ -1,0 +1,1 @@
+create table AXPSERVER(servername VARCHAR2(256) not null,serverstatus VARCHAR2(256) not null,createtime DATE not null)

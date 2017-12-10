@@ -1,0 +1,139 @@
+/*----------------------------------------------------
+    Bill
+*/
+.icon-grid {
+  background-image: url(./images/grid.png);
+}
+.gridAdd {
+  background-image: url(./images/add.gif);
+}
+
+.gridDelete {
+  background-image: url(./images/delete.gif);
+}
+
+.gridCopy {
+  background-image: url(./images/grid.png);
+}
+
+.gridPaste {
+  background-image: url(./images/down.png);
+}
+
+.up {
+  background-image: url(./images/up.png);
+}
+
+.down {
+  background-image: url(./images/down.png);
+}
+
+.look {
+  background-image: url(./images/look.png);
+}
+
+.history {
+  background-image: url(./images/book_open.png);
+}
+
+.rename {
+  background-image: url(./images/rename.png);
+}
+
+.noFile {
+  background-image: url(./images/rename.png);
+}
+
+/*----------------------------------------------------
+    Rpt
+*/
+
+.rptTitle {
+  font-size: xx-large;
+  color: rgba(68, 60, 60, 0.61);
+  font-weight: bold;
+  font-size: x-large;
+  margin: 4px 4px;
+}
+
+.unFinish {
+  color: #eae4e4;
+}
+
+/*----------------------------------------------------
+    Ext ux css
+*/
+/*
+ * RangeMenu Styles
+ */
+
+.ux-rangemenu-icon {
+  display: block;
+  height: 16px;
+  background: no-repeat 5px center;
+}
+
+.ux-rangemenu-gt {
+  background-image: url(./images/greater_than.png) !important;
+}
+
+.ux-rangemenu-lt {
+  background-image: url(./images/less_than.png) !important;
+}
+
+.ux-rangemenu-eq {
+  background-image: url(./images/equals.png) !important;
+}
+
+.ux-filtered-column {
+  font-style: italic;
+  font-weight: bold;
+}
+
+.ux-gridfilter-text-icon {
+  background-image: url(./images/find.png) !important;
+}
+
+.red {
+  background-color: #FFAF60
+}
+
+.yellow {
+  background-color: #FFE153
+}
+
+.green {
+  background-color: #C2FF68
+}
+
+.x-grid-cell-inner .tree {
+  background-image: url('./images/folder.gif') !important;
+}
+
+.x-grid-cell-inner .tree-open {
+  background-image: url('./images/folder-open.gif') !important;
+}
+
+.x-grid-cell-inner .leaf {
+  background-image: url('./images/application.png') !important;
+}
+
+.bom_Semi-finishedProductMatchClass {
+  background-color: #2894FF
+}
+
+.bom_MaterialMatchClass {
+  background-color: #B15BFF
+}
+
+.bom_AutoMaterialClass {
+  background-color: #CCFF99
+}
+
+.bom_AutoVirtualpartClass {
+  background-color: #F0F0F0
+}
+
+.bom_AutoMatstyleClass {
+  background-color: #FFB5B5
+}

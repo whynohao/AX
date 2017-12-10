@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AxCRL.Bcf.LibBcfBase" Collapsed="true">
+    <Position X="3.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAEABEAAAQAAAAAQAAAAAAAAAAIAAAABAwAAIAI=</HashCode>
+      <FileName>LibBcfBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AxCRL.Bcf.LibBcfCustomRpt" Collapsed="true">
+    <Position X="8.75" Y="3.25" Width="1.5" />
+    <InheritanceLine Type="AxCRL.Bcf.LibBcfRptBase" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="8" Y="2.439" />
+        <Point X="8" Y="2.875" />
+        <Point X="9.25" Y="2.875" />
+        <Point X="9.25" Y="3.25" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LibBcfCustomRpt.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AxCRL.Bcf.LibBcfData" Collapsed="true">
+    <Position X="0.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAKIAAFAAEAAAQAAAAAAAEAAAEAAAAAEAAEADAIA=</HashCode>
+      <FileName>LibBcfData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AxCRL.Bcf.LibBcfDataBase" Collapsed="true">
+    <Position X="2.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAoAAAEQIAAEgAAAAAEAAAAAQAAAgBAAAAAAQAAAEA=</HashCode>
+      <FileName>LibBcfDataBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AxCRL.Bcf.LibBcfDataFunc" Collapsed="true">
+    <Position X="4" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LibBcfDataFunc.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AxCRL.Bcf.LibBcfFuncBase" Collapsed="true">
+    <Position X="10" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LibBcfFuncBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AxCRL.Bcf.LibBcfGrid" Collapsed="true">
+    <Position X="2.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAKAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>LibBcfGrid.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AxCRL.Bcf.LibBcfRpt" Collapsed="true">
+    <Position X="6" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LibBcfRpt.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AxCRL.Bcf.LibBcfRptBase" Collapsed="true">
+    <Position X="7.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LibBcfRptBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="AxCRL.Bcf.ILibBcfBase" Collapsed="true">
+    <Position X="2" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ILibBcfBase.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="微软雅黑" Size="9" />
+</ClassDiagram>
