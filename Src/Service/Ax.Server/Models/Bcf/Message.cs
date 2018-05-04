@@ -1,4 +1,4 @@
-﻿using Ax.Server.Models.ModelService;
+﻿using Ax.Ui.Models.ModelService;
 using AxCRL.Bcf;
 using AxCRL.Comm.Bill;
 using AxCRL.Comm.Utils;
@@ -14,7 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 
-namespace Ax.Server.Models.Bcf
+namespace Ax.Ui.Models.Bcf
 {
     public class Message
     {

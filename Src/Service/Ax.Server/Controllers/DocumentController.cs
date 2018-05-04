@@ -12,7 +12,7 @@ using Jikon.MES_Dm.DMCommon;
 using MES_Dm.FullTextRetrieval.Core.Util;
 using AxCRL.Data.SqlBuilder;
 
-namespace Ax.Server.Controllers
+namespace Ax.Ui.Controllers
 {
     public class DocumentController : Controller
     {

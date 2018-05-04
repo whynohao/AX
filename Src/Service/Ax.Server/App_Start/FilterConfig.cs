@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace Ax.Server
+namespace Ax.Ui
 {
     public class FilterConfig
     {

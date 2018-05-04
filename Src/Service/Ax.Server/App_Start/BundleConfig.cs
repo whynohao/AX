@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace Ax.Server
+namespace Ax.Ui
 {
     public class BundleConfig
     {

@@ -13,7 +13,7 @@ using System.ServiceModel.Web;
 using System.Web;
 using System.Web.Configuration;
 
-namespace Ax.Server
+namespace Ax.Ui
 {
     /// <summary>
     /// Ax服务

@@ -1,4 +1,4 @@
-﻿using Ax.Server.Models.ModelService;
+﻿using Ax.Ui.Models.ModelService;
 using AxCRL.Bcf;
 using AxCRL.Comm.Runtime;
 using AxCRL.Comm.Service;
@@ -17,7 +17,7 @@ using System.Net.Http;
 using System.Text;
 using System.Web;
 
-namespace Ax.Server.Models.Bcf
+namespace Ax.Ui.Models.Bcf
 {
     public class Service
     {

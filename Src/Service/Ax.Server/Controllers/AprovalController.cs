@@ -15,10 +15,10 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using System.IO;
 using AxCRL.Comm.Runtime;
-using Ax.Server.Models.ModelService;
-using Ax.Server.Models.Bcf;
+using Ax.Ui.Models.ModelService;
+using Ax.Ui.Models.Bcf;
 using Newtonsoft.Json;
-namespace Ax.Server.Controllers
+namespace Ax.Ui.Controllers
 {
     public class AprovalController : ApiController
     {

@@ -11,7 +11,7 @@ using AxCRL.Core.Comm;
 using AxCRL.Core.SysNews;
 using AxCRL.Data;
 using AxCRL.Services;
-namespace Ax.Server.Models.Bcf
+namespace Ax.Ui.Models.Bcf
 {
     public class APPCache
     {

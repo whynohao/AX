@@ -2,7 +2,7 @@
 using System.Web;
 using System.Web.Mvc;
 
-namespace Ax.Server.Controllers
+namespace Ax.Ui.Controllers
 {
     public class DeskController : Controller
     {

@@ -7,7 +7,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Filters;
 
-namespace Ax.Server
+namespace Ax.Ui
 {
     public static class WebApiConfig
     {

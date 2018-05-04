@@ -17,7 +17,7 @@ using System.Text;
 using AxCRL.Bcf;
 using System.Runtime.Caching;
 
-namespace Ax.Server
+namespace Ax.Ui
 {
     /// <summary>
     /// WsService 的摘要说明

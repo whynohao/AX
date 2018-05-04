@@ -1,4 +1,4 @@
-﻿using Ax.Server.Models.ModelService;
+﻿using Ax.Ui.Models.ModelService;
 using AxCRL.Bcf;
 using AxCRL.Comm.Bill;
 using AxCRL.Comm.Utils;
@@ -10,7 +10,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 
-namespace Ax.Server.Models.Bcf
+namespace Ax.Ui.Models.Bcf
 {
     public class Report
     {

@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 
-namespace Ax.Server.Models.Bcf
+namespace Ax.Ui.Models.Bcf
 {
     public class ValidateCode
     {

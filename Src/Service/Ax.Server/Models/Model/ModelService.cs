@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Ax.Server.Models.ModelService
+namespace Ax.Ui.Models.ModelService
 {
     public class ModelService
     {
