@@ -337,7 +337,7 @@
                     <li class="header">导航菜单</li>
                     <li class="treeview">
                         <a href="#">
-                            <i class="fa fa-dashboard"></i><span>记录</span>
+                            <i class="fa fa-dashboard"></i><span>时光影像</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
@@ -580,9 +580,7 @@
     <script>
         //日记保存
         function Save() {
-
             var editor = CKEDITOR.instances.content;
-
             var data = {
                 "meta": {
                     "title": $("#title").val()
@@ -594,7 +592,6 @@
                 ]
             };
 
-            debugger;
             $.ajax({
                 type: "POST",
                 url: "../WS/SysHandler.ashx?action=AddDiary",//这里是url
@@ -608,8 +605,6 @@
                     //}
                 }
             });
-
-
         }
     </script>
 </body>

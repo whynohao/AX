@@ -343,7 +343,7 @@
     <Content Include="Content\Workstation.css" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="index.html" />
+    <Content Include="index3.html" />
     <Content Include="axframwork.snk" />
     <Content Include="index2.html" />
     <Content Include="pageoffice\login.aspx" />

@@ -96,9 +96,7 @@
     <script>
         //日记保存
         function Save() {
-
             var editor = CKEDITOR.instances.content;
-
             var data = {
                 "meta": {
                     "title": $("#title").val()
@@ -110,10 +108,9 @@
                 ]
             };
 
-            debugger;
             $.ajax({
                 type: "POST",
-                url: "../../WS/SysHandler.ashx?action=AddDiary",//这里是url
+                url: "../WS/SysHandler.ashx?action=AddDiary",//这里是url
                 data: "data=" + JSON.stringify(data),
                 async: true, //默认就是true
                 success: function (msg) { //成功时执行的方法，msg就是返回过来的数据
@@ -124,8 +121,6 @@
                     //}
                 }
             });
-
-
         }
     </script>
 </body>
