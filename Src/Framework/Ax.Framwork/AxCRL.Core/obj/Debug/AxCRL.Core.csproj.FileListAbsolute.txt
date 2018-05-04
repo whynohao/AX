@@ -34,3 +34,15 @@ D:\TEMP\AX\AllCode\Src\Service\Ax.Server\bin\AxCRL.Core.pdb
 D:\TEMP\AX\AllCode\Src\Framework\Ax.Framwork\AxCRL.Core\obj\Debug\AxCRL.Core.csprojResolveAssemblyReference.cache
 D:\TEMP\AX\AllCode\Src\Framework\Ax.Framwork\AxCRL.Core\obj\Debug\AxCRL.Core.dll
 D:\TEMP\AX\AllCode\Src\Framework\Ax.Framwork\AxCRL.Core\obj\Debug\AxCRL.Core.pdb
+D:\TEMP\AX\Src\Service\Ax.Server\bin\AxCRL.Core.dll.config
+D:\TEMP\AX\Src\Service\Ax.Server\bin\AxCRL.Core.dll
+D:\TEMP\AX\Src\Service\Ax.Server\bin\AxCRL.Core.pdb
+D:\TEMP\AX\Src\Framework\Ax.Framwork\AxCRL.Core\obj\Debug\AxCRL.Core.csprojResolveAssemblyReference.cache
+D:\TEMP\AX\Src\Framework\Ax.Framwork\AxCRL.Core\obj\Debug\AxCRL.Core.dll
+D:\TEMP\AX\Src\Framework\Ax.Framwork\AxCRL.Core\obj\Debug\AxCRL.Core.pdb
+E:\Temp\AX\Src\Service\Ax.Server\bin\AxCRL.Core.dll.config
+E:\Temp\AX\Src\Service\Ax.Server\bin\AxCRL.Core.dll
+E:\Temp\AX\Src\Service\Ax.Server\bin\AxCRL.Core.pdb
+E:\Temp\AX\Src\Framework\Ax.Framwork\AxCRL.Core\obj\Debug\AxCRL.Core.csprojResolveAssemblyReference.cache
+E:\Temp\AX\Src\Framework\Ax.Framwork\AxCRL.Core\obj\Debug\AxCRL.Core.dll
+E:\Temp\AX\Src\Framework\Ax.Framwork\AxCRL.Core\obj\Debug\AxCRL.Core.pdb

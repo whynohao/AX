@@ -37,3 +37,13 @@ D:\TEMP\AX\AllCode\Src\Service\Ax.Server\bin\AxCRL.Template.pdb
 D:\TEMP\AX\AllCode\Src\Framework\Ax.Framwork\AxCRL.Template\obj\Debug\AxCRL.Template.csprojResolveAssemblyReference.cache
 D:\TEMP\AX\AllCode\Src\Framework\Ax.Framwork\AxCRL.Template\obj\Debug\AxCRL.Template.dll
 D:\TEMP\AX\AllCode\Src\Framework\Ax.Framwork\AxCRL.Template\obj\Debug\AxCRL.Template.pdb
+D:\TEMP\AX\Src\Service\Ax.Server\bin\AxCRL.Template.dll
+D:\TEMP\AX\Src\Service\Ax.Server\bin\AxCRL.Template.pdb
+D:\TEMP\AX\Src\Framework\Ax.Framwork\AxCRL.Template\obj\Debug\AxCRL.Template.csprojResolveAssemblyReference.cache
+D:\TEMP\AX\Src\Framework\Ax.Framwork\AxCRL.Template\obj\Debug\AxCRL.Template.dll
+D:\TEMP\AX\Src\Framework\Ax.Framwork\AxCRL.Template\obj\Debug\AxCRL.Template.pdb
+E:\Temp\AX\Src\Service\Ax.Server\bin\AxCRL.Template.dll
+E:\Temp\AX\Src\Service\Ax.Server\bin\AxCRL.Template.pdb
+E:\Temp\AX\Src\Framework\Ax.Framwork\AxCRL.Template\obj\Debug\AxCRL.Template.csprojResolveAssemblyReference.cache
+E:\Temp\AX\Src\Framework\Ax.Framwork\AxCRL.Template\obj\Debug\AxCRL.Template.dll
+E:\Temp\AX\Src\Framework\Ax.Framwork\AxCRL.Template\obj\Debug\AxCRL.Template.pdb

@@ -24,3 +24,9 @@ D:\TEMP\AX\AllCode\Src\Business\Standard\Dm\MES_Dm.FullTextRetrieval.Core\obj\De
 D:\TEMP\AX\AllCode\Src\Business\Standard\Dm\MES_Dm.FullTextRetrieval.Core\obj\Debug\MES_Dm.FullTextRetrieval.Core.csproj.ResolveComReference.cache
 D:\TEMP\AX\AllCode\Src\Business\Standard\Dm\MES_Dm.FullTextRetrieval.Core\obj\Debug\MES_Dm.FullTextRetrieval.Core.dll
 D:\TEMP\AX\AllCode\Src\Business\Standard\Dm\MES_Dm.FullTextRetrieval.Core\obj\Debug\MES_Dm.FullTextRetrieval.Core.pdb
+E:\Temp\AX\Src\Service\Ax.Server\bin\MES_Dm.FullTextRetrieval.Core.dll
+E:\Temp\AX\Src\Service\Ax.Server\bin\MES_Dm.FullTextRetrieval.Core.pdb
+E:\Temp\AX\Src\Business\Standard\Dm\MES_Dm.FullTextRetrieval.Core\obj\Debug\MES_Dm.FullTextRetrieval.Core.csprojResolveAssemblyReference.cache
+E:\Temp\AX\Src\Business\Standard\Dm\MES_Dm.FullTextRetrieval.Core\obj\Debug\MES_Dm.FullTextRetrieval.Core.csproj.ResolveComReference.cache
+E:\Temp\AX\Src\Business\Standard\Dm\MES_Dm.FullTextRetrieval.Core\obj\Debug\MES_Dm.FullTextRetrieval.Core.dll
+E:\Temp\AX\Src\Business\Standard\Dm\MES_Dm.FullTextRetrieval.Core\obj\Debug\MES_Dm.FullTextRetrieval.Core.pdb

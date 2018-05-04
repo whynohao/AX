@@ -29,7 +29,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sys", "Sys", "{85A3871E-737
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MES_Sys.UtilsBcf", "Business\Standard\Sys\MES_Sys.UtilsBcf\MES_Sys.UtilsBcf.csproj", "{184F885D-2073-4BBD-BDDA-A438581AB7B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ax.Server", "Service\Ax.Server\Ax.Server.csproj", "{F3ED2B57-ECCB-40A5-8E4D-0A78F8862775}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ax.Ui", "Service\Ax.Server\Ax.Ui.csproj", "{F3ED2B57-ECCB-40A5-8E4D-0A78F8862775}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AxCRL.Parser", "Framework\Ax.Framwork\AxCRL.Parser\AxCRL.Parser.csproj", "{0FAD3400-65A1-458F-9280-89925A6F7731}"
 EndProject

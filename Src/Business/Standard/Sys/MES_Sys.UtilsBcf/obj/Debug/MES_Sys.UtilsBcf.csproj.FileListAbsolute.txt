@@ -38,3 +38,13 @@ D:\TEMP\AX\AllCode\AxPath\Bcf\MES_Sys.UtilsBcf.pdb
 D:\TEMP\AX\AllCode\Src\Business\Standard\Sys\MES_Sys.UtilsBcf\obj\Debug\MES_Sys.UtilsBcf.csprojResolveAssemblyReference.cache
 D:\TEMP\AX\AllCode\Src\Business\Standard\Sys\MES_Sys.UtilsBcf\obj\Debug\MES_Sys.UtilsBcf.dll
 D:\TEMP\AX\AllCode\Src\Business\Standard\Sys\MES_Sys.UtilsBcf\obj\Debug\MES_Sys.UtilsBcf.pdb
+D:\TEMP\AX\AxPath\Bcf\MES_Sys.UtilsBcf.dll
+D:\TEMP\AX\AxPath\Bcf\MES_Sys.UtilsBcf.pdb
+D:\TEMP\AX\Src\Business\Standard\Sys\MES_Sys.UtilsBcf\obj\Debug\MES_Sys.UtilsBcf.csprojResolveAssemblyReference.cache
+D:\TEMP\AX\Src\Business\Standard\Sys\MES_Sys.UtilsBcf\obj\Debug\MES_Sys.UtilsBcf.dll
+D:\TEMP\AX\Src\Business\Standard\Sys\MES_Sys.UtilsBcf\obj\Debug\MES_Sys.UtilsBcf.pdb
+E:\Temp\AX\AxPath\Bcf\MES_Sys.UtilsBcf.dll
+E:\Temp\AX\AxPath\Bcf\MES_Sys.UtilsBcf.pdb
+E:\Temp\AX\Src\Business\Standard\Sys\MES_Sys.UtilsBcf\obj\Debug\MES_Sys.UtilsBcf.csprojResolveAssemblyReference.cache
+E:\Temp\AX\Src\Business\Standard\Sys\MES_Sys.UtilsBcf\obj\Debug\MES_Sys.UtilsBcf.dll
+E:\Temp\AX\Src\Business\Standard\Sys\MES_Sys.UtilsBcf\obj\Debug\MES_Sys.UtilsBcf.pdb

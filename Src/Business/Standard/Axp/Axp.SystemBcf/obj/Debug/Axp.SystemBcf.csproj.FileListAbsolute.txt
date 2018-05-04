@@ -32,3 +32,10 @@ D:\TEMP\AX\AllCode\Src\Business\Standard\Axp\Axp.SystemBcf\obj\Debug\Interop.Mic
 D:\TEMP\AX\AllCode\Src\Business\Standard\Axp\Axp.SystemBcf\obj\Debug\Axp.SystemBcf.csproj.ResolveComReference.cache
 D:\TEMP\AX\AllCode\Src\Business\Standard\Axp\Axp.SystemBcf\obj\Debug\Axp.SystemBcf.dll
 D:\TEMP\AX\AllCode\Src\Business\Standard\Axp\Axp.SystemBcf\obj\Debug\Axp.SystemBcf.pdb
+E:\Temp\AX\AxPath\Bcf\Axp.SystemBcf.dll
+E:\Temp\AX\AxPath\Bcf\Axp.SystemBcf.pdb
+E:\Temp\AX\Src\Business\Standard\Axp\Axp.SystemBcf\obj\Debug\Axp.SystemBcf.csprojResolveAssemblyReference.cache
+E:\Temp\AX\Src\Business\Standard\Axp\Axp.SystemBcf\obj\Debug\Interop.Microsoft.Office.Core.dll
+E:\Temp\AX\Src\Business\Standard\Axp\Axp.SystemBcf\obj\Debug\Axp.SystemBcf.csproj.ResolveComReference.cache
+E:\Temp\AX\Src\Business\Standard\Axp\Axp.SystemBcf\obj\Debug\Axp.SystemBcf.dll
+E:\Temp\AX\Src\Business\Standard\Axp\Axp.SystemBcf\obj\Debug\Axp.SystemBcf.pdb

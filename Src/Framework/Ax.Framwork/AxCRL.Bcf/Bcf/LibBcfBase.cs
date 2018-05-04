@@ -12,9 +12,6 @@ using AxCRL.Data.SqlBuilder;
 using AxCRL.Template;
 using AxCRL.Template.DataSource;
 using AxCRL.Template.Layout;
-using FastReport;
-using FastReport.Export.Image;
-using FastReport.Export.Pdf;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -743,30 +740,30 @@ namespace AxCRL.Bcf
                 return filePath;
             }
 
-            #region 获取DataSet数据源
-            DataSetManager.GetDataSet(this.DataSet, this.DataAccess, this.ProgId, billNo, this.Handle);
-            this.DataSet.AcceptChanges();
-            #endregion
+            //#region 获取DataSet数据源
+            //DataSetManager.GetDataSet(this.DataSet, this.DataAccess, this.ProgId, billNo, this.Handle);
+            //this.DataSet.AcceptChanges();
+            //#endregion
 
-            #region 加载打印模板
-            Report report = new Report();
-            report.Load(@telFilePath);
-            report.RegisterData(this.DataSet);
-            report.Prepare();
-            #endregion
+            //#region 加载打印模板
+            //Report report = new Report();
+            //report.Load(@telFilePath);
+            //report.RegisterData(this.DataSet);
+            //report.Prepare();
+            //#endregion
 
-            #region 导出打印结果图片
-            ImageExport export = new ImageExport();
-            report.Export(export, filePath);
-            #endregion
+            //#region 导出打印结果图片
+            //ImageExport export = new ImageExport();
+            //report.Export(export, filePath);
+            //#endregion
 
-            #region 导出PDF
-            string pdfFilePath = System.IO.Path.Combine(AxCRL.Comm.Runtime.EnvProvider.Default.RuningPath, "TempData", string.Format("{0}.pdf", billNo));
-            PDFExport pdfExport = new PDFExport();
-            report.Export(pdfExport, pdfFilePath);
-            #endregion
+            //#region 导出PDF
+            //string pdfFilePath = System.IO.Path.Combine(AxCRL.Comm.Runtime.EnvProvider.Default.RuningPath, "TempData", string.Format("{0}.pdf", billNo));
+            //PDFExport pdfExport = new PDFExport();
+            //report.Export(pdfExport, pdfFilePath);
+            //#endregion
 
-            report.Dispose();
+            //report.Dispose();
             return filePath;
         }
 

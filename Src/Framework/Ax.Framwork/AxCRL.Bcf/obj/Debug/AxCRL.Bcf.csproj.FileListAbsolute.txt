@@ -34,3 +34,15 @@ D:\TEMP\AX\AllCode\Src\Service\Ax.Server\bin\AxCRL.Bcf.pdb
 D:\TEMP\AX\AllCode\Src\Framework\Ax.Framwork\AxCRL.Bcf\obj\Debug\AxCRL.Bcf.csprojResolveAssemblyReference.cache
 D:\TEMP\AX\AllCode\Src\Framework\Ax.Framwork\AxCRL.Bcf\obj\Debug\AxCRL.Bcf.dll
 D:\TEMP\AX\AllCode\Src\Framework\Ax.Framwork\AxCRL.Bcf\obj\Debug\AxCRL.Bcf.pdb
+D:\TEMP\AX\Src\Service\Ax.Server\bin\AxCRL.Bcf.dll.config
+D:\TEMP\AX\Src\Service\Ax.Server\bin\AxCRL.Bcf.dll
+D:\TEMP\AX\Src\Service\Ax.Server\bin\AxCRL.Bcf.pdb
+D:\TEMP\AX\Src\Framework\Ax.Framwork\AxCRL.Bcf\obj\Debug\AxCRL.Bcf.csprojResolveAssemblyReference.cache
+D:\TEMP\AX\Src\Framework\Ax.Framwork\AxCRL.Bcf\obj\Debug\AxCRL.Bcf.dll
+D:\TEMP\AX\Src\Framework\Ax.Framwork\AxCRL.Bcf\obj\Debug\AxCRL.Bcf.pdb
+E:\Temp\AX\Src\Framework\Ax.Framwork\AxCRL.Bcf\obj\Debug\AxCRL.Bcf.csprojResolveAssemblyReference.cache
+E:\Temp\AX\Src\Framework\Ax.Framwork\AxCRL.Bcf\obj\Debug\AxCRL.Bcf.dll
+E:\Temp\AX\Src\Framework\Ax.Framwork\AxCRL.Bcf\obj\Debug\AxCRL.Bcf.pdb
+E:\Temp\AX\Src\Service\Ax.Server\bin\AxCRL.Bcf.dll.config
+E:\Temp\AX\Src\Service\Ax.Server\bin\AxCRL.Bcf.dll
+E:\Temp\AX\Src\Service\Ax.Server\bin\AxCRL.Bcf.pdb

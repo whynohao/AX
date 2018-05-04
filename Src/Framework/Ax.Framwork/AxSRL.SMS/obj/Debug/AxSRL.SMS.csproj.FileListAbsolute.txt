@@ -34,3 +34,15 @@ D:\TEMP\AX\AllCode\Src\Service\Ax.Server\bin\AxSRL.SMS.pdb
 D:\TEMP\AX\AllCode\Src\Framework\Ax.Framwork\AxSRL.SMS\obj\Debug\AxSRL.SMS.csprojResolveAssemblyReference.cache
 D:\TEMP\AX\AllCode\Src\Framework\Ax.Framwork\AxSRL.SMS\obj\Debug\AxSRL.SMS.dll
 D:\TEMP\AX\AllCode\Src\Framework\Ax.Framwork\AxSRL.SMS\obj\Debug\AxSRL.SMS.pdb
+D:\TEMP\AX\Src\Service\Ax.Server\bin\AxSRL.SMS.dll.config
+D:\TEMP\AX\Src\Service\Ax.Server\bin\AxSRL.SMS.dll
+D:\TEMP\AX\Src\Service\Ax.Server\bin\AxSRL.SMS.pdb
+D:\TEMP\AX\Src\Framework\Ax.Framwork\AxSRL.SMS\obj\Debug\AxSRL.SMS.csprojResolveAssemblyReference.cache
+D:\TEMP\AX\Src\Framework\Ax.Framwork\AxSRL.SMS\obj\Debug\AxSRL.SMS.dll
+D:\TEMP\AX\Src\Framework\Ax.Framwork\AxSRL.SMS\obj\Debug\AxSRL.SMS.pdb
+E:\Temp\AX\Src\Service\Ax.Server\bin\AxSRL.SMS.dll.config
+E:\Temp\AX\Src\Service\Ax.Server\bin\AxSRL.SMS.dll
+E:\Temp\AX\Src\Service\Ax.Server\bin\AxSRL.SMS.pdb
+E:\Temp\AX\Src\Framework\Ax.Framwork\AxSRL.SMS\obj\Debug\AxSRL.SMS.csprojResolveAssemblyReference.cache
+E:\Temp\AX\Src\Framework\Ax.Framwork\AxSRL.SMS\obj\Debug\AxSRL.SMS.dll
+E:\Temp\AX\Src\Framework\Ax.Framwork\AxSRL.SMS\obj\Debug\AxSRL.SMS.pdb

@@ -60,10 +60,6 @@
       <HintPath>..\..\Wisdom_ZhongDe\Src\Service\Ax.Server\bin\AxSRL.SMS.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="FastReport, Version=2016.2.0.0, Culture=neutral, PublicKeyToken=db7e5ce63278458c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\Program Files (x86)\FastReports\FastReport.Net Trial\Framework 4.0\FastReport.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core">
       <HintPath>..\..\Wisdom_ZhongDe\Src\Service\Ax.Server\bin\Microsoft.AspNet.SignalR.Core.dll</HintPath>
       <Private>False</Private>

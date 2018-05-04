@@ -20,3 +20,8 @@ D:\TEMP\AX\AllCode\Src\Service\Ax.Server\bin\MES_Dm_DMCommon.pdb
 D:\TEMP\AX\AllCode\Src\Business\Standard\Dm\MES_Dm_DMCommon\obj\Debug\MES_Dm_DMCommon.csprojResolveAssemblyReference.cache
 D:\TEMP\AX\AllCode\Src\Business\Standard\Dm\MES_Dm_DMCommon\obj\Debug\MES_Dm_DMCommon.dll
 D:\TEMP\AX\AllCode\Src\Business\Standard\Dm\MES_Dm_DMCommon\obj\Debug\MES_Dm_DMCommon.pdb
+E:\Temp\AX\Src\Service\Ax.Server\bin\MES_Dm_DMCommon.dll
+E:\Temp\AX\Src\Service\Ax.Server\bin\MES_Dm_DMCommon.pdb
+E:\Temp\AX\Src\Business\Standard\Dm\MES_Dm_DMCommon\obj\Debug\MES_Dm_DMCommon.csprojResolveAssemblyReference.cache
+E:\Temp\AX\Src\Business\Standard\Dm\MES_Dm_DMCommon\obj\Debug\MES_Dm_DMCommon.dll
+E:\Temp\AX\Src\Business\Standard\Dm\MES_Dm_DMCommon\obj\Debug\MES_Dm_DMCommon.pdb

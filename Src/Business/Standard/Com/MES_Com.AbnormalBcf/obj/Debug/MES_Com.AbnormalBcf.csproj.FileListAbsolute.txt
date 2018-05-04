@@ -38,3 +38,8 @@ D:\TEMP\AX\AllCode\AxPath\Bcf\MES_Com.AbnormalBcf.pdb
 D:\TEMP\AX\AllCode\Src\Business\Standard\Com\MES_Com.AbnormalBcf\obj\Debug\MES_Com.AbnormalBcf.csprojResolveAssemblyReference.cache
 D:\TEMP\AX\AllCode\Src\Business\Standard\Com\MES_Com.AbnormalBcf\obj\Debug\MES_Com.AbnormalBcf.dll
 D:\TEMP\AX\AllCode\Src\Business\Standard\Com\MES_Com.AbnormalBcf\obj\Debug\MES_Com.AbnormalBcf.pdb
+E:\Temp\AX\AxPath\Bcf\MES_Com.AbnormalBcf.dll
+E:\Temp\AX\AxPath\Bcf\MES_Com.AbnormalBcf.pdb
+E:\Temp\AX\Src\Business\Standard\Com\MES_Com.AbnormalBcf\obj\Debug\MES_Com.AbnormalBcf.csprojResolveAssemblyReference.cache
+E:\Temp\AX\Src\Business\Standard\Com\MES_Com.AbnormalBcf\obj\Debug\MES_Com.AbnormalBcf.dll
+E:\Temp\AX\Src\Business\Standard\Com\MES_Com.AbnormalBcf\obj\Debug\MES_Com.AbnormalBcf.pdb
