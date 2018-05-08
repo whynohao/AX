@@ -35,6 +35,9 @@ namespace Ax.Ui.Ws
                 case "adddiary":
                     ret = AddDiary(context);
                     break;
+                case "getdiarybypc":
+                    ret = GetDiaryByPc(context);
+                    break;
                 default:
                     break;
             }
@@ -173,34 +176,97 @@ namespace Ax.Ui.Ws
             return list;
         }
 
+        #endregion
+
+        #region Pc日记
+
+
+        public class MDictionary<TKey, TValue> : Dictionary<String, String>
+        {
+            public string this[String key]
+            {
+                get
+                {
+                    if (base.ContainsKey(key))
+                    {
+                        return Convert.ToString(base[key]);
+                    }
+                    else
+                    {
+                        return string.Empty;
+                    }
+                }
+                set 
+                {
+                    if (base.ContainsKey(key))
+                    {
+                        base[key] =value;
+                    }
+                }
+            }
+        }
+            
+
+        //获取日记
+        public DataTable GetDiaryByPc(HttpContext context)
+        {
+            #region 日记信息
+            string data = context.Request["data"];
+
+            MDictionary<string, string> info = new MDictionary<string, string>();
+            if (!string.IsNullOrEmpty(data))
+            {
+                info = JsonConvert.DeserializeObject<MDictionary<string, string>>(data);
+            }
+            #endregion
+
+            string sql = string.Empty;
+            if (!info.ContainsKey("id") || string.IsNullOrEmpty(info["id"]))
+            {
+                sql = string.Format(" SELECT * FROM Diary ");
+            }
+            else
+            {
+                sql = string.Format(" SELECT * FROM Diary where id={0}",info["id"]);
+            }
+
+            LibDataAccess dataAccess = new LibDataAccess();
+            DataSet dataSet = dataAccess.ExecuteDataSet(sql);
+
+            foreach (DataRow dr in dataSet.Tables[0].Rows)
+            {
+                dr["Content"] = HttpUtility.HtmlDecode(LibSysUtils.ToString(dr["Content"]));
+            }
+            return dataSet.Tables[0];
+        }
+
         //写入日记
         public bool AddDiary(HttpContext context)
         {
+            #region 日记信息
             string data = context.Request["data"];
-            Diary info = JsonConvert.DeserializeObject<Diary>(data);
-            info.list[0].content = HttpUtility.HtmlEncode(info.list[0].content);
-
-            #region sql
-            string sql = string.Format(@"INSERT  Diary( ID, Title, Content ) VALUES  ({0}, N'{1}',N'{2}' ) ", 2, info.meta.title, info.list[0].content);
+            MDictionary<string, string> info = JsonConvert.DeserializeObject<MDictionary<string, string>>(data);
+            info["content"] = HttpUtility.UrlDecode(info["content"]);
             #endregion
-            LibDataAccess dataAccess = new LibDataAccess();
-            dataAccess.ExecuteNonQuery(sql);
-            return false;
-        }
 
-        public string htmlencode(string str)
-        {
-            if (str == null || str == "")
-                return "";
-            string[] arr = new string[] { "<p>", "</p>", "<br />", "&nbsp;", "&amp;", "&quot;", "&lt;", "&gt;", "&#039;", "&ldquo;", "&rdquo;" };
-            foreach (var item in arr)
+            #region 数据库处理
+            string sql = string.Empty;
+
+            if (string.IsNullOrEmpty(info["id"]))
             {
-                str = str.Replace(item, "");
+                sql = string.Format(@"INSERT Diary( Title, Content ) VALUES  (N'{0}',N'{1}' ) ",info["title"], info["content"]);
+            }
+            else
+            {
+                sql = string.Format(@"UPDATE Diary SET Content=N'{0}' WHERE ID={1}",info["content"],info["id"]);
             }
 
-            return str;
-        }
+            LibDataAccess dataAccess = new LibDataAccess();
+            dataAccess.ExecuteNonQuery(sql);
 
+            #endregion
+            return false;
+        }
         #endregion
 
         //登录

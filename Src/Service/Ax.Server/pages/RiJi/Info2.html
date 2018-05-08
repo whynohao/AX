@@ -9,6 +9,7 @@
     <title>时光|日记</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <script src="../../Scripts/extjs/ext-all.js"></script>
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css">
     <!-- Font Awesome -->
@@ -20,61 +21,49 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="../../dist/css/skins/_all-skins.min.css">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
-
-    <!-- Google Font -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>写
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>写
                     <small>日记</small>
-            </h1>
-            <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
-                <li><a href="#">Forms</a></li>
-                <li class="active">日记</li>
-            </ol>
-        </section>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
+            <li><a href="#">Forms</a></li>
+            <li class="active">日记</li>
+        </ol>
+    </section>
 
-        <!-- Main content -->
-        <section class="content">
-            <div class="row">
-                <!-- right column -->
-                <div class="col-md-22">
-                    <!-- general form elements disabled -->
-                    <div class="box box-info">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">青春的印记从笔下开始</h3>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <!-- right column -->
+            <div class="col-md-22">
+                <!-- general form elements disabled -->
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">青春的印记从笔下开始</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="form-group">
+                            <input id="title" name="title" type="text" class="form-control text-center" placeholder="请在这里输入标题">
+                            <textarea id="content" name="content" class="form-control" rows="22" cols="80" placeholder="请在这里输入内容"></textarea>
                         </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            <div class="form-group">
-                                <input id="title" name="title" type="text" class="form-control text-center" placeholder="请在这里输入标题">
-                                <textarea id="content" name="content" class="form-control" rows="22" cols="80" placeholder="请在这里输入内容">
-
-                                    </textarea>
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-default">重置</button>
-                                <button type="submit" class="btn btn-info pull-right" onclick="Save()">保存</button>
-                            </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-default">重置</button>
+                            <button type="submit" class="btn btn-info pull-right" onclick="Save()">保存</button>
                         </div>
                     </div>
-                    <!-- /.box -->
                 </div>
-                <!--/.col (right) -->
+                <!-- /.box -->
             </div>
-            <!-- /.row -->
-        </section>
-        <!-- /.content -->
+            <!--/.col (right) -->
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
     <!-- ./wrapper -->
 
     <!-- jQuery 3 -->
@@ -94,31 +83,61 @@
     </script>
 
     <script>
+        function GetUrlParam(param) {
+            var params = Ext.urlDecode(location.search.substring(1));
+            return param ? params[param] : params;
+        }
+
+        var bill = GetUrlParam("id");
+        if (bill != undefined && bill != "") {
+
+            var data = {
+                id: bill
+            };
+
+            var params = {
+                action: "GetDiaryByPc",
+                data: JSON.stringify(data)
+            };
+            $.ajax({
+                type: "POST",
+                url: "../../WS/SysHandler.ashx",//这里是url
+                dataType: "json",
+                data: params,
+                async: false, //默认就是true
+                success: function (msg) { //成功时执行的方法，msg就是返回过来的数据
+                    $("#title").val(msg[0].Title);
+                    $("#content").val(msg[0].Content);
+                }
+            });
+        }
+
         //日记保存
         function Save() {
             var editor = CKEDITOR.instances.content;
             var data = {
-                "meta": {
-                    "title": $("#title").val()
-                },
-                "list": [
-                    {
-                        "content": encodeURIComponent(editor.getData())
-                    }
-                ]
+                id: bill,
+                title: $("#title").val(),
+                content: escape(editor.getData())
+            };
+
+            var params = {
+                action: "AddDiary",
+                data: JSON.stringify(data)
             };
 
             $.ajax({
                 type: "POST",
-                url: "../../WS/SysHandler.ashx?action=AddDiary",//这里是url
-                data: "data=" + JSON.stringify(data),
+                url: "../../WS/SysHandler.ashx",//这里是url
+                dataType: "json",
+                data: params,
                 async: true, //默认就是true
                 success: function (msg) { //成功时执行的方法，msg就是返回过来的数据
-                    //if (msg === "True") {
-                    //      。。。。
-                    //} else {
-                    //   。。。。。
-                    //}
+                    if (msg === "True") {
+
+                    } else {
+
+                    }
                 }
             });
         }
