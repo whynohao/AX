@@ -894,33 +894,68 @@
 		},
 		settext: function(response) {
 			delete response.id;
+			function setData() {
+				try {
+					editor.focus();
+				} catch(e) {}
+				editor.setData(response.text, function(){
+					NS.dataTemp = '';
+					editor.unlockSelection();
+					editor.fire('saveSnapshot');
+					NS.dialog.hide();
+				});
+			}
 
 			var command = NS.dialog.getParentEditor().getCommand( 'checkspell' ),
-				editor = NS.dialog.getParentEditor();
+				editor = NS.dialog.getParentEditor(),
+				scaytPlugin = CKEDITOR.plugins.scayt,
+				scaytInstance = editor.scayt;
 
-			//set local storage for synchronization before scayt reinit
-			if (editor.scayt && editor.wsc.isSsrvSame) {
-				var	wscUDN = editor.wsc.udn;
+			//scayt on wsc UserDictionary and UserDictionaryName synchronization
+			if (scaytPlugin && editor.wsc) {
+				var	wscUDN = editor.wsc.udn,
+					wscUD = editor.wsc.ud,
+					wscUDarray,
+					i;
+
+				if (scaytInstance) { // if SCAYT active
+					function udActionCallback() {
+						if (wscUD) {
+							wscUDarray = wscUD.split(',');
+							for (i = 0; i < wscUDarray.length; i += 1) {
+								scaytInstance.addWordToUserDictionary(wscUDarray[i]);
+							}
+						}else {
+							editor.wsc.DataStorage.setData('scayt_user_dictionary', []);
+						}
+						setData();
+					}
+
+					if(scaytPlugin.state.scayt[editor.name]) {
+						scaytInstance.setMarkupPaused(false);
+					}
+					if (!wscUDN) {
+						editor.wsc.DataStorage.setData('scayt_user_dictionary_name', '');
+						scaytInstance.removeUserDictionary(undefined, udActionCallback, udActionCallback);
+					} else {
+						editor.wsc.DataStorage.setData('scayt_user_dictionary_name', wscUDN);
+						scaytInstance.restoreUserDictionary(wscUDN, udActionCallback, udActionCallback);
+					}
+				} else { //if SCAYT not active
 
 					if (!wscUDN) {
 						editor.wsc.DataStorage.setData('scayt_user_dictionary_name', '');
 					} else {
 						editor.wsc.DataStorage.setData('scayt_user_dictionary_name', wscUDN);
 					}
+
+					if (wscUD) {
+						wscUDarray = wscUD.split(',');
+						editor.wsc.DataStorage.setData('scayt_user_dictionary', wscUDarray);
+					}
+					setData();
+				}
 			}
-
-
-			try {
-				editor.focus();
-			} catch(e) {}
-
-			editor.setData(response.text, function(){
-				NS.dataTemp = '';
-				editor.unlockSelection();
-				editor.fire('saveSnapshot');
-				NS.dialog.hide();
-			});
-
 		},
 		ReplaceText: function(response) {
 
@@ -1408,8 +1443,7 @@ CKEDITOR.dialog.add('checkspell', function(editor) {
 		constraints = {
 			minWidth: 560,
 			minHeight: 444
-		},
-		loadScriptWasFailed = false;
+		};
 
 	function initView(dialog) {
 		var newViewSettings = {
@@ -1816,22 +1850,6 @@ CKEDITOR.dialog.add('checkspell', function(editor) {
 
 			initView(this);
 			CKEDITOR.scriptLoader.load(wscCoreUrl, function(success) {
-				// We do not need do work if script download was failed
-				if (!success) {
-					loadScriptWasFailed = true;
-
-					return;
-				}
-
-				// For second or more times 'CKEDITOR.scriptLoader.load' function always
-				// returns 'true' for 'success' argument even if download was failed in first time.
-				// So we need to check failed download manually.
-				if (loadScriptWasFailed) {
-					NS.onLoadOverlay.setEnable();
-
-					return;
-				}
-
 				if(CKEDITOR.config && CKEDITOR.config.wsc && CKEDITOR.config.wsc.DefaultParams){
 					NS.serverLocationHash = CKEDITOR.config.wsc.DefaultParams.serviceHost;
 					NS.logotype = CKEDITOR.config.wsc.DefaultParams.logoPath;
@@ -1926,7 +1944,7 @@ CKEDITOR.dialog.add('checkspell', function(editor) {
 				}
 
 				//wsc on scayt UserDictionary and UserDictionaryName synchronization
-				if (window.SCAYT && editor.wsc && editor.wsc.isSsrvSame) {
+				if (window.SCAYT && editor.wsc) {
 					var cgiOrigin = editor.wsc.cgiOrigin();
 					editor.wsc.syncIsDone = false;
 
@@ -1994,62 +2012,11 @@ CKEDITOR.dialog.add('checkspell', function(editor) {
 
 		},
 		onHide: function() {
-			var scaytPlugin = CKEDITOR.plugins.scayt,
-				scaytInstance = editor.scayt;
-
 			editor.unlockSelection();
-
-			if(scaytPlugin && scaytInstance && scaytPlugin.state[editor.name]) {
-				scaytInstance.setMarkupPaused(false);
-			}
 
 			NS.dataTemp = '';
 			NS.sessionid = '';
 			appTools.postMessage.unbindHandler(handlerIncomingData);
-
-			//scayt on wsc UserDictionary and UserDictionaryName synchronization
-			if (editor.plugins.scayt && editor.wsc && editor.wsc.isSsrvSame) {
-				var	wscUDN = editor.wsc.udn,
-					wscUD = editor.wsc.ud,
-					wscUDarray,
-					i;
-
-				if (editor.scayt) { // if SCAYT active
-					if (!wscUDN) {
-						editor.wsc.DataStorage.setData('scayt_user_dictionary_name', '');
-						editor.scayt.removeUserDictionary();
-					} else {
-						editor.wsc.DataStorage.setData('scayt_user_dictionary_name', wscUDN);
-						editor.scayt.restoreUserDictionary(wscUDN);
-					}
-
-					if (wscUD) {
-						setTimeout(function() {
-							wscUDarray = wscUD.split(',');
-							for (i = 0; i < wscUDarray.length; i += 1) {
-								editor.scayt.addWordToUserDictionary(wscUDarray[i]);
-							}
-						}, 200); //wait for 'removeUserDictionary' command response
-					}
-
-					if (!wscUD) {
-						editor.wsc.DataStorage.setData('scayt_user_dictionary', []);
-					}
-
-				} else { //if SCAYT not active
-
-					if (!wscUDN) {
-						editor.wsc.DataStorage.setData('scayt_user_dictionary_name', '');
-					} else {
-						editor.wsc.DataStorage.setData('scayt_user_dictionary_name', wscUDN);
-					}
-
-					if (wscUD) {
-						wscUDarray = wscUD.split(',');
-						editor.wsc.DataStorage.setData('scayt_user_dictionary', wscUDarray);
-					}
-				}
-			}
 		},
 		contents: [
 			{
@@ -3176,7 +3143,7 @@ CKEDITOR.on('dialogDefinition', function(dialogDefinitionEvent) {
 
 		dialogDefinition.dialog.on('cancel', function(cancelEvent) {
 			dialogDefinition.dialog.getParentEditor().config.wsc_onClose.call(this.document.getWindow().getFrame());
-			NS.div_overlay && NS.div_overlay.setDisable();
+    		NS.div_overlay.setDisable();
     		NS.onLoadOverlay.setDisable();
 			return false;
 		}, this, null, -1);

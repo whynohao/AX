@@ -69,6 +69,7 @@ namespace AxCRL.Comm.Redis
         public byte[] StringGetBytes(string key, string regionName = null)
         {
             return RedisManager.Default.StringGetBytes(getKey(key));
+            //return null;
         }
         /// <summary>
         /// 设置bytes

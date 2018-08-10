@@ -37,6 +37,127 @@ namespace AxCRL.Services
     [GlobalExceptionHandlerBehaviour(typeof(GlobalExceptionHandler))]
     public class SystemManager : ISystemManager
     {
+        public void SystemUpgrade1()
+        {
+            LibSqlModelCache.Default.RemoveAll();//升级数据库时需要将SqlModel的缓存清空
+
+            //重新生成ProgId
+
+            #region 1.	从实体文件夹中获取dll文件，转到程序集，构建实体列表
+            Dictionary<string, Assembly> assemblyDic = new Dictionary<string, Assembly>();
+            ProgIdConfigListingManager.BuildListing(EnvProvider.Default.MainPath, EnvProvider.Default.ExtendPath, assemblyDic);
+            #endregion
+
+            //在本地构建SqlModel文件,升级数据库表、创建单据存储过程
+            ProgIdHost.Instance.Run();
+            List<string> updateBusinessTaskList = new List<string>() { "DELETE FROM AXPBUSINESSTASK" };
+            foreach (var item in ProgIdHost.Instance.ProgIdRef)
+            {
+                BcfServerInfo info = item.Value;
+                if (!assemblyDic.ContainsKey(info.DllName))
+                    continue;
+                Assembly assembly = assemblyDic[info.DllName];
+                Type destType = assembly.GetType(info.ClassName);
+                if (destType == null)
+                    continue;
+                try
+                {
+                    LibBcfBase destObj = destType.InvokeMember(null, BindingFlags.CreateInstance, null, null, null) as LibBcfBase;
+                    if (destObj != null)
+                        SaveSqlModel(item.Key, destObj.DataSet);
+                }
+                catch (Exception exp)
+                {
+                    throw new Exception(string.Format("UpdateError(SaveSqlModel):\r\n{0}  {1}  {2}  {3}。", item.Key, item.Value.ClassName, item.Value.DllName, exp.ToString()));
+                }
+
+            }
+            ILibDbSchema schemaHelper = null;
+            LibDataAccess dataAccess = new LibDataAccess();
+            LibDatabaseType databaseType = dataAccess.DatabaseType;
+            if (LibDatabaseType.Oracle == databaseType)
+                schemaHelper = new LibOracleDbSchema();
+            else
+                schemaHelper = new LibSqlServerDbSchema();
+            List<string> updateFunList = new List<string>() { "DELETE FROM AXPFUNCLIST" };
+            List<string> updateFunButtonList = new List<string>() { "DELETE FROM AXPFUNCBUTTON" };
+            List<string> updateBrowseStoreProcedureList = new List<string>();
+            foreach (var item in ProgIdHost.Instance.ProgIdRef)
+            {
+                BcfServerInfo info = item.Value;
+                if (!assemblyDic.ContainsKey(info.DllName))
+                    continue;
+                Assembly assembly = assemblyDic[info.DllName];
+                try
+                {
+                    Type destType = assembly.GetType(info.ClassName);
+                    LibBcfBase destObj = destType.InvokeMember(null, BindingFlags.CreateInstance, null, null, null) as LibBcfBase;
+                    if (destObj != null)
+                    {
+
+                        LibFuncPermission funcPermission = destObj.Template.FuncPermission;
+                        updateFunList.Add(GetSqlForFunList(destObj.ProgId, destObj.Template.DisplayText, funcPermission.ConfigPack, funcPermission.CanMenu, funcPermission.KeyCode, funcPermission.Permission, destObj.Template.BillType, LibSysUtils.ToString(funcPermission.ProgTag)));
+                        //Dictionary<string, string> dic = destObj.Template.GetViewTemplate(destObj.DataSet).Layout.GetButtonList();
+                        //if (dic != null)
+                        //{
+                        //    foreach (var button in dic)
+                        //    {
+                        //        updateFunButtonList.Add(string.Format("insert into AXPFUNCBUTTON(PROGID,BUTTONID,BUTTONNAME) values('{0}','{1}','{2}')", destObj.ProgId, button.Key, button.Value));
+                        //    }
+                        //}
+
+                        if (!destType.IsSubclassOf(typeof(LibBcfData)) && !destType.IsSubclassOf(typeof(LibBcfGrid)))
+                            continue;
+                        schemaHelper.DicUniqueDataSql = destObj.GetUniqueDataSqlForUpdate(dataAccess.DatabaseType);//添加对于唯一性字段数据的提前处理Sql
+                        schemaHelper.UpdateTables(destObj.DataSet, false);
+                        //schemaHelper.CreateTables(destObj.DataSet);
+                        SqlBuilder sqlBuilder = new SqlBuilder(item.Key);
+                        string sql;
+                        if (LibDatabaseType.Oracle == databaseType)
+                            sql = sqlBuilder.BuildBrowseStoreProcedureByOracle(destObj.Template.BillType);
+                        else
+                            sql = sqlBuilder.BuildBrowseStoreProcedure(destObj.Template.BillType);
+                        if (!string.IsNullOrEmpty(sql))
+                        {
+                            string name = destObj.Template.ProgId.Replace('.', '_');
+                            if (LibDatabaseType.SqlServer == databaseType)
+                            {
+                                updateBrowseStoreProcedureList.Add(string.Format("IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID({0}) AND type in (N'P', N'PC')) DROP PROCEDURE {1}", LibStringBuilder.GetQuotString(name), name));
+                            }
+                            updateBrowseStoreProcedureList.Add(sql);
+                        }
+                    }
+                }
+                catch (Exception exp)
+                {
+                    throw new Exception(string.Format("UpdateError(UpdateTable):\r\n{0}  {1}  {2}  {3}\r\n。", item.Key, item.Value.ClassName, item.Value.DllName, exp.ToString()));
+                }
+            }
+
+            //创建浏览存储过程
+            foreach (string sql in updateBrowseStoreProcedureList)
+            {
+                try
+                {
+                    dataAccess.ExecuteNonQuery(sql, false);
+                }
+                catch (Exception exp)
+                {
+                    throw new Exception(string.Format("UpdateError(updateBrowseStoreProcedureList):\r\n{0} \r\n{1}。", sql, exp.ToString()));
+                }
+            }
+
+            //更新功能清单
+            dataAccess.ExecuteNonQuery(updateFunList, false);
+            //dataAccess.ExecuteNonQuery(updateFunButtonList, false);
+            //更新业务任务表
+            //dataAccess.ExecuteNonQuery(updateBusinessTaskList, false);
+            //创建存储过程
+            //CreateStoredProcedure(Path.Combine(EnvProvider.Default.MainPath, "StoredProcedure"), dataAccess);
+            //CreateStoredProcedure(Path.Combine(EnvProvider.Default.ExtendPath, "StoredProcedure"), dataAccess);
+            //this.InitData();
+        }
+
         public void SystemUpgrade()
         {
             LibSqlModelCache.Default.RemoveAll();//升级数据库时需要将SqlModel的缓存清空
@@ -69,7 +190,6 @@ namespace AxCRL.Services
                         }
                     }
                 }
-                throw new Exception("test");
                 //if (!destType.IsSubclassOf(typeof(LibBcfData)) && !destType.IsSubclassOf(typeof(LibBcfGrid)))
                 //    continue;
                 try

@@ -9,7 +9,8 @@ namespace AxCRL.Template
     /// <summary>
     /// 平台数据类型枚举定义
     /// </summary>
-    public enum LibDataType {
+    public enum LibDataType
+    {
         Text = 0,
         NText = 1,
         Int32 = 2,
@@ -20,11 +21,15 @@ namespace AxCRL.Template
         Byte = 7,
         Boolean = 8,
         Binary = 9,
+        DateTime = 10,
+        Date = 11,
+        Time = 12,
     }
     /// <summary>
     /// 平台控件类型
     /// </summary>
-    public enum LibControlType {
+    public enum LibControlType
+    {
         Id = 0,
         IdName = 1,
         Text = 2,
@@ -50,57 +55,68 @@ namespace AxCRL.Template
         /// 以树形结构展示IdName，要求RelativeSource具有父子结构
         /// </summary>
         IdNameTree = 22,
-        FieldOption = 23
+        FieldOption = 23,
+        HtmlEditor = 24,
+        Image = 25,
     }
-    
+
     public static class LibDataTypeConverter
     {
-        public static Type ConvertType (LibDataType libDataType)
+        public static Type ConvertType(LibDataType libDataType)
         {
             Type t = null;
-            
-            switch (libDataType) {
+
+            switch (libDataType)
+            {
                 case LibDataType.Text:
                 case LibDataType.NText:
-                    t = typeof (string);
+                    t = typeof(string);
                     break;
-                    
+
                 case LibDataType.Int32:
-                    t = typeof (int);
+                    t = typeof(int);
                     break;
-                    
+
                 case LibDataType.Int64:
-                    t = typeof (long);
+                    t = typeof(long);
                     break;
-                    
+
                 case LibDataType.Numeric:
-                    t = typeof (decimal);
+                    t = typeof(decimal);
                     break;
-                    
+
                 case LibDataType.Float:
-                    t = typeof (float);
+                    t = typeof(float);
                     break;
-                    
+
                 case LibDataType.Double:
-                    t = typeof (double);
+                    t = typeof(double);
                     break;
-                    
+
                 case LibDataType.Byte:
-                    t = typeof (byte);
+                    t = typeof(byte);
                     break;
-                    
+
                 case LibDataType.Boolean:
-                    t = typeof (bool);
+                    t = typeof(bool);
                     break;
-                    
+
                 case LibDataType.Binary:
-                    t = typeof (string);
+                    t = typeof(string);
                     break;
-                    
+                case LibDataType.DateTime:
+                    t = typeof(string);
+                    break;
+                case LibDataType.Date:
+                    t = typeof(string);
+                    break;
+                case LibDataType.Time:
+                    t = typeof(string);
+                    break;
                 default:
                     break;
             }
-            
+
             return t;
         }
         /// <summary>
@@ -109,41 +125,41 @@ namespace AxCRL.Template
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static LibDataType ConvertToLibType (Type type)
+        public static LibDataType ConvertToLibType(Type type)
         {
             LibDataType libType = LibDataType.Text;
-            
-            if (type == typeof (string))
+
+            if (type == typeof(string))
             { libType = LibDataType.NText; }//无法区分NText、Text、Binary
-            
+
             else
-                if (type == typeof (int))
+                if (type == typeof(int))
                 { libType = LibDataType.Int32; }
-                
+
                 else
-                    if (type == typeof (long))
+                    if (type == typeof(long))
                     { libType = LibDataType.Int64; }
-                    
+
                     else
-                        if (type == typeof (decimal))
+                        if (type == typeof(decimal))
                         { libType = LibDataType.Numeric; }
-                        
+
                         else
-                            if (type == typeof (float))
+                            if (type == typeof(float))
                             { libType = LibDataType.Float; }
-                            
+
                             else
-                                if (type == typeof (double))
+                                if (type == typeof(double))
                                 { libType = LibDataType.Double; }
-                                
+
                                 else
-                                    if (type == typeof (byte))
+                                    if (type == typeof(byte))
                                     { libType = LibDataType.Byte; }
-                                    
+
                                     else
-                                        if (type == typeof (bool))
+                                        if (type == typeof(bool))
                                         { libType = LibDataType.Boolean; }
-                                        
+
             return libType;
         }
     }

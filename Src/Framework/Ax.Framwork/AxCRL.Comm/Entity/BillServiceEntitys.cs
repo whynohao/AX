@@ -72,6 +72,21 @@ namespace AxCRL.Comm.Entity
     [DataContract]
     public class ExecuteBcfMethodResult
     {
+        public ExecuteBcfMethodResult() { }
+        public ExecuteBcfMethodResult(string message)
+        {
+            this.Messages.Add(new LibMessage() { Message = message });
+        }
+
+        private bool _Success = true;
+
+        [DataMember]
+        public bool Success
+        {
+            get { return _Success; }
+            set { _Success = value; }
+        }
+
         private object _Result;
         [DataMember]
         public object Result

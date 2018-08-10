@@ -214,10 +214,30 @@ namespace AxCRL.Data.SqlBuilder
             return builder.ToString();
         }
 
+        public string GetFuzzySql1(string selectFields, string query, string condition = "", string selectSql = "")
+        {
+            string ret = selectSql;
+
+            if (ret.ToLower().IndexOf("where") < 0)
+            {
+                ret += " where 1=1 ";
+            }
+            if (!string.IsNullOrEmpty(selectFields))
+            {
+                foreach (string item in selectFields.Split(','))
+                {
+                    ret += string.Format(" and {0} like '%{1}%' ", item, query);
+                }
+            }
+
+            return ret;
+        }
+
         public string GetFuzzySql(int tableIndex, string query, string condition = "")
         {
             LibSqlParser parser = new LibSqlParser() { SqlModel = SqlModel };
             string id = SqlModel.Tables[tableIndex].PrimaryKey[SqlModel.Tables[tableIndex].PrimaryKey.Length - 1].ColumnName;
+
             char prefix = parser.GetTablePrefix(tableIndex);
             string ret = string.Empty;
             if (tableIndex == 0)
@@ -289,8 +309,8 @@ namespace AxCRL.Data.SqlBuilder
                 if (id == name)
                     ret = parser.ParesSelectSql(tableIndex, string.Format("{0}.{1}", prefix, id), string.Format("({0}.{1} LIKE {2} OR {0}.{3} LIKE {2}) {4}", prefix, id, LibStringBuilder.GetQuotString(string.Format("%{0}%", query)), name, condition), string.Empty, string.Empty, false);
                 else
-                    ret = parser.ParesSelectSql(tableIndex, string.Format("{0}.{1},{0}.{2},'' as OTHERVALUE" 
-                        + ((string.IsNullOrEmpty(parentColumnName.Trim())) ? "": ",{0}.{3} "),
+                    ret = parser.ParesSelectSql(tableIndex, string.Format("{0}.{1},{0}.{2},'' as OTHERVALUE"
+                        + ((string.IsNullOrEmpty(parentColumnName.Trim())) ? "" : ",{0}.{3} "),
                         prefix, id, name, parentColumnName.Trim()), string.Format("({0}.{1} LIKE {2} OR {0}.{3} LIKE {2}) {4}", prefix, id, LibStringBuilder.GetQuotString(string.Format("%{0}%", query)), name, condition), string.Empty, string.Empty, false);
             }
             else
@@ -309,7 +329,7 @@ namespace AxCRL.Data.SqlBuilder
             }
             if (string.IsNullOrEmpty(orderBySql) == false)
                 ret += orderBySql;//添加Orderby 语句
-                 
+
             if (isQueryOtherValue)
             {
                 //需要检索除Id Name以外的其他指定列，暂时只是第一个RelSource中的IdName有效 Zhangkj 20170124
@@ -318,14 +338,14 @@ namespace AxCRL.Data.SqlBuilder
                 {
                     if (field == null)
                         continue;
-                    stringBuilder.Append(string.Format(" UNION SELECT {0}.{1},{0}.{2},CAST({0}.{3} AS nvarchar(500)) AS OTHERVALUE" + 
-                        (string.IsNullOrEmpty(parentColumnName.Trim()) ? "" : ",{0}.{6} " )+ " FROM {4} AS {0} WHERE {0}.{3} LIKE {5} ",
+                    stringBuilder.Append(string.Format(" UNION SELECT {0}.{1},{0}.{2},CAST({0}.{3} AS nvarchar(500)) AS OTHERVALUE" +
+                        (string.IsNullOrEmpty(parentColumnName.Trim()) ? "" : ",{0}.{6} ") + " FROM {4} AS {0} WHERE {0}.{3} LIKE {5} ",
                         prefix, id, name, field.Name, tableName, LibStringBuilder.GetQuotString(string.Format("%{0}%", query)), parentColumnName.Trim()));
                 }
                 if (string.IsNullOrEmpty(orderBySql) == false)
                     stringBuilder.Append(orderBySql);
-                ret += stringBuilder.ToString();               
-            }   
+                ret += stringBuilder.ToString();
+            }
             return ret;
         }
 
@@ -440,6 +460,7 @@ namespace AxCRL.Data.SqlBuilder
             //确立查询主表
             ConfirmMainTable(tableIndex);
             //解析查询字段并且拼接Join语句
+            //builder.AppendFormat(" * {0} ",JoinBuilder);
             builder.Append(ParseSelectField(selectFields));
             //解析查询条件
             builder.Append(ParseWhere(where));
@@ -747,7 +768,7 @@ namespace AxCRL.Data.SqlBuilder
                     builder.Append(field);
                     count--;
                     if (count > 0)
-                        builder.Append(",");                   
+                        builder.Append(",");
                     continue;
                 }
                 int prefixIndex = index - 1;

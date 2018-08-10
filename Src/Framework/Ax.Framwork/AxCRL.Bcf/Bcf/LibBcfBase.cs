@@ -297,7 +297,6 @@ namespace AxCRL.Bcf
         /// <returns>数据表名称与对应的Sql语句的字典</returns>
         public virtual Dictionary<string, string> GetUniqueDataSqlForUpdate(LibDatabaseType dbType)
         {
-            throw new Exception("test");
             Dictionary<string, string> dicSqls = new Dictionary<string, string>();
             if (this.DataSet.Tables.Count == 0 || this.DataSet.Tables[0].Columns.Contains("INTERNALID") == false ||
                 this.DataSet.Tables[0].Columns.Contains("CURRENTSTATE") == false)
@@ -336,10 +335,10 @@ namespace AxCRL.Bcf
             StringBuilder builder = new StringBuilder();
             LibBcfBase bcfBase = LibBcfSystem.Default.GetBcfInstance(relSource);
             BillType billType = bcfBase.Template.BillType;
-            if (relSource.Split(new string[] { "axp" }, StringSplitOptions.None).Length == 1 && (billType == BillType.Bill || billType == BillType.Master))
-            {
-                builder.AppendFormat("And A.CURRENTSTATE=2");
-            }
+            //if (relSource.Split(new string[] { "axp" }, StringSplitOptions.None).Length == 1 && (billType == BillType.Bill || billType == BillType.Master))
+            //{
+            //    builder.AppendFormat("And A.CURRENTSTATE=2");
+            //}
             if (curPks != null && curPks.Length > 0)
             {
                 builder.AppendFormat(" And {0}", GetRelWhere(relSource, curRelSource.TableIndex, 'A', curPks));
@@ -721,51 +720,6 @@ namespace AxCRL.Bcf
         }
 
         #region 打印
-        public string Print(string[] billNo)
-        {
-            if (billNo == null || billNo.Length <= 0)
-            {
-                return string.Empty;
-            }
-
-            string telFilePath = System.IO.Path.Combine(AxCRL.Comm.Runtime.EnvProvider.Default.RuningPath, "TempData", "PrintTel", string.Format("{0}.frx", ProgId.Replace(".", string.Empty)));
-            if (!File.Exists(telFilePath))
-            {
-                return string.Empty;
-            }
-
-            string filePath = System.IO.Path.Combine(AxCRL.Comm.Runtime.EnvProvider.Default.RuningPath, "TempData", string.Format("{0}.jpg", billNo));
-            if (File.Exists(filePath))
-            {
-                return filePath;
-            }
-
-            //#region 获取DataSet数据源
-            //DataSetManager.GetDataSet(this.DataSet, this.DataAccess, this.ProgId, billNo, this.Handle);
-            //this.DataSet.AcceptChanges();
-            //#endregion
-
-            //#region 加载打印模板
-            //Report report = new Report();
-            //report.Load(@telFilePath);
-            //report.RegisterData(this.DataSet);
-            //report.Prepare();
-            //#endregion
-
-            //#region 导出打印结果图片
-            //ImageExport export = new ImageExport();
-            //report.Export(export, filePath);
-            //#endregion
-
-            //#region 导出PDF
-            //string pdfFilePath = System.IO.Path.Combine(AxCRL.Comm.Runtime.EnvProvider.Default.RuningPath, "TempData", string.Format("{0}.pdf", billNo));
-            //PDFExport pdfExport = new PDFExport();
-            //report.Export(pdfExport, pdfFilePath);
-            //#endregion
-
-            //report.Dispose();
-            return filePath;
-        }
 
         public string ExportDataFile()
         {
@@ -847,6 +801,37 @@ namespace AxCRL.Bcf
                 // 主数据、单据、Grid
                 return JsBuilder.BuildFilterFieldJsForBillListing(filterFiledList);
             }
+        }
+
+        public List<FilterField> GetFilterLayoutJs1(string userId = "")
+        {
+            List<string> fileds = this.CanFilterFields(userId);
+            if (fileds == null || fileds.Count == 0)
+            {
+                return null;
+            }
+            List<FilterField> filterFiledList = new List<FilterField>();
+            foreach (var item in fileds)
+            {
+                DataTable dt = this.DataSet.Tables[0];
+                if (dt.Columns[item] == null)
+                {
+                    throw new Exception("字段不存在");
+                }
+                DefineField df = DataSourceHelper.ConvertToDefineField(dt.Columns[item]);
+                filterFiledList.Add(new FilterField(df.ControlType, df.Name, df.DisplayName));
+            }
+            if (this.Template.BillType == BillType.Rpt)
+            {
+                //return JsBuilder.BuildFilterFieldJs(filterFiledList);
+            }
+
+            else
+            {
+                // 主数据、单据、Grid
+                //return JsBuilder.BuildFilterFieldJsForBillListing(filterFiledList);
+            }
+            return filterFiledList;
         }
     }
 

@@ -30,7 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>axsn.snk</AssemblyOriginatorKeyFile>
@@ -105,6 +105,8 @@
     <Compile Include="Comm\CodingRuleHelper.cs" />
     <Compile Include="ComPersonBcf.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ComImagePathBcf.cs" />
+    <Compile Include="TaskManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="axsn.snk" />
@@ -116,11 +118,6 @@
     <ProjectReference Include="..\..\..\..\Framework\Ax.Framwork\AxCRL.Parser\AxCRL.Parser.csproj">
       <Project>{0fad3400-65a1-458f-9280-89925a6f7731}</Project>
       <Name>AxCRL.Parser</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Sys\MES_Sys.UtilsBcf\MES_Sys.UtilsBcf.csproj">
-      <Project>{184f885d-2073-4bbd-bdda-a438581ab7b5}</Project>
-      <Name>MES_Sys.UtilsBcf</Name>
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>

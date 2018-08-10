@@ -81,12 +81,16 @@ namespace Ax.Ui
             EnvProvider.Default.ExtendPath = (string)WebConfigurationManager.AppSettings["extendPath"];
             string localhostNameStr = (string)WebConfigurationManager.AppSettings["localhostName"];
             string visualhostNameStr = (string)WebConfigurationManager.AppSettings["visualhostName"];
+
             string[] localhostName = localhostNameStr.Split(':');
             EnvProvider.Default.LocalHostName = localhostName[0];
             EnvProvider.Default.CurrentPort = int.Parse(localhostName[1]);
             string[] visualhostName = visualhostNameStr.Split(':');
             EnvProvider.Default.VisualHostName = visualhostName[0];
             EnvProvider.Default.VisualPort = int.Parse(visualhostName[1]);
+
+            EnvProvider.Default.UploadHostName = (string)WebConfigurationManager.AppSettings["uploadhostName"];
+
             string mailConfigStr = (string)WebConfigurationManager.AppSettings["mailConfig"];
             string[] mailConfig = mailConfigStr.Split('#');
             EnvProvider.Default.MailProvider = new MailProvider(mailConfig[0], mailConfig[1], mailConfig[2]);
@@ -116,7 +120,7 @@ namespace Ax.Ui
             EnvProvider.Default.DatabaseType = dataAccess.DatabaseType;
             LoadProgId();
             //打开服务
-            OpenServices();
+            //OpenServices();
         }
 
 

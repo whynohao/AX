@@ -27,6 +27,10 @@ namespace AxCRL.Comm.Runtime
         private SMSProvider _SMSProvider = null;
         private WeiXinProvider _WeiXinProvider = null;
 
+        #region 上传文件hostname
+        public string UploadHostName = string.Empty;
+        #endregion
+
         public WeiXinProvider WeiXinProvider
         {
             get { return _WeiXinProvider; }
@@ -169,10 +173,12 @@ namespace AxCRL.Comm.Runtime
         public int TokenValidMinutes
         {
             get { return _TokenValidMinutes; }
-            set {
+            set
+            {
                 if (value < 1)
                     value = 1;
-                _TokenValidMinutes = value; }
+                _TokenValidMinutes = value;
+            }
         }
         private int _RedisDbIndex = 0;
         /// <summary>
@@ -280,7 +286,7 @@ namespace AxCRL.Comm.Runtime
             this._SMSSys = smsSys;
             this._SMSPwd = smsPwd;
         }
-      
+
 
         public SMSProvider(string host, int port, string smsUserId, string smsSys, string smsPwd, string smsSign)
         {

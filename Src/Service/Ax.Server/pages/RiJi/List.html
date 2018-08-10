@@ -9,6 +9,7 @@
     <title>时光|日记</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <script src="../../Scripts/extjs/ext-all.js"></script>
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css">
     <!-- Font Awesome -->
@@ -20,6 +21,9 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="../../dist/css/skins/_all-skins.min.css">
+
+    <script src="../../Scripts/ax/utils/comm/LibTool.js"></script>
+
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
     <!-- Content Header (Page header) -->
@@ -28,8 +32,8 @@
                     <small>日记</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
-            <li><a href="#">Forms</a></li>
+            <li><a href="#"><i class="fa fa-dashboard"></i>首页</a></li>
+            <li><a href="#">时光影像</a></li>
             <li class="active">日记</li>
         </ol>
     </section>
@@ -65,27 +69,22 @@
 
     <script>
 
-        //日记保存
-        function GetList() {
-            $.ajax({
-                type: "POST",
-                url: "../../WS/SysHandler.ashx?action=GetDiaryByPc",//这里是url
-                async: true, //默认就是true
-                success: function (obj) { //成功时执行的方法，msg就是返回过来的数据
-                    var list = eval(obj);
+        var my = { progId: 'KanTime.RiJi', billType: 0 };
 
-                    var html = "";
+        Ax.utils.LibTool.GetBillListing(my.progId, "", function (ret) {
 
-                    var label = "<li class='time-label'> <span class='bg-red'>你的故事</span> </li>";
+            var list = ret.Data;
 
-                    var item = '                                                                                                      \
+            var html = "";
+            var label = "<li class='time-label'> <span class='bg-red'>你的故事</span> </li>";
+            var item = '                                                                                                      \
                         <li>                                                                                                          \
                             <i class="fa fa-envelope bg-blue"></i>                                                                    \
                                                                                                                                       \
                             <div class="timeline-item">                                                                               \
-                                <span class="time"><i class="fa fa-clock-o"></i>12:05</span>                                          \
+                                <span class="time"><i class="fa fa-clock-o"></i>{createtiem}</span>                                          \
                                                                                                                                       \
-                                <h3 class="timeline-header"><a href="Info2.html?id={id}">{title}</a></h3>                             \
+                                <h3 class="timeline-header"><a href="Info.html?id={id}">{title}</a></h3>                             \
                                                                                                                                       \
                                 <div class="timeline-body">                                                                           \
                                    {content}                                                                                          \
@@ -96,16 +95,19 @@
                           </li>                                                                                                       \
                     ';
 
-                    for (var i = 0; i < list.length; i++) {
-                        html += label;
+            for (var i = 0; i < list.length; i++) {
+                html += label;
 
-                        html += item.replace("{id}", list[i].ID).replace("{title}", list[i].Title).replace("{content}", list[i].Content);
-                    }
-                    $("#timeline").html(html);
+                var createTime = list[i].CreateTime.toString();
+                if (createTime.length >= 14) {
+                    var v = createTime;
+                    list[i].CREATETIME = (v.substring(0, 4) + '-' + v.substring(4, 6) + '-' + v.substring(6, 8) + '\t' + v.substring(8, 10) + ':' + v.substring(10, 12) + ':' + v.substring(12, 14));
                 }
-            });
-        }
-        GetList();
+                html += item.replace("{id}", list[i].Id).replace("{title}", list[i].Title).replace("{content}", list[i].Content).replace("{createtiem}", list[i].CreateTime);
+            }
+            $("#timeline").html(html);
+        });
+
     </script>
 </body>
 </html>

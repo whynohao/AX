@@ -122,6 +122,9 @@ namespace AxCRL.Data
             public const string NVARCHAR = "nvarchar";
             public const string TINYINT = "tinyint";
             public const string VARCHAR = "varchar";
+            public const string DateTime = "datetime";
+            public const string Date = "varchar";
+            public const string Time = "varchar";
 
             /// <summary>
             /// Initialize using connection.
@@ -627,7 +630,7 @@ namespace AxCRL.Data
         }
 
         private class TableSchema
-        {            
+        {
             private string _Name;
             private string[] _PRIMARY_KEY;
             private DBIndexCollection _DBIndexs = null;
@@ -784,13 +787,29 @@ namespace AxCRL.Data
                     case LibDataType.Text:
                         this.ColumnType = LibDbSchema.VARCHAR;
                         this.DefaultValue = string.Format("('{0}')", LibSysUtils.ToString(field.DefaultValue));
-                        this._ColumnTypeStr = string.Format("[{0}] [{1}]({2}) NOT NULL ", this.Name, LibDbSchema.VARCHAR, this.Size);
+
+                        if (this.Size == -1)
+                        {
+                            this._ColumnTypeStr = string.Format("[{0}] [{1}](MAX) NOT NULL ", this.Name, LibDbSchema.VARCHAR);
+                        }
+                        else
+                        {
+                            this._ColumnTypeStr = string.Format("[{0}] [{1}]({2}) NOT NULL ", this.Name, LibDbSchema.VARCHAR, this.Size);
+                        }
+
                         this._DefaultValueStr = string.Format(defaultValueForamt, tableName, this.Name, this.DefaultValue);
                         break;
                     case LibDataType.NText:
                         this.ColumnType = LibDbSchema.NVARCHAR;
                         this.DefaultValue = string.Format("('{0}')", LibSysUtils.ToString(field.DefaultValue));
-                        this._ColumnTypeStr = string.Format("[{0}] [{1}]({2}) NOT NULL", this.Name, LibDbSchema.NVARCHAR, this.Size);
+                        if (this.Size == -1)
+                        {
+                            this._ColumnTypeStr = string.Format("[{0}] [{1}](MAX) NOT NULL", this.Name, LibDbSchema.NVARCHAR);
+                        }
+                        else
+                        {
+                            this._ColumnTypeStr = string.Format("[{0}] [{1}]({2}) NOT NULL", this.Name, LibDbSchema.NVARCHAR, this.Size);
+                        }
                         this._DefaultValueStr = string.Format(defaultValueForamt, tableName, this.Name, this.DefaultValue);
                         break;
                     case LibDataType.Int32:
@@ -834,6 +853,24 @@ namespace AxCRL.Data
                         this.ColumnType = LibDbSchema.BINARY;
                         this.DefaultValue = string.Format("('{0}')", LibSysUtils.ToString(field.DefaultValue));
                         this._ColumnTypeStr = string.Format("[{0}] {1} NULL", this.Name, LibDbSchema.BINARY);
+                        this._DefaultValueStr = string.Format(defaultValueForamt, tableName, this.Name, this.DefaultValue);
+                        break;
+                    case LibDataType.DateTime:
+                        this.ColumnType = LibDbSchema.DateTime;
+                        this.DefaultValue = string.Format("('{0}')", LibSysUtils.ToString(field.DefaultValue));
+                        this._ColumnTypeStr = string.Format("[{0}] {1} NULL", this.Name, LibDbSchema.DateTime);
+                        this._DefaultValueStr = string.Format(defaultValueForamt, tableName, this.Name, this.DefaultValue);
+                        break;
+                    case LibDataType.Date:
+                        this.ColumnType = LibDbSchema.DateTime;
+                        this.DefaultValue = string.Format("('{0}')", LibSysUtils.ToString(field.DefaultValue));
+                        this._ColumnTypeStr = string.Format("[{0}] {1} NULL", this.Name, LibDbSchema.Date);
+                        this._DefaultValueStr = string.Format(defaultValueForamt, tableName, this.Name, this.DefaultValue);
+                        break;
+                    case LibDataType.Time:
+                        this.ColumnType = LibDbSchema.Date;
+                        this.DefaultValue = string.Format("('{0}')", LibSysUtils.ToString(field.DefaultValue));
+                        this._ColumnTypeStr = string.Format("[{0}] {1} NULL", this.Name, LibDbSchema.Time);
                         this._DefaultValueStr = string.Format(defaultValueForamt, tableName, this.Name, this.DefaultValue);
                         break;
                     default:

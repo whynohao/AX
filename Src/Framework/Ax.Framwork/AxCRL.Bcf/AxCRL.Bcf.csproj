@@ -32,32 +32,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>axframwork.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AxCRL.Comm, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c84a53ece4927174, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Wisdom_ZhongDe\Src\Service\Ax.Server\bin\AxCRL.Comm.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="AxCRL.Core">
-      <HintPath>..\..\Wisdom_ZhongDe\Src\Service\Ax.Server\bin\AxCRL.Core.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="AxCRL.Data">
-      <HintPath>..\..\Wisdom_ZhongDe\Src\Service\Ax.Server\bin\AxCRL.Data.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="AxCRL.Template, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c84a53ece4927174, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Wisdom_ZhongDe\Src\Service\Ax.Server\bin\AxCRL.Template.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="AxSRL.SMS">
       <HintPath>..\..\Wisdom_ZhongDe\Src\Service\Ax.Server\bin\AxSRL.SMS.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FluentScheduler, Version=5.1.0.0, Culture=neutral, PublicKeyToken=b76503528a14ebd1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Service\Ax.Server\bin\FluentScheduler.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core">
@@ -90,6 +77,7 @@
     <Compile Include="Bcf\LibBcfData_Partial.cs" />
     <Compile Include="Configs\AppTypeBillActionConfig.cs" />
     <Compile Include="Bcf\LibAppPushHelper.cs" />
+    <Compile Include="ScheduleTask\LibRegistry.cs" />
     <Compile Include="ScheduleTask\LibScheduleTaskHost.cs" />
     <Compile Include="Bcf\ILibBcfBase.cs" />
     <Compile Include="Bcf\LibBcfBase.cs" />
@@ -120,6 +108,26 @@
     <None Include="axframwork.snk" />
     <None Include="BcfDiagram.cd" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AxCRL.Comm\AxCRL.Comm.csproj">
+      <Project>{99dff188-2dd7-474d-9559-19b357a331ff}</Project>
+      <Name>AxCRL.Comm</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\AxCRL.Core\AxCRL.Core.csproj">
+      <Project>{966682f1-dcfb-4062-b5d6-f7d43bfba2e0}</Project>
+      <Name>AxCRL.Core</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\AxCRL.Data\AxCRL.Data.csproj">
+      <Project>{86f19ebb-40fe-4674-9d7f-8f9fd3e5c125}</Project>
+      <Name>AxCRL.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AxCRL.Template\AxCRL.Template.csproj">
+      <Project>{34acdb52-11e2-4390-9b82-c8178cc19dde}</Project>
+      <Name>AxCRL.Template</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -31,6 +31,55 @@ namespace AxCRL.Services
             return progIdConfigListing.GetMap();
         }
 
+        [ParameterOperatorBehavior]
+        public LoginInfo Login1(string userId, string password, bool quitOther = false)
+        {
+            LoginInfo loginInfo = new LoginInfo();
+            SqlBuilder builder = new SqlBuilder("axp.User");
+            string sql = builder.GetQuerySql(0, "A.Id,A.Name,A.UserImage", string.Format("A.Id={0} And A.Password={1} And A.ISUSE=1", LibStringBuilder.GetQuotString(userId), LibStringBuilder.GetQuotString(password)));
+            LibDataAccess dataAccess = new LibDataAccess();
+            string roleId = string.Empty;
+            bool exists = false;
+            using (IDataReader reader = dataAccess.ExecuteDataReader(sql))
+            {
+                if (reader.Read())
+                {
+                    loginInfo.Id = LibSysUtils.ToString(reader[0]);
+                    loginInfo.Name = LibSysUtils.ToString(reader[1]);
+                    loginInfo.UserImage = LibSysUtils.ToString(reader[2]);
+                    exists = true;
+                }
+            }
+            if (exists)
+            {
+                LibHandle handle = LibHandleCache.Default.IsExistsHandle(LibHandeleType.PC, userId);
+                if (handle != null)
+                {
+                    //LibHandleCache.Default.RemoveHandle(handle.Handle);
+                }
+                if (!loginInfo.IsUsed)
+                {
+                    string loginIp = string.Empty;
+                    //Zhangkj20161219 增加LoginIp
+                    System.ServiceModel.OperationContext context = System.ServiceModel.OperationContext.Current;
+                    //对于非WCF的访问context为null
+                    if (context != null)
+                    {
+                        System.ServiceModel.Channels.MessageProperties properties = context.IncomingMessageProperties;
+                        System.ServiceModel.Channels.RemoteEndpointMessageProperty endpoint = properties[System.ServiceModel.Channels.RemoteEndpointMessageProperty.Name] as System.ServiceModel.Channels.RemoteEndpointMessageProperty;
+                        loginIp = endpoint.Address + ":" + endpoint.Port.ToString();
+                    }
+                    //创建新的Handle                        
+                    handle = LibHandleCache.Default.GetHandle(string.Empty, LibHandeleType.PC, userId, loginInfo.PersonId, loginInfo.PersonName, roleId, loginIp);
+                    if (handle != null)
+                    {
+                        loginInfo.Handle = handle.Handle;
+                    }
+                }
+
+            }
+            return loginInfo;
+        }
 
         [ParameterOperatorBehavior]
         public LoginInfo Login(string userId, string password, bool quitOther = false)
@@ -94,7 +143,7 @@ namespace AxCRL.Services
 
             }
             return loginInfo;
-        }       
+        }
         /// <summary>
         /// 单点登录。
         /// 1.检查当前本站点系统账户中是否存在userId，如果否则不予登录
@@ -106,7 +155,7 @@ namespace AxCRL.Services
         /// <returns></returns>
         public LoginInfo SSOLogin(SSOInfo ssoInfo)
         {
-            LoginInfo loginInfo = new LoginInfo() { IsUsed = true, IsOverUser = false};
+            LoginInfo loginInfo = new LoginInfo() { IsUsed = true, IsOverUser = false };
 
             SqlBuilder builder = new SqlBuilder("axp.User");
             string sql = builder.GetQuerySql(0, "A.PERSONID,A.PERSONNAME,A.ROLEID,A.WALLPAPER,A.WALLPAPERSTRETCH", string.Format("A.USERID={0} And A.ISUSE=1", LibStringBuilder.GetQuotString(ssoInfo.UserId)));
@@ -154,7 +203,7 @@ namespace AxCRL.Services
             {
                 return loginInfo;//如果没有需要的相关字段则直接返回
             }
-           
+
             SqlBuilder builder = new SqlBuilder("axp.User");
             string sql = string.Format(@"SELECT 
                                         A.PERSONID,
@@ -545,7 +594,7 @@ namespace AxCRL.Services
                     string baseUrl = EnvProvider.Default.SSOManageSiteUrl;
                     string url = baseUrl + "/sysSvc/checkSSOLoginState";
                     string errorInfo = "";
-                    dynamic obj = LibNetUtils.HttpPostCall<dynamic>(url, new { ssoInfo = ssoInfo}, out errorInfo);
+                    dynamic obj = LibNetUtils.HttpPostCall<dynamic>(url, new { ssoInfo = ssoInfo }, out errorInfo);
                     if (string.IsNullOrEmpty(errorInfo))
                     {
                         string ret = LibRSAHelper.Decrypt(obj.CheckSSOLoginStateResult.Value);

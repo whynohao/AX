@@ -14,11 +14,11 @@ namespace AxCRL.Template
         /// <summary>
         /// 是否包含外接站点的相关数据表
         /// </summary>
-        public static readonly bool HasAxpLinkSite = LibSqlModelCache.Default.Contains("axp.LinkSite");
+        //public static readonly bool HasAxpLinkSite = LibSqlModelCache.Default.Contains("axp.LinkSite");
         /// <summary>
         /// 是否包含同步数据配置及历史的数据表
         /// </summary>
-        public static readonly bool HasSyncDataTable = LibSqlModelCache.Default.Contains("axp.SyncDataHistory") && LibSqlModelCache.Default.Contains("axp.SyncDataSetting");
+        //public static readonly bool HasSyncDataTable = LibSqlModelCache.Default.Contains("axp.SyncDataHistory") && LibSqlModelCache.Default.Contains("axp.SyncDataSetting");
 
         private BillType _BillType;
         private string _ProgId;
@@ -105,7 +105,8 @@ namespace AxCRL.Template
             if (BillType == Template.BillType.Bill || BillType == Template.BillType.Master)
             {
                 //如果启用数据同步功能，则添加同步数据的子表视图
-                if (dataSet != null && dataSet.Tables.Contains(LibFuncPermission.SynchroDataSettingTableName) && this.FuncPermission.UseSynchroData && LibTemplate.HasAxpLinkSite)
+                //if (dataSet != null && dataSet.Tables.Contains(LibFuncPermission.SynchroDataSettingTableName) && this.FuncPermission.UseSynchroData && LibTemplate.HasAxpLinkSite)
+                if (dataSet != null && dataSet.Tables.Contains(LibFuncPermission.SynchroDataSettingTableName) && this.FuncPermission.UseSynchroData)
                 {
                     LibBillLayout layout = this.ViewTemplate.Layout as LibBillLayout;
                     if (layout != null)
@@ -117,7 +118,7 @@ namespace AxCRL.Template
                             if (dataSet.Tables[index].TableName.Equals(LibFuncPermission.SynchroDataSettingTableName))
                                 break;
                         }
-                        LibGridLayoutBlock grid = layout.BuildGrid(index, "同步配置", new string[] {"ISSYNCTO", "SITEID", "SHORTNAME"});
+                        LibGridLayoutBlock grid = layout.BuildGrid(index, "同步配置", new string[] { "ISSYNCTO", "SITEID", "SHORTNAME" });
                         grid.IsCanNotEditRow = true;//用户不可新增或删除行
                         layout.TabRange.Add(grid);
                         grid = layout.BuildGrid(index + 1, "同步历史", new string[] { "USERID", "PERSONNAME", "SITEID", "SHORTNAME", "SYNCTIME", "SYNCOP", "SYNCSTATE", "SYNCINFO" });
@@ -140,7 +141,7 @@ namespace AxCRL.Template
             if (BillType == Template.BillType.Bill || BillType == Template.BillType.Master)
             {
                 DataTable masterTable = this.DataSet.Tables[0];
-                DataSourceHelper.AddAttachmentSrcColumn(masterTable);
+                //DataSourceHelper.AddAttachmentSrcColumn(masterTable);
                 if (!masterTable.ExtendedProperties.ContainsKey(TableProperty.DBIndex))
                     masterTable.ExtendedProperties.Add(TableProperty.DBIndex, new DBIndexCollection());
                 DBIndexCollection dbIndexs = (DBIndexCollection)masterTable.ExtendedProperties[TableProperty.DBIndex];
@@ -166,7 +167,8 @@ namespace AxCRL.Template
                     if (this.FuncPermission.UseSynchroData)
                     {
                         //如果启用数据同步功能，则添加同步到的目标站点的虚拟子表
-                        if (this.DataSet.Tables.Contains(LibFuncPermission.SynchroDataSettingTableName) == false && LibTemplate.HasAxpLinkSite && LibTemplate.HasSyncDataTable)
+                        //if (this.DataSet.Tables.Contains(LibFuncPermission.SynchroDataSettingTableName) == false && LibTemplate.HasAxpLinkSite && LibTemplate.HasSyncDataTable)
+                        if (this.DataSet.Tables.Contains(LibFuncPermission.SynchroDataSettingTableName) == false)
                         {
                             DataTable dt = DataSourceHelper.AddSyncDataSettingTable(this.DataSet, LibFuncPermission.SynchroDataSettingTableName);
                             dt.ExtendedProperties.Add(TableProperty.IsVirtual, true);//设定同步配置数据表为虚表
@@ -174,7 +176,7 @@ namespace AxCRL.Template
                             dt = DataSourceHelper.AddSyncDataHistoryTable(this.DataSet, LibFuncPermission.SynchroDataHisTableName);
                             dt.ExtendedProperties.Add(TableProperty.IsVirtual, true);//设定同步历史数据表为虚表
                             dt.ExtendedProperties.Add(TableProperty.AllowCopy, false);//设定同步历史数据表不可复制
-                        }                            
+                        }
                     }
                 }
                 catch { }
@@ -232,7 +234,8 @@ namespace AxCRL.Template
         /// </summary>
         public Dictionary<string, List<string>> NonSyncFields
         {
-            get {
+            get
+            {
                 if (_NonSyncFields == null)
                     _NonSyncFields = new Dictionary<string, List<string>>();
                 return _NonSyncFields;
@@ -258,7 +261,7 @@ namespace AxCRL.Template
         private bool _UsingApproveRow = false;
         private IList<string> _EntryParam = null;
         private string _ProgTag;
-        
+
         /// <summary>
         /// 清单页的分类树配置
         /// </summary>

@@ -197,7 +197,8 @@ namespace AxCRL.Core.Cache
                         codingRule = new CodingRule();
                         Dictionary<int, int> listIndex = new Dictionary<int, int>();
                         SqlBuilder sqlBuilder = new SqlBuilder("com.CodingRule");
-                        string sql = sqlBuilder.GetQuerySql(1, "B.ROW_ID,B.SECTIONTYPE,B.SECTIONLENGTH,B.FIELDNAME,B.SECTIONVALUE", string.Format("A.PROGID = {0} And A.VALIDITYSTARTDATE <= {1} And (A.VALIDITYENDDATE >= {1} or A.VALIDITYENDDATE = 0)", LibStringBuilder.GetQuotString(progId), LibDateUtils.GetCurrentDate()), "B.ROWNO ASC");
+                        //string sql = sqlBuilder.GetQuerySql(1, "B.ROW_ID,B.SECTIONTYPE,B.SECTIONLENGTH,B.FIELDNAME,B.SECTIONVALUE", string.Format("A.PROGID = {0} And A.VALIDITYSTARTDATE <= {1} And (A.VALIDITYENDDATE >= {1} or A.VALIDITYENDDATE = 0)", LibStringBuilder.GetQuotString(progId), LibDateUtils.GetCurrentDate()), "B.ROWNO ASC");
+                        string sql = sqlBuilder.GetQuerySql(1, "B.ROW_ID,B.SECTIONTYPE,B.SECTIONLENGTH,B.FIELDNAME,B.SECTIONVALUE", string.Format("A.PROGID = {0}", LibStringBuilder.GetQuotString(progId), LibDateUtils.GetCurrentDate()), "B.ROWNO ASC");
                         LibDataAccess dataAccess = new LibDataAccess();
                         using (IDataReader reader = dataAccess.ExecuteDataReader(sql))
                         {
@@ -224,7 +225,7 @@ namespace AxCRL.Core.Cache
                                 codingRule.Items.Add(rule);
                             }
                         }
-                        sql = sqlBuilder.GetQuerySql(2, "C.PARENTROWID,C.FIELDVALUE,C.SECTIONVALUE", string.Format("A.PROGID = {0} And A.VALIDITYSTARTDATE <= {1} And (A.VALIDITYENDDATE >= {1} or A.VALIDITYENDDATE = 0)", LibStringBuilder.GetQuotString(progId), LibDateUtils.GetCurrentDate()));
+                        sql = sqlBuilder.GetQuerySql(2, "C.PARENTROWID,C.FIELDVALUE,C.SECTIONVALUE", string.Format("A.PROGID = {0}", LibStringBuilder.GetQuotString(progId)));
                         using (IDataReader reader = dataAccess.ExecuteDataReader(sql))
                         {
                             while (reader.Read())

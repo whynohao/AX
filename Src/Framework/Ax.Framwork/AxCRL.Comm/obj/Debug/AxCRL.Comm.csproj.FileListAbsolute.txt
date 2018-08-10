@@ -32,6 +32,6 @@ D:\TEMP\AX\Src\Framework\Ax.Framwork\AxCRL.Comm\obj\Debug\AxCRL.Comm.dll
 D:\TEMP\AX\Src\Framework\Ax.Framwork\AxCRL.Comm\obj\Debug\AxCRL.Comm.pdb
 E:\Temp\AX\Src\Service\Ax.Server\bin\AxCRL.Comm.dll
 E:\Temp\AX\Src\Service\Ax.Server\bin\AxCRL.Comm.pdb
-E:\Temp\AX\Src\Framework\Ax.Framwork\AxCRL.Comm\obj\Debug\AxCRL.Comm.csprojResolveAssemblyReference.cache
 E:\Temp\AX\Src\Framework\Ax.Framwork\AxCRL.Comm\obj\Debug\AxCRL.Comm.dll
 E:\Temp\AX\Src\Framework\Ax.Framwork\AxCRL.Comm\obj\Debug\AxCRL.Comm.pdb
+E:\Temp\AX\Src\Framework\Ax.Framwork\AxCRL.Comm\obj\Debug\AxCRL.Comm.csprojResolveAssemblyReference.cache

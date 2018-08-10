@@ -105,18 +105,45 @@ Ext.define('Ax.ux.form.LibFieldControl', {
         var tableIdx = 0;
         if (me.relTableIndex && me.relTableIndex != '')
             tableIdx = getFieldValue(me.relTableIndex);
+
+
+        var params = {
+            action: "selectFuncField",
+            data: Ext.encode({ handle: "", progId: getFieldValue(me.relProgId), tableIndex: tableIdx })
+        };
+
         Ext.Ajax.request({
-            url: '/billSvc/selectFuncField',
-            async: false,
-            jsonData: { handle: UserHandle, progId: getFieldValue(me.relProgId), tableIndex: tableIdx },
+            //url: 'billSvc/invorkBcf',
+            url: "../../../../WS/SysHandler.ashx",//这里是url
+            //jsonData: { param: { ProgId: this.progId, MethodName: methodName, MethodParam: relParam, Handle: UserHandle } },
+            params: params,
             method: 'POST',
+            dataType: 'json',
+            async: false,
             timeout: 60000,
             success: function (response) {
                 var ret = Ext.decode(response.responseText);
                 var reuslt = Ext.decode(ret.SelectFuncFieldResult);
                 me.store.loadData(reuslt);
+            },
+            failure: function (response) {
+                Ax.utils.LibMsg.show([{ kind: LibMessageKind.SysException, msg: response.responseText }]);
             }
         });
+
+
+        //Ext.Ajax.request({
+        //    url: '/billSvc/selectFuncField',
+        //    async: false,
+        //    jsonData: { handle: UserHandle, progId: getFieldValue(me.relProgId), tableIndex: tableIdx },
+        //    method: 'POST',
+        //    timeout: 60000,
+        //    success: function (response) {
+        //        var ret = Ext.decode(response.responseText);
+        //        var reuslt = Ext.decode(ret.SelectFuncFieldResult);
+        //        me.store.loadData(reuslt);
+        //    }
+        //});
         return ret;
     }
 });

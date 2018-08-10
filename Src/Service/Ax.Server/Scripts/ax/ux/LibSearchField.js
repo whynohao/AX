@@ -38,10 +38,10 @@
         this.displayTpl = Ext.create('Ext.XTemplate',
           '<tpl for=".">',
           '<tpl if="Id != &quot;&quot; && Id != undefined && Name !=&quot;&quot; && Name != undefined">',
-          '{Id},{Name}',
+          '{Name}',
           '</tpl>',
           '<tpl if="Id != &quot;&quot; && Id != undefined && (Name ==&quot;&quot; || Name == undefined)">',
-          '{Id}',
+          '{Name}',
           '</tpl>',
           '</tpl>'
         );
@@ -74,7 +74,9 @@
             keydown: function (self, e, eOpts) {
                 this.keydown(self, e, eOpts)
             },
+
             select: function (field, records, eOpts) {
+                this.data = records;
                 if (!this.readOnly) {
                     if (this.win === undefined)
                         this.win = self.up('window');
@@ -83,16 +85,31 @@
                     if (this.win && this.win.vcl && (!this.win.vcl.isEdit && this.win.vcl.proxy !== true)) {
                         // e.stopEvent();
                     } else {
-                        var form = field.up('form');
-                        if (form) {
-                            var curRecord = form.getRecord();
+
+                        var curRecord;
+                        var curForm = field.up('form');
+                        if (curForm) {
+                            curRecord = field.up('form').getRecord();
                             if (curRecord && field.relName) {
+                                curRecord.set(field.relName, records.get('Name'));
+                            }
+                        } else {
+                            var grid = field.up('grid') || field.up("treepanel");
+                            if (grid) {
+                                curRecord = grid.getView().getSelectionModel().getLastSelected();
                                 curRecord.set(field.relName, records.get('Name'));
                             }
                         }
                     }
                 }
+
+                //扩展事件,选中后事件
+                if (this.afterselect != undefined) {
+                    this.afterselect(this);
+                }
             },
+            afterselect: function (self) { },
+
             beforerender: function (field, eOpts) {
                 var curForm = field.up('form');
                 var record;
@@ -208,19 +225,20 @@
         this.callParent();
     },
     doQuery: function (queryString, forceAll, rawQuery) {
-        if (queryString.indexOf(',') != -1)
-            return false;
-        if (!queryString) {
-            var value = this.getValue();
-            if (value) {
-                if (this.fieldType == 'number') {
-                    if (value != 0)
-                        return false;
-                }
-                else if (value != '')
-                    return false;
-            }
-        }
+        //debugger;
+        //if (queryString.indexOf(',') != -1)
+        //    return false;
+        //if (!queryString) {
+        //    var value = this.getValue();
+        //    if (value) {
+        //        if (this.fieldType == 'number') {
+        //            if (value != 0)
+        //                return false;
+        //        }
+        //        else if (value != '')
+        //            return false;
+        //    }
+        //}
         if (this.win === undefined)
             this.win = this.up('window');
         if (this.win === undefined)
@@ -250,6 +268,15 @@
                     this.realRelSource = realRelSource;
                 }
             }
+
+            //扩展事件
+            if (my != undefined && my.Event != undefined) {
+                var event = my.Event[this.name]
+                if (event != undefined) {
+                    this.selectSql = event(this);
+                }
+            }
+
             var curPks;
             var data;
             if (this.win.vcl && this.win.vcl.proxy !== true) {
@@ -272,35 +299,22 @@
                     this.doAutoSelect();
                     return ret;
                 }
-                data = this.win.vcl.invorkBcf('FuzzySearchField', [this.tableIndex, this.name, realRelSource, this.relName, queryString, curPks, selConditionParam, currentPk]);
+
+                //data = this.win.vcl.invorkBcf('FuzzySearchField', [this.tableIndex, this.name, realRelSource, this.relName, queryString, curPks, selConditionParam, currentPk, this.selectSql]);
+
+                var condition = typeof this.condition == "function" ? this.condition() : this.condition ? 'and ' + this.condition : '';
+                Ax.utils.LibTool.fuzzySearchField(DesktopApp.Login.Handle, realRelSource, this.selectFields, queryString, condition, this.tableIndex, this.selectSql, function (ret) {
+                    data = ret.Table;
+                });
             } else {
                 var call = function () {
                     var condition = typeof this.condition == "function" ? this.condition() : this.condition ? 'and ' + this.condition : '';
-                    Ext.Ajax.request({
-                        url: '/billSvc/fuzzySearchField',
-                        jsonData: {
-                            handle: UserHandle,
-                            relSource: realRelSource,
-                            query: queryString,
-                            condition: condition,
-                            tableIndex: this.tableIndex
-                        },
-                        method: 'POST',
-                        async: false,
-                        timeout: 90000000,
-                        success: function (response) {
-                            var result = Ext.decode(response.responseText);
-                            data = result.FuzzySearchFieldResult;
-                        }
+                    Ax.utils.LibTool.fuzzySearchField(DesktopApp.Login.Handle, realRelSource, this.selectFields, queryString, condition, this.tableIndex, this.selectSql, function (ret) {
+                        data = ret.Table;
                     });
                 }
                 call.apply(this);
             }
-            //if (this.fieldType == 'number') {
-            //    for (var i = 0; i < data.length; i++) {
-            //        data[i]['Id'] = parseInt(data[i]['Id']);
-            //    }
-            //}
             this.remoteData = data;
             this.store.loadData(data);
             this.doAutoSelect();

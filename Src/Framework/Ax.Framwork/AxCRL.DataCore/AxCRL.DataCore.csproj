@@ -51,7 +51,7 @@
     <Optimize>false</Optimize>
     <RegisterForComInterop>false</RegisterForComInterop>
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <WarningLevel>4</WarningLevel>
     <FxCopRules>-Microsoft.Design#CA2210</FxCopRules>
     <RunFxCop>false</RunFxCop>
@@ -83,12 +83,12 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common">
       <HintPath>..\..\Wisdom_ZhongDe\Src\Service\Ax.Server\bin\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>

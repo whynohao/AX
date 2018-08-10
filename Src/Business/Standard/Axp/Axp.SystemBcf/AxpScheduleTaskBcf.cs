@@ -193,6 +193,8 @@ namespace Axp.SystemBcf
             {
                 AllowEmpty = false,
                 ControlType = LibControlType.IdName,
+                SelectSql = "Select A.PROGID as Id,A.PROGNAME as Name From AXPFUNCLIST A ",
+                SelectFields = "PROGNAME",
                 RelativeSource = new RelativeSourceCollection(){
                     new RelativeSource("axp.FuncList"){
                            RelFields = new RelFieldCollection(){

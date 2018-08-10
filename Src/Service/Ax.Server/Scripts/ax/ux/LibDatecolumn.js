@@ -4,39 +4,41 @@ Ext.define('Ax.ux.form.LibDatecolumn', {
     alias: 'widget.libDatecolumn',
     initComponent: function () {
         this.renderer = function (v, metaData, record, rowIndex, colIndex, store, view) {
-            var axT = metaData.column.axT;
-            if (v == undefined || v == 0 || isNaN(v)) {
-                switch (axT) {
-                    case 0:
-                    case 1:
-                        return;
-                    case 2:
-                        return "00:00";
-                    case 3:
-                        return "00:00:00";
-                }
-            }
-            function pad(num, n) {
-                var len = num.length;
-                while (len < n) {
-                    num = "0" + num;
-                    len++;
-                }
-                return num;
-            }
-            v = v.toString();
-            switch (axT) {
-                case 0:
-                    return (v.substring(0, 4) + '-' + v.substring(4, 6) + '-' + v.substring(6, 8) + '\t' + v.substring(8, 10) + ':' + v.substring(10, 12) + ':' + v.substring(12, 14));
-                case 1:
-                    return (v.substring(0, 4) + '-' + v.substring(4, 6) + '-' + v.substring(6, 8));
-                case 2:
-                    v = pad(v, 4);
-                    return (v.substring(0, 2) + ':' + v.substring(2, 4));
-                case 3:
-                    v = pad(v, 6);
-                    return (v.substring(0, 2) + ':' + v.substring(2, 4) + ':' + v.substring(4, 6));
-            }
+            return v;
+            //debugger;
+            //var axT = metaData.column.axT;
+            //if (v == undefined || v == 0 || isNaN(v)) {
+            //    switch (axT) {
+            //        case 0:
+            //        case 1:
+            //            return;
+            //        case 2:
+            //            return "00:00";
+            //        case 3:
+            //            return "00:00:00";
+            //    }
+            //}
+            //function pad(num, n) {
+            //    var len = num.length;
+            //    while (len < n) {
+            //        num = "0" + num;
+            //        len++;
+            //    }
+            //    return num;
+            //}
+            //v = v.toString();
+            //switch (axT) {
+            //    case 0:
+            //        return (v.substring(0, 4) + '-' + v.substring(4, 6) + '-' + v.substring(6, 8) + '\t' + v.substring(8, 10) + ':' + v.substring(10, 12) + ':' + v.substring(12, 14));
+            //    case 1:
+            //        return (v.substring(0, 4) + '-' + v.substring(4, 6) + '-' + v.substring(6, 8));
+            //    case 2:
+            //        v = pad(v, 4);
+            //        return (v.substring(0, 2) + ':' + v.substring(2, 4));
+            //    case 3:
+            //        v = pad(v, 6);
+            //        return (v.substring(0, 2) + ':' + v.substring(2, 4) + ':' + v.substring(4, 6));
+            //}
         }
         this.callParent();
     }

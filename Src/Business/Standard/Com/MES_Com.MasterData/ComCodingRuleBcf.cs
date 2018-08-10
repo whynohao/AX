@@ -51,6 +51,12 @@ namespace MES_Com.MasterDataBcf
             LibCodingRuleCache.Default.Remove(progId);
             LibCodingNoCache.Default.RemoveCacheByProgId(progId);
         }
+
+        public DataSet Print(string[] pks)
+        {
+            DataSet ds = BrowseTo(pks);
+            return ds;
+        }
     }
 
     public class ComCodingRuleBcfTemplate : LibTemplate
@@ -76,6 +82,8 @@ namespace MES_Com.MasterDataBcf
             {
                 AllowEmpty = false,
                 ControlType = LibControlType.IdName,
+                SelectSql = "Select A.PROGID as Id,A.PROGNAME as Name From AXPFUNCLIST A",
+                SelectFields = "A.PROGNAME",
                 RelativeSource = new RelativeSourceCollection(){
                     new RelativeSource("axp.FuncList"){
                            RelFields = new RelFieldCollection(){

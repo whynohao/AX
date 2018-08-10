@@ -8,6 +8,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using AxCRL.Services;
 using Ax.Ui.Models.Bcf;
+using MoCRL.Bcf;
 
 namespace Ax.Ui
 {
@@ -18,8 +19,8 @@ namespace Ax.Ui
     {
         protected void Application_Start()
         {
-            //AxServiceBus bus = new AxServiceBus();
-            //bus.Start();
+            AxServiceBus bus = new AxServiceBus();
+            bus.Start();
             AreaRegistration.RegisterAllAreas();
 
             GlobalConfiguration.Configuration.EnableCors();
@@ -29,11 +30,14 @@ namespace Ax.Ui
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
 
-            //#region 启用调用排程
+            #region 启用调用排程
+            //LibRegistry.DefaultInstance.ApplicationStatInitialize();
+            LibRegistry.DefaultInstance.Init();
+
             //SystemManager system = new SystemManager();
             //system.OpenScheduleTask();
 
-            //#endregion
+            #endregion
 
             APPCache.SetAPPCache(string.Empty);
             APPCache.RemoveAPPCache(string.Empty);

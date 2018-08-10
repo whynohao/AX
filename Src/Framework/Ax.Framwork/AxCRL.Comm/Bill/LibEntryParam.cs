@@ -26,4 +26,30 @@ namespace AxCRL.Comm.Bill
             set { _ParamStore = value; }
         }
     }
+
+    public class MDictionary<TKey, TValue> : Dictionary<String, String>
+    {
+        public string this[String key]
+        {
+            get
+            {
+                if (base.ContainsKey(key))
+                {
+                    return Convert.ToString(base[key]);
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            }
+            set
+            {
+                if (base.ContainsKey(key))
+                {
+                    base[key] = value;
+                }
+            }
+        }
+    }
+
 }

@@ -10,7 +10,7 @@ Ext.define('Ax.ux.form.LibNumberField', {
     stepValue:1,//微调时的步进值 Zhangkj 20170227
     initComponent: function () {
         this.id = this.name + this.tableIndex + '_' + DesktopApp.ActiveWindow;
-        var formaterCache = DesktopApp.FormaterCache;
+        //var formaterCache = DesktopApp.FormaterCache;
         this.doForamt = function (self) {
             if (self.formatField) {
                 //数据载入时，初始化decimalPrecision

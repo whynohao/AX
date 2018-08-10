@@ -29,8 +29,118 @@ using System.Threading.Tasks;
 namespace AxCRL.Services
 {
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
-    public class BillService : IBillService
+    public class BillService
     {
+        #region 打印
+        public object Print(ExecuteBcfMethodParam param)
+        {
+            ExecuteBcfMethodResult result = new ExecuteBcfMethodResult();
+
+            try
+            {
+                if (string.IsNullOrEmpty(param.ProgId))
+                {
+                    result.Messages.Add(new LibMessage() { MessageKind = LibMessageKind.Error, Message = string.Format("功能标识为空。") });
+                    return JsonConvert.SerializeObject(result);
+                    //throw new ArgumentNullException("ProgId", "ProgId is empty.");
+                }
+                LibHandle libHandle = LibHandleCache.Default.GetSystemHandle();
+
+                PrintService printService = new PrintService();
+                DataSet printData = ExecuteBcfMethod1(param).Result as DataSet;
+                result.Result = printService.PrintPdf(param.ProgId, printData);
+            }
+            catch (Exception ex)
+            {
+                string message = ex.InnerException == null ? ex.Message : ex.InnerException.Message;
+                result.Messages.Add(new LibMessage() { MessageKind = LibMessageKind.SysException, Message = string.Format("异常信息:{0}{1}异常堆栈:{2}", message, Environment.NewLine, ex.StackTrace) });
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+        #endregion
+
+        public ExecuteBcfMethodResult ExecuteBcfMethod1(ExecuteBcfMethodParam param)
+        {
+            ExecuteBcfMethodResult result = new ExecuteBcfMethodResult();
+            string crossLoginCallHandle = string.Empty;
+            bool isCrossCall = false;
+            try
+            {
+                if (string.IsNullOrEmpty(param.ProgId))
+                {
+                    result.Messages.Add(new LibMessage() { MessageKind = LibMessageKind.Error, Message = string.Format("功能标识为空。") });
+                    return result;
+                    //throw new ArgumentNullException("ProgId", "ProgId is empty.");
+                }
+                LibHandle libHandle = LibHandleCache.Default.GetSystemHandle();
+
+                if (ProgIdHost.Instance.ProgIdRef.ContainsKey(param.ProgId))
+                {
+                    BcfServerInfo info = ProgIdHost.Instance.ProgIdRef[param.ProgId];
+                    string path = Path.Combine(EnvProvider.Default.MainPath, "Bcf", info.DllName);
+                    Assembly assembly = Assembly.LoadFrom(path);
+                    Type t = assembly.GetType(info.ClassName);
+                    LibBcfBase destObj = (LibBcfBase)t.InvokeMember(null, BindingFlags.CreateInstance, null, null, null);
+                    object[] destParam = null;
+                    bool isContinue = true;
+                    try
+                    {
+                        MethodInfo methodInfo = t.GetMethod(param.MethodName);
+                        if (methodInfo == null)
+                        {
+                            isContinue = false;
+                            result.Messages.Add(new LibMessage() { MessageKind = LibMessageKind.SysException, Message = string.Format("调用了未实现的处理过程,请联系管理员。") });
+                        }
+                        else
+                        {
+                            //获取参数数组
+                            destParam = RestoreParamFormat(t, param.MethodName, param.MethodParam);
+                        }
+                    }
+                    catch (Exception exp)
+                    {
+                        isContinue = false;
+                        throw exp;
+                        //result.Messages.Add(new LibMessage() { MessageKind = LibMessageKind.SysException, Message = string.Format("查找待调用的处理过程和参数时出现异常,请联系管理员。") });
+                    }
+                    if (isContinue)
+                    {
+                        destObj.Handle = libHandle;
+                        if (isCrossCall)
+                        {
+                            destObj.IsCrossSiteCall = true;
+                            destObj.IsSynchroDataCall = param.IsSynchroDataCall;
+                        }
+                        result.Result = t.InvokeMember(param.MethodName, BindingFlags.InvokeMethod, null, destObj, destParam);
+                        result.Messages = destObj.ManagerMessage.MessageList;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string message = ex.InnerException == null ? ex.Message : ex.InnerException.Message;
+                result.Messages.Add(new LibMessage() { MessageKind = LibMessageKind.SysException, Message = string.Format("异常信息:{0}{1}异常堆栈:{2}", message, Environment.NewLine, ex.StackTrace) });
+            }
+            finally
+            {
+                if (string.IsNullOrEmpty(crossLoginCallHandle) == false)
+                {
+                    //移除创建的跨站点访问临时登录
+                    try
+                    {
+                        LibHandleCache.Default.RemoveHandle(crossLoginCallHandle);
+                    }
+                    catch { }
+                }
+
+            }
+            return result;
+        }
+
         public string ExecuteBcfMethod(ExecuteBcfMethodParam param)
         {
             ExecuteBcfMethodResult result = new ExecuteBcfMethodResult();
@@ -437,7 +547,7 @@ namespace AxCRL.Services
         {
             LibDataAccess dataAccess = new LibDataAccess();
             SqlBuilder builder = new SqlBuilder(progId);
-            string sql = builder.GetQuerySql(0, "A.*", query, "A.CREATETIME DESC");
+            string sql = builder.GetQuerySql(0, "A.*", query, "A.CreateTime DESC");
 
             if (pageSize <= 0)
             {
@@ -456,8 +566,8 @@ namespace AxCRL.Services
                 {
                     while (reader.Read())
                     {
-                        if ((LibCurrentState)LibSysUtils.ToInt32(reader["CURRENTSTATE"]) == LibCurrentState.Draft && string.Compare(libHandle.PersonId, LibSysUtils.ToString(reader["CREATORID"])) != 0)
-                            continue;
+                        //if ((LibCurrentState)LibSysUtils.ToInt32(reader["CURRENTSTATE"]) == LibCurrentState.Draft && string.Compare(libHandle.PersonId, LibSysUtils.ToString(reader["CREATORID"])) != 0)
+                        //continue;
                         //if (--maxCount < 0)
                         //    break;
                         DataRow newRow = table.NewRow();
@@ -581,6 +691,132 @@ namespace AxCRL.Services
             }
             return listNode;
         }
+
+        public object GetBillListing1(BillListingQuery listingQuery)
+        {
+            ExecuteBcfMethodResult result = new ExecuteBcfMethodResult();
+
+            string handle = listingQuery.Handle;
+            string progId = listingQuery.ProgId;
+
+            #region 获取登录用户的信息
+            //LibHandle libHandle = LibHandleCache.Default.GetCurrentHandle(handle) as LibHandle;
+            LibHandle libHandle = LibHandleCache.Default.GetSystemHandle();
+            #endregion
+
+            if (libHandle == null)
+            {
+                throw new Exception("用户句柄无效。");
+            }
+            else
+            {
+                if (ProgIdHost.Instance.ProgIdRef.ContainsKey(progId))
+                {
+                    BcfServerInfo info = ProgIdHost.Instance.ProgIdRef[progId];
+                    string path = Path.Combine(EnvProvider.Default.MainPath, "Bcf", info.DllName);
+                    Assembly assembly = Assembly.LoadFrom(path);
+                    Type t = assembly.GetType(info.ClassName);
+                    LibBcfData destObj = (LibBcfData)t.InvokeMember(null, BindingFlags.CreateInstance, null, null, null);
+                    DataTable table = destObj.DataSet.Tables[0];
+                    LibEntryParam entryParam = null;
+                    if (!string.IsNullOrEmpty(listingQuery.EntryParam))
+                    {
+                        entryParam = JsonConvert.DeserializeObject(listingQuery.EntryParam, typeof(LibEntryParam)) as LibEntryParam;
+                    }
+                    LibQueryField pageConditionField = new LibQueryField();
+
+                    try
+                    {
+                        //zhangkj 20161214 增加获取列表数据前的模块自定义处理
+                        destObj.BeforeFillList(libHandle, table, listingQuery, entryParam);
+                    }
+                    catch (Exception exp)
+                    {
+                        string ss = string.Format("BeforeFillList,Error:{0}", exp.ToString());
+                        destObj.ManagerMessage.AddMessage(LibMessageKind.Error, ss);
+                        throw exp;
+                    }
+                    //listingQuery.Condition.AddPageCondition(listingQuery.PageSize, listingQuery.PageCount);
+                    string queryCondition = GetQueryCondition(libHandle, progId, destObj.Template.BillType, destObj.UsingAudit, listingQuery, entryParam);
+                    //string queryCondition = string.Empty;
+
+                    #region 该方法是拼接查询语句，给dataset赋值的
+                    FillQueryData(libHandle, progId, queryCondition, table, listingQuery.PageSize, listingQuery.PageCount);
+                    #endregion
+
+                    try
+                    {
+                        //zhangkj 20161201 增加获取列表数据后的模块自定义处理
+                        destObj.AfterFillList(libHandle, table, listingQuery, entryParam);
+                    }
+                    catch (Exception exp)
+                    {
+                        string ss = string.Format("AfterFillList,Error:{0}", exp.ToString());
+                        destObj.ManagerMessage.AddMessage(LibMessageKind.Error, ss);
+                        throw exp;
+                    }
+
+                    IList<string> columns = new List<string>();
+                    StringBuilder filterBuilder = new StringBuilder();
+                    foreach (DataColumn item in table.Columns)
+                    {
+                        columns.Add(item.ColumnName);
+                        filterBuilder.Append("{");
+                        filterBuilder.AppendFormat("key:'{0}',value:'{1}'", item.ColumnName, item.Caption);
+                        filterBuilder.Append("},");
+                    }
+                    string filterField = string.Empty;
+                    if (filterBuilder.Length > 0)
+                    {
+                        filterBuilder.Remove(filterBuilder.Length - 1, 1);
+                        filterField = string.Format("[{0}]", filterBuilder.ToString());
+                    }
+                    //处理清单字段
+                    string renderer = string.Empty;
+                    LibGridScheme gridScheme = GetListingGridScheme(libHandle, progId, entryParam);//先找自定义的GridScheme
+                    try
+                    {
+                        if (gridScheme == null)//如果没有自定义的
+                            //zhangkj 20161201 获取功能模块自定义的GridScheme
+                            gridScheme = destObj.GetDefinedGridScheme(libHandle, entryParam);
+                    }
+                    catch (Exception exp)
+                    {
+                        string ss = exp.ToString();
+                        destObj.ManagerMessage.AddMessage(LibMessageKind.Error, ss);
+                        throw exp;
+                    }
+                    if (gridScheme == null)
+                    {
+                        List<LayoutField> layoutFields = new List<LayoutField>();
+                        int num = 0;
+                        foreach (var item in columns)
+                        {
+                            if (num > 15)
+                                layoutFields.Add(new LayoutField(table.Columns[item], 0) { Hidden = true });
+                            else
+                                layoutFields.Add(new LayoutField(table.Columns[item], 0));
+                            num++;
+                        }
+                        renderer = JsBuilder.BuildGrid(layoutFields, true);
+                    }
+                    else
+                    {
+                        LibBillLayout layout = new LibBillLayout(destObj.DataSet);
+                        LibGridLayoutBlock gridBlock = layout.BuildGrid(0, "", null, true);
+                        gridBlock.GridScheme = gridScheme;
+                        renderer = gridBlock.CreateRenderer();
+                    }
+                    destObj.Template.GetViewTemplate(destObj.DataSet);
+                    AxCRL.Template.TableDetail tableDetail = destObj.Template.ViewTemplate.Tables[table.TableName];
+                    result.Result = new BillListingResult(table, renderer, tableDetail.Fields, tableDetail.Pk, filterField);
+
+                }
+
+            }
+            return result;
+        }
+
         public string GetBillListing(BillListingQuery listingQuery)
         {
             string handle = listingQuery.Handle;
@@ -726,6 +962,78 @@ namespace AxCRL.Services
             }
             return permissionList;
         }
+
+        public object BatchExecBcfMethod1(ExecuteBcfMethodParam param)
+        {
+            if (string.IsNullOrEmpty(param.ProgId))
+            {
+                throw new ArgumentNullException("ProgId", "ProgId is empty.");
+            }
+            IList<object[]> errorPks = new List<object[]>();
+            ExecuteBcfMethodResult result = new ExecuteBcfMethodResult();
+            LibHandle libHandle = LibHandleCache.Default.GetSystemHandle();
+            if (libHandle == null)
+            {
+                throw new Exception("用户句柄无效。");
+            }
+            else
+            {
+                if (ProgIdHost.Instance.ProgIdRef.ContainsKey(param.ProgId))
+                {
+                    BcfServerInfo info = ProgIdHost.Instance.ProgIdRef[param.ProgId];
+                    string path = Path.Combine(EnvProvider.Default.MainPath, "Bcf", info.DllName);
+                    Assembly assembly = Assembly.LoadFrom(path);
+                    Type t = assembly.GetType(info.ClassName);
+                    //List<string> exportFiles = null;
+                    //bool isExportData = param.MethodName == "ExportData";
+                    //if (isExportData)
+                    //    exportFiles = new List<string>();
+
+
+                    foreach (string par in param.MethodParam)
+                    {
+                        string[] item = JsonConvert.DeserializeObject<string[]>(par);
+
+                        LibBcfBase destObj = (LibBcfBase)t.InvokeMember(null, BindingFlags.CreateInstance, null, null, null);
+                        object[] destParam = RestoreParamFormat(t, param.MethodName, item);
+                        destObj.Handle = libHandle;
+                        result.Result = t.InvokeMember(param.MethodName, BindingFlags.InvokeMethod, null, destObj, destParam);
+                        LibMessageList msgList = ((LibBcfBase)destObj).ManagerMessage.MessageList;
+                        if (msgList.Count > 0)
+                        {
+                            StringBuilder strBuilder = new StringBuilder();
+                            int count = 0;
+                            object[] pk = (object[])destParam[0];
+                            errorPks.Add(pk);
+                            foreach (var col in destObj.DataSet.Tables[0].PrimaryKey)
+                            {
+                                strBuilder.AppendFormat("{0}为{1}", col.Caption, pk[count]);
+                                count++;
+                            }
+                            result.Messages.Add(new LibMessage() { Message = string.Format("对{0}的操作，出现错误:", strBuilder.ToString()) });
+                            result.Messages.AddRange(msgList);
+                        }
+                        //else
+                        //{
+                        //    if (isExportData)
+                        //    {
+                        //        string file = LibSysUtils.ToString(result.Result);
+                        //        if (!string.IsNullOrEmpty(file))
+                        //            exportFiles.Add(file);
+                        //    }
+                        //}
+                    }
+                    //if (isExportData)
+                    //    result.Result = ZipExcelField(param.ProgId, exportFiles);
+                    //else
+                    result.Result = errorPks;
+                    if (errorPks.Count == 0)
+                        result.Messages.Add(new LibMessage() { Message = "操作成功。", MessageKind = LibMessageKind.Info });
+                }
+            }
+            return result;
+        }
+
         public string BatchExecBcfMethod(ExecuteBcfMethodParam param, IList<string[]> batchParams)
         {
             if (string.IsNullOrEmpty(param.ProgId))
@@ -886,6 +1194,127 @@ namespace AxCRL.Services
             return BatchExportData(handle, progId, batchParams);
         }
 
+        public string ExportAllData1(string handle, string progId, string pkStr, BillListingQuery listingQuery = null)
+        {
+            ExecuteBcfMethodResult result = new ExecuteBcfMethodResult();
+            string fileName = string.Empty;
+
+            LibHandle libHandle = LibHandleCache.Default.GetSystemHandle();
+            if (libHandle == null)
+            {
+                throw new Exception("用户句柄无效。");
+            }
+
+            string query = string.Empty;
+            if (listingQuery != null && ProgIdHost.Instance.ProgIdRef.ContainsKey(progId))
+            {
+                LibBcfData bcf = LibBcfSystem.Default.GetBcfInstance(progId) as LibBcfData;
+                LibEntryParam entryParam = null;
+                if (!string.IsNullOrEmpty(listingQuery.EntryParam))
+                {
+                    entryParam = JsonConvert.DeserializeObject(listingQuery.EntryParam, typeof(LibEntryParam)) as LibEntryParam;
+                }
+                query = GetQueryCondition(libHandle, progId, bcf.Template.BillType, bcf.UsingAudit, listingQuery, entryParam);
+            }
+
+            LibDataAccess dataAccess = new LibDataAccess();
+            SqlBuilder builder = new SqlBuilder(progId);
+            string sql = builder.GetQuerySql(0, pkStr, query);
+            IList<object[]> batchParams = new List<object[]>();
+            using (IDataReader reader = dataAccess.ExecuteDataReader(sql))
+            {
+                while (reader.Read())
+                {
+                    int count = reader.FieldCount;
+                    object[] item = new object[count];
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        item[i] = reader[i];
+                    }
+                    batchParams.Add(item);
+                }
+            }
+            return BatchExportData(handle, progId, batchParams);
+        }
+
+        public object BatchExportData1(string handle, string progId, IList<string> batchParams)
+        {
+            ExecuteBcfMethodResult result = new ExecuteBcfMethodResult();
+            string fileName = string.Empty;
+            if (string.IsNullOrEmpty(progId))
+            {
+                throw new ArgumentNullException("ProgId", "ProgId is empty.");
+            }
+            //LibHandle libHandle = LibHandleCache.Default.GetCurrentHandle(handle) as LibHandle;
+            LibHandle libHandle = LibHandleCache.Default.GetSystemHandle();
+            if (libHandle == null)
+            {
+                throw new Exception("用户句柄无效。");
+            }
+            else if (batchParams.Count > 0)
+            {
+                LibBcfData bcf = LibBcfSystem.Default.GetBcfInstance(progId) as LibBcfData;
+                if (bcf != null)
+                {
+                    bcf.Handle = libHandle;
+                    int idx = 0;
+                    int count = batchParams.Count;
+                    DataSet curDataSet = bcf.BrowseTo(JsonConvert.DeserializeObject<object[]>(batchParams[idx]));
+                    DataSet destDataSet = curDataSet.Clone();
+                    destDataSet.EnforceConstraints = false;
+                    try
+                    {
+                        do
+                        {
+                            if (idx != 0)
+                            {
+                                bcf = LibBcfSystem.Default.GetBcfInstance(progId) as LibBcfData;
+                                curDataSet = bcf.BrowseTo(JsonConvert.DeserializeObject<object[]>(batchParams[idx]));
+                            }
+                            if (curDataSet != null)
+                            {
+                                for (int i = 0; i < curDataSet.Tables.Count; i++)
+                                {
+                                    DataTable curTable = curDataSet.Tables[i];
+                                    if (curTable.ExtendedProperties.ContainsKey(TableProperty.IsVirtual) && (bool)curTable.ExtendedProperties[TableProperty.IsVirtual])
+                                    {
+                                        if (destDataSet.Tables.Contains(curTable.TableName))
+                                            destDataSet.Tables.Remove(curTable.TableName);
+                                        continue;//虚表不导出
+                                    }
+                                    DataTable destTable = destDataSet.Tables[i];
+                                    destTable.BeginLoadData();
+                                    try
+                                    {
+                                        foreach (DataRow curRow in curTable.Rows)
+                                        {
+                                            destTable.ImportRow(curRow);
+                                        }
+                                    }
+                                    finally
+                                    {
+                                        destTable.EndLoadData();
+                                    }
+                                }
+                            }
+                            curDataSet.Clear();
+                            idx++;
+                        } while (idx < count);
+                    }
+                    finally
+                    {
+                        destDataSet.EnforceConstraints = true;
+                    }
+                    fileName = string.Format("{0}-{1}.xls", progId, LibDateUtils.GetCurrentDateTime());
+                    string filePath = System.IO.Path.Combine(AxCRL.Comm.Runtime.EnvProvider.Default.RuningPath, "TempData", "ExportData", fileName);
+                    AxCRL.Core.Excel.LibExcelHelper libExcelHelper = new Core.Excel.LibExcelHelper();
+                    libExcelHelper.ExportToExcel(filePath, destDataSet);
+                    result.Result = fileName;
+                }
+            }
+            return result;
+        }
+
         public string BatchExportData(string handle, string progId, IList<object[]> batchParams)
         {
             string fileName = string.Empty;
@@ -959,6 +1388,115 @@ namespace AxCRL.Services
                 }
             }
             return fileName;
+        }
+
+        public ExecuteBcfMethodResult BatchImportData1(string handle, string progId, string fileName, string entryParam = null)
+        {
+            if (string.IsNullOrEmpty(progId))
+            {
+                throw new ArgumentNullException("ProgId", "ProgId is empty.");
+            }
+            IList<object[]> errorPks = new List<object[]>();
+            ExecuteBcfMethodResult result = new ExecuteBcfMethodResult();
+            //LibHandle libHandle = LibHandleCache.Default.GetCurrentHandle(handle) as LibHandle;
+            LibHandle libHandle = LibHandleCache.Default.GetSystemHandle();
+            if (libHandle == null)
+            {
+                throw new Exception("用户句柄无效。");
+            }
+            else
+            {
+                if (ProgIdHost.Instance.ProgIdRef.ContainsKey(progId))
+                {
+                    BcfServerInfo info = ProgIdHost.Instance.ProgIdRef[progId];
+                    string path = Path.Combine(EnvProvider.Default.MainPath, "Bcf", info.DllName);
+                    Assembly assembly = Assembly.LoadFrom(path);
+                    Type t = assembly.GetType(info.ClassName);
+                    LibBcfBase destObj = (LibBcfBase)t.InvokeMember(null, BindingFlags.CreateInstance, null, null, null);
+                    destObj.Handle = libHandle;
+                    LibEntryParam entryParamObj = JsonConvert.DeserializeObject(LibSysUtils.ToString(entryParam), typeof(LibEntryParam)) as LibEntryParam;
+                    result.Result = t.InvokeMember("GetBatchImportData", BindingFlags.InvokeMethod, null, destObj, new object[] { fileName, entryParamObj });
+                    DataSet dataSet = result.Result as DataSet;
+                    if (dataSet != null)
+                    {
+                        int i = 0;
+                        foreach (DataRow curRow in dataSet.Tables[0].Rows)
+                        {
+                            i++;
+                            DataSet destDataSet = dataSet.Clone();
+                            destDataSet.EnforceConstraints = false;
+                            try
+                            {
+                                destDataSet.Tables[0].BeginLoadData();
+                                try
+                                {
+                                    destDataSet.Tables[0].ImportRow(curRow);
+                                }
+                                finally
+                                {
+                                    destDataSet.Tables[0].EndLoadData();
+                                }
+                                FillRelationTable(dataSet, dataSet.Tables[0], curRow, destDataSet);
+                                //将同步配置添加到数据集中
+                                if (dataSet.Tables.Contains(LibFuncPermission.SynchroDataSettingTableName))
+                                {
+                                    DataTable syncSettingDt = dataSet.Tables[LibFuncPermission.SynchroDataSettingTableName];
+                                    DataTable destSyncSettingDt = destDataSet.Tables[LibFuncPermission.SynchroDataSettingTableName];
+                                    if (syncSettingDt != null && destSyncSettingDt != null)
+                                    {
+                                        foreach (DataRow row in syncSettingDt.Rows)
+                                        {
+                                            destSyncSettingDt.BeginLoadData();
+                                            try
+                                            {
+                                                destSyncSettingDt.ImportRow(row);
+                                            }
+                                            finally
+                                            {
+                                                destSyncSettingDt.EndLoadData();
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            finally
+                            {
+                                destDataSet.EnforceConstraints = true;
+                            }
+
+                            //destObj = (LibBcfBase)t.InvokeMember(null, BindingFlags.CreateInstance, null, null, null);
+                            if (!destObj.ManagerMessage.IsThrow)
+                            {
+                                destObj.Handle = libHandle;
+                                try
+                                {
+                                    t.InvokeMember("ImportDataSet", BindingFlags.InvokeMethod, null, destObj, new object[] { destDataSet, entryParamObj });
+                                }
+                                catch (Exception ex)
+                                {
+                                    destObj.ManagerMessage.MessageList.Add(new LibMessage() { Message = ex.InnerException.ToString() });
+                                }
+                            }
+                        }
+                        if (destObj.ManagerMessage.IsThrow)
+                        {
+                            LibMessageList msgList = destObj.ManagerMessage.MessageList;
+                            result.Messages.Add(new LibMessage() { Message = string.Format("出现错误:") });
+                            result.Messages.AddRange(msgList);
+                        }
+                        else if (destObj.ManagerMessage.Count > 0)
+                        {
+                            LibMessageList msgList = destObj.ManagerMessage.MessageList;
+                            result.Messages.Add(new LibMessage() { Message = string.Format("提示:") });
+                            result.Messages.AddRange(msgList);
+                        }
+                        if (result.Messages.Count == 0)
+                            result.Messages.Add(new LibMessage() { Message = "操作成功。", MessageKind = LibMessageKind.Info });
+                    }
+                }
+            }
+            result.Result = null;
+            return result;
         }
 
         public string BatchImportData(string handle, string progId, string fileName, string entryParam = null)
@@ -1075,6 +1613,39 @@ namespace AxCRL.Services
             return LibSysUtils.ToInt32(LibFormatUnitCache.Default.GetFormatData(unitId));
         }
 
+        public string SelectFuncField1(string handle, string progId, int tableIndex = 0)
+        {
+            StringBuilder builder = new StringBuilder();
+            //LibHandle libHandle = LibHandleCache.Default.GetCurrentHandle(handle) as LibHandle;
+            LibHandle libHandle = LibHandleCache.Default.GetSystemHandle();
+            if (libHandle == null)
+            {
+                throw new Exception("用户句柄无效。");
+            }
+            if (ProgIdHost.Instance.ProgIdRef.ContainsKey(progId))
+            {
+                BcfServerInfo info = ProgIdHost.Instance.ProgIdRef[progId];
+                string path = Path.Combine(EnvProvider.Default.MainPath, "Bcf", info.DllName);
+                Assembly assembly = Assembly.LoadFrom(path);
+                Type t = assembly.GetType(info.ClassName);
+                LibBcfBase destObj = (LibBcfBase)t.InvokeMember(null, BindingFlags.CreateInstance, null, null, null);
+                destObj.Handle = libHandle;
+                if (destObj.DataSet.Tables.Count > tableIndex)
+                {
+                    DataTable table = destObj.DataSet.Tables[tableIndex];
+                    int i = 0;
+                    foreach (DataColumn col in table.Columns)
+                    {
+                        if (i == 0)
+                            builder.Append("{Id:'" + col.ColumnName + "',Name:'" + col.Caption + "'}");
+                        else
+                            builder.Append(",{Id:'" + col.ColumnName + "',Name:'" + col.Caption + "'}");
+                        i++;
+                    }
+                }
+            }
+            return string.Format("[{0}]", builder.ToString());
+        }
 
         public string SelectFuncField(string handle, string progId, int tableIndex = 0)
         {
@@ -1107,6 +1678,44 @@ namespace AxCRL.Services
                 }
             }
             return string.Format("[{0}]", builder.ToString());
+        }
+
+        public object SelectQueryField1(string handle, string progId)
+        {
+            ExecuteBcfMethodResult result = new ExecuteBcfMethodResult();
+
+            List<LibQueryField> list = new List<LibQueryField>();
+            //LibHandle libHandle = LibHandleCache.Default.GetCurrentHandle(handle) as LibHandle;
+            LibHandle libHandle = LibHandleCache.Default.GetSystemHandle();
+            if (libHandle == null)
+            {
+                throw new Exception("用户句柄无效。");
+            }
+            if (ProgIdHost.Instance.ProgIdRef.ContainsKey(progId))
+            {
+                BcfServerInfo info = ProgIdHost.Instance.ProgIdRef[progId];
+                string path = Path.Combine(EnvProvider.Default.MainPath, "Bcf", info.DllName);
+                Assembly assembly = Assembly.LoadFrom(path);
+                Type t = assembly.GetType(info.ClassName);
+                LibBcfBase destObj = (LibBcfBase)t.InvokeMember(null, BindingFlags.CreateInstance, null, null, null);
+                destObj.Handle = libHandle;
+                DataTable table = destObj.DataSet.Tables[0];
+                foreach (DataColumn col in table.Columns)
+                {
+                    if (col.ExtendedProperties.ContainsKey(FieldProperty.AllowCondition) && !(bool)col.ExtendedProperties[FieldProperty.AllowCondition])
+                        continue;
+                    string contorlJs = col.DataType == typeof(bool) ? string.Empty : JsBuilder.BuildField(new LayoutField(col, 0));
+                    list.Add(new LibQueryField()
+                    {
+                        DataType = (LibDataType)col.ExtendedProperties[FieldProperty.DataType],
+                        DisplayText = col.Caption,
+                        Field = col.ColumnName,
+                        ControlJs = contorlJs
+                    });
+                }
+                result.Result = list;
+            }
+            return result;
         }
 
         public string SelectQueryField(string handle, string progId)
@@ -1143,6 +1752,46 @@ namespace AxCRL.Services
             return JsonConvert.SerializeObject(list);
         }
 
+        private void SaveDisplaySchemeCore1(string handle, string progId, string entryParam, string displayScheme, bool isBillListing)
+        {
+            //LibHandle libHandle = LibHandleCache.Default.GetCurrentHandle(handle) as LibHandle;
+            LibHandle libHandle = LibHandleCache.Default.GetSystemHandle();
+            if (libHandle == null)
+            {
+                throw new Exception("用户句柄无效。");
+            }
+            else
+            {
+                string path = Path.Combine(EnvProvider.Default.MainPath, "Scheme", "ShowScheme", libHandle.UserId);
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+                StringBuilder builder = new StringBuilder();
+                if (!string.IsNullOrEmpty(entryParam))
+                {
+                    LibEntryParam entryParamObj = JsonConvert.DeserializeObject(entryParam, typeof(LibEntryParam)) as LibEntryParam;
+                    if (entryParamObj != null)
+                    {
+                        foreach (var item in entryParamObj.ParamStore)
+                        {
+                            builder.Append(item.Value);
+                        }
+                    }
+                }
+                if (isBillListing)
+                    path = Path.Combine(path, string.Format("{0}{1}List.bin", progId, builder.ToString()));
+                else
+                    path = Path.Combine(path, string.Format("{0}{1}.bin", progId, builder.ToString()));
+                LibDisplayScheme displaySchemeObj = JsonConvert.DeserializeObject(displayScheme, typeof(LibDisplayScheme)) as LibDisplayScheme;
+                if (displaySchemeObj != null)
+                {
+                    LibBinaryFormatter formatter = new LibBinaryFormatter();
+                    using (FileStream fs = new FileStream(path, FileMode.Create))
+                    {
+                        formatter.Serialize(fs, displaySchemeObj);
+                    }
+                }
+            }
+        }
 
         private void SaveDisplaySchemeCore(string handle, string progId, string entryParam, string displayScheme, bool isBillListing)
         {
@@ -1215,6 +1864,13 @@ namespace AxCRL.Services
             }
         }
 
+        public ExecuteBcfMethodResult SaveDisplayScheme1(string handle, string progId, string entryParam, string displayScheme)
+        {
+            ExecuteBcfMethodResult result = new ExecuteBcfMethodResult();
+            SaveDisplaySchemeCore1(handle, progId, entryParam, displayScheme, true);
+            return result;
+        }
+
         public void SaveDisplayScheme(string handle, string progId, string entryParam, string displayScheme)
         {
             SaveDisplaySchemeCore(handle, progId, entryParam, displayScheme, false);
@@ -1261,6 +1917,36 @@ namespace AxCRL.Services
                 }
             }
             return list;
+        }
+
+        public DataSet FuzzySearchField1(string handle, string relSource, string selectFields, string query, string condition, int tableIndex = 0, string selectSql = "")
+        {
+            LibHandle libHandle = LibHandleCache.Default.GetCurrentHandle(handle) as LibHandle;
+            if (libHandle == null)
+            {
+                throw new Exception("用户句柄无效。");
+            }
+            IList<FuzzyResult> list = new List<FuzzyResult>();
+            SqlBuilder sqlBuilder = new SqlBuilder(relSource);
+            string sql = sqlBuilder.GetFuzzySql1(selectFields, query, condition, selectSql);
+            //string sql = sqlBuilder.GetFuzzySql(tableIndex, query, condition, selectSql);
+            LibDataAccess dataAccess = new LibDataAccess();
+            int count = 0;
+            //using (IDataReader reader = dataAccess.ExecuteDataReader(sql))
+            //{
+            //    while (reader.Read())
+            //    {
+            //        if (reader.FieldCount == 1)
+            //            list.Add(new FuzzyResult(LibSysUtils.ToString(reader[0]), string.Empty));
+            //        else
+            //            list.Add(new FuzzyResult(LibSysUtils.ToString(reader[0]), LibSysUtils.ToString(reader[1])));
+            //        count++;
+            //        if (count == 30)
+            //            break;
+            //    }
+            //}
+            //return list;
+            return dataAccess.ExecuteDataSet(sql);
         }
 
 

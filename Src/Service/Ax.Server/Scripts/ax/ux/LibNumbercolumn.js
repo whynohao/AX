@@ -5,7 +5,7 @@ Ext.define('Ax.ux.form.LibNumbercolumn', {
     initComponent: function () {
         this.callParent();
         this.renderer = function (value, metaData, record, rowIndex, colIndex, store, view) {
-            var formaterCache = DesktopApp.FormaterCache;
+            //var formaterCache = DesktopApp.FormaterCache;
             var decimalSeparator = '.';
             if (this.formatField) {
                 //数据载入时，初始化decimalPrecision
@@ -33,12 +33,14 @@ Ext.define('Ax.ux.form.LibNumbercolumn', {
                     }
                 }
                 if (unitId !== undefined && unitId != '') {
+                    debugger;
                     var decimalPrecision = formaterCache.getUnitData(unitId);
                     var v = value;
                     v = typeof v == 'number' ? v : parseFloat(String(v).replace(decimalSeparator, "."));
                     value = isNaN(v) ? '' : v.toFixed(decimalPrecision).replace(".", decimalSeparator);
                 }
             } else if (this.numType) {
+                debugger;
                 var decimalPrecision;
                 switch (this.numType) {
                     case 1:

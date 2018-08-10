@@ -5,6 +5,9 @@
 
 Ext.ns('Ax.vcl');
 
+//主页共享对象
+DesktopApp = window.parent.DesktopApp;
+
 Ax.vcl.LibVclBase = function () {
     this.progId = '';
     this.billType;
@@ -33,15 +36,28 @@ Ax.vcl.LibVclBase.prototype = {
         };
         var result;
         function call() {
+
+            var params = {
+                action: "method",
+                data: Ext.encode({
+                    ProgId: this.progId,
+                    MethodName: methodName,
+                    MethodParam: relParam,
+                    Handle: ""
+                })
+            };
+
             Ext.Ajax.request({
-                url: 'billSvc/invorkBcf',
-                jsonData: { param: { ProgId: this.progId, MethodName: methodName, MethodParam: relParam, Handle: UserHandle } },
+                //url: 'billSvc/invorkBcf',
+                url: "../../../../WS/SysHandler.ashx",//这里是url
+                //jsonData: { param: { ProgId: this.progId, MethodName: methodName, MethodParam: relParam, Handle: UserHandle } },
+                params: params,
                 method: 'POST',
+                dataType: 'json',
                 async: false,
                 timeout: 90000000,
                 success: function (response) {
                     result = Ext.decode(response.responseText);
-                    result = Ext.decode(result.ExecuteBcfMethodResult);
                     if (result.Messages.length > 0) {
                         var ex = [];
                         for (var i = 0; i < result.Messages.length; i++) {
@@ -300,7 +316,6 @@ Ax.vcl.LibVclBase.prototype = {
     },
     print: function (progId, billNo) {
         //获取打印jpg路径
-        debugger;
         var billNo = this.currentPk[0];
         var filePath = this.invorkBcf("Print", [[billNo]]);
         var LODOP = getLodop(document.getElementById('LODOP_OB'), document.getElementById('LODOP_EM'));

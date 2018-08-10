@@ -3,44 +3,39 @@
  * For licensing, see https://ckeditor.com/legal/ckeditor-oss-license
  */
 
-CKEDITOR.editorConfig = function( config ) {
-	
-	// %REMOVE_START%
-	// The configuration options below are needed when running CKEditor from source files.
-	config.plugins = 'dialogui,dialog,about,a11yhelp,basicstyles,blockquote,notification,button,toolbar,clipboard,panel,floatpanel,menu,contextmenu,resize,elementspath,enterkey,entities,popup,filetools,filebrowser,floatingspace,listblock,richcombo,format,horizontalrule,htmlwriter,wysiwygarea,image,indent,indentlist,fakeobjects,link,list,magicline,maximize,pastetext,pastefromword,removeformat,showborders,sourcearea,specialchar,menubutton,scayt,stylescombo,tab,table,tabletools,tableselection,undo,lineutils,widgetselection,widget,notificationaggregator,uploadwidget,uploadimage,wsc,panelbutton,colorbutton,colordialog,font,justify,imagepaste,image2,base64image,imageresize,imageuploader,pastefromexcel,simage,imagebase,balloonpanel,balloontoolbar,xml,ajax,cloudservices,easyimage,imageresizerowandcolumn';
-	config.skin = 'kama';
-	config.height = '420px';
-	// %REMOVE_END%
+CKEDITOR.editorConfig = function (config) {
 
-	// Define changes to default configuration here.
-	// For complete reference see:
-	// http://docs.ckeditor.com/#!/api/CKEDITOR.config
+    // %REMOVE_START%
+    // The configuration options below are needed when running CKEditor from source files.
+    config.plugins = 'dialogui,dialog,about,a11yhelp,dialogadvtab,basicstyles,bidi,blockquote,notification,button,toolbar,clipboard,panelbutton,panel,floatpanel,colorbutton,colordialog,templates,menu,contextmenu,copyformatting,div,resize,elementspath,enterkey,entities,popup,filetools,filebrowser,find,fakeobjects,flash,floatingspace,listblock,richcombo,font,forms,format,horizontalrule,htmlwriter,iframe,wysiwygarea,image,indent,indentblock,indentlist,smiley,justify,menubutton,language,link,list,liststyle,magicline,maximize,newpage,pagebreak,pastetext,pastefromword,preview,print,removeformat,save,selectall,showblocks,showborders,sourcearea,specialchar,scayt,stylescombo,tab,table,tabletools,tableselection,undo,lineutils,widgetselection,widget,notificationaggregator,uploadwidget,uploadimage,wsc,base64image,cleanuploader,zsuploader,imagepaste,imagebase,simage,uploadfile';
+    config.extraPlugins = 'uploadimage';
+    config.filebrowserUploadUrl = '/WS/SysHandler.ashx?action=uploadfile';
+    config.filebrowserUploadUrl = '/WS/SysHandler.ashx?action=uploadfile';
+    config.uploadUrl = '/WS/SysHandler.ashx?action=uploadfile';
+    config.skin = 'kama';
+    config.height = '395px';
 
-	// The toolbar groups arrangement, optimized for two toolbar rows.
 	config.toolbarGroups = [
 		{ name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
 		{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },
-		{ name: 'links', groups: [ 'links' ] },
-		{ name: 'insert', groups: [ 'insert' ] },
-		{ name: 'forms', groups: [ 'forms' ] },
-		{ name: 'tools', groups: [ 'tools' ] },
-		{ name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
-		{ name: 'others', groups: [ 'others' ] },
 		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-		'/',
+		{ name: 'forms', groups: [ 'forms' ] },
 		{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ] },
+		'/',
+		{ name: 'insert', groups: [ 'insert' ] },
 		{ name: 'styles', groups: [ 'styles' ] },
 		{ name: 'colors', groups: [ 'colors' ] },
+		{ name: 'links', groups: [ 'links' ] },
+		{ name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
+		{ name: 'tools', groups: [ 'tools' ] },
+		'/',
+		{ name: 'others', groups: [ 'others' ] },
 		{ name: 'about', groups: [ 'about' ] }
 	];
 
-	// Remove some buttons provided by the standard plugins, which are
-	// not needed in the Standard(s) toolbar.
-	config.removeButtons = 'Underline,Subscript,Superscript,About,Source,EasyImageUpload,Image,SImage';
+	config.removeButtons = 'Save,NewPage,Preview,Print,Form,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,About,Maximize,ShowBlocks,PasteFromWord,PasteText,Templates';
 
-	// Set the most common block elements.
-	config.format_tags = 'p;h1;h2;h3;pre';
-
-	// Simplify the dialog windows.
-	config.removeDialogTabs = 'image:advanced;link:advanced';
+    // Define changes to default configuration here. For example:
+    // config.language = 'fr';
+    // config.uiColor = '#AADC6E';
 };

@@ -8,6 +8,37 @@ namespace AxCRL.Comm.Utils
 {
     public static class LibDateUtils
     {
+        #region 字符串转 DateTime
+        public static DateTime StrToDateTime(string strDate)
+        {
+            return DateTime.Parse(strDate);
+        }
+        #endregion
+
+        #region 取前一个的日期和后一个的时间，将两个日期字符串合并
+        public static DateTime ToDateTime(object strDate, object strTime)
+        {
+            DateTime date = DateTime.Parse(LibSysUtils.ToString(strDate));
+            DateTime time = DateTime.Parse(LibSysUtils.ToString(strTime));
+            DateTime datetime = DateTime.Parse(string.Format("{0} {1}", date.ToString("yyyy-MM-dd"), time.ToString("HH:mm:ss")));
+            return datetime;
+        }
+
+        public static DateTime ToDateTime(string strDate, string strTime)
+        {
+            DateTime date = DateTime.Parse(strDate);
+            DateTime time = DateTime.Parse(strTime);
+            DateTime datetime = DateTime.Parse(string.Format("{0} {1}", date.ToString("yyyy-MM-dd"), time.ToString("HH:mm:ss")));
+            return datetime;
+        }
+        #endregion
+
+
+        public static DateTime Now()
+        {
+            return DateTime.Now;
+        }
+
         public static long GetCurrentDateTime()
         {
             return DateTimeToLibDateTime(DateTime.Now);

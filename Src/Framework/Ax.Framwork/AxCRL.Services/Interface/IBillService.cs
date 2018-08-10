@@ -167,7 +167,7 @@ namespace AxCRL.Services
         /// <returns></returns>
         [OperationContract]
         [WebInvoke(UriTemplate = "fuzzySearchField", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
-        IList<FuzzyResult> FuzzySearchField(string handle, string relSource, string query, string condition, int tableIndex);
+        IList<FuzzyResult> FuzzySearchField(string handle, string relSource, string query, string condition, int tableIndex, string selectSql = "");
         /// <summary>
         /// 查询关联字段
         /// </summary>
@@ -838,8 +838,8 @@ namespace AxCRL.Services
         private int _OrderId;
         private string _AttachName;
         private string _FileName;
-        private List<LibAttachHistory> _HistoryList;       
-        private string _DocId;       
+        private List<LibAttachHistory> _HistoryList;
+        private string _DocId;
         private string _DirId;
         /// <summary>
         /// 标识

@@ -71,6 +71,15 @@ namespace AxCRL.Services
     [DataContract]
     public class LoginInfo
     {
+        [DataMember]
+        public string Id = string.Empty;
+
+        [DataMember]
+        public string Name = string.Empty;
+
+        [DataMember]
+        public string UserImage = string.Empty;
+
         private string _cornet;
         [DataMember]
         public string Cornet

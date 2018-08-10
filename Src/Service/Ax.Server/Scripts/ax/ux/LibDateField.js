@@ -4,7 +4,7 @@ Ext.define('Ax.ux.form.LibDateField', {
     alias: 'widget.libDateField',
     mixins: { eventHelper: 'Ax.ux.LibEventHelper' },
     format: 'Y-m-d',
-    altFormats: 'Ymd',
+    altFormats: 'Y-m-d',
     enableKeyEvents: true,
     initComponent: function () {
         this.id = this.name + this.tableIndex + '_' + DesktopApp.ActiveWindow;
@@ -36,17 +36,27 @@ Ext.define('Ax.ux.form.LibDateField', {
         }
     },
     setValue: function (v) {
-        if (v != undefined && typeof v !== 'number'&&v!='') {
-            arguments[0] = v.getFullYear() * 10000 + (v.getMonth() + 1) * 100 + v.getDate();
+        if (v != undefined && typeof v !== 'number' && v != '') {
+            //arguments[0] = v.getFullYear() * 10000 + (v.getMonth() + 1) * 100 + v.getDate();
+            var date = new Date(v);
+            arguments[0] = date;
+            //var date = Ext.util.Format.date(v, "Y-m-d H:i:s");
+            //arguments[0] = date;
         };
         if (v === 0)
             arguments[0] = undefined;
         return this.callParent(arguments);
     },
     getValue: function () {
-        if (this.getRawValue() == '')
-            this.value = 0;
-        return this.value;
+        //if (this.getRawValue() == '')
+        //    this.value = 0;
+
+        if (this.value=="") {
+            return this.value;
+        }
+        else {
+           return Ext.util.Format.date(this.value, "Y-m-d H:i:s")
+        }
     },
     //老方法
     //getValue: function () {

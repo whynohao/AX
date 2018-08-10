@@ -41,7 +41,7 @@ namespace AxCRL.Comm.Runtime
             string filePath = Path.Combine(mainPath, "Runtime", BcfFileName);
             if (File.Exists(filePath))
             {
-                using (FileStream fs = new FileStream(filePath, FileMode.Open))
+                using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read,FileShare.Read))
                 {
                     progIdListing = (ProgIdConfigListing)formatter.Deserialize(fs);
                 }

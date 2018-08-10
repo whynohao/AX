@@ -46,9 +46,9 @@ D:\TEMP\AX\Src\Service\Ax.Server\bin\AxCRL.Services.pdb
 D:\TEMP\AX\Src\Framework\Ax.Framwork\AxCRL.Services\obj\Debug\AxCRL.Services.csprojResolveAssemblyReference.cache
 D:\TEMP\AX\Src\Framework\Ax.Framwork\AxCRL.Services\obj\Debug\AxCRL.Services.dll
 D:\TEMP\AX\Src\Framework\Ax.Framwork\AxCRL.Services\obj\Debug\AxCRL.Services.pdb
+E:\Temp\AX\Src\Framework\Ax.Framwork\AxCRL.Services\obj\Debug\AxCRL.Services.csprojResolveAssemblyReference.cache
 E:\Temp\AX\Src\Service\Ax.Server\bin\AxCRL.Services.dll.config
 E:\Temp\AX\Src\Service\Ax.Server\bin\AxCRL.Services.dll
 E:\Temp\AX\Src\Service\Ax.Server\bin\AxCRL.Services.pdb
-E:\Temp\AX\Src\Framework\Ax.Framwork\AxCRL.Services\obj\Debug\AxCRL.Services.csprojResolveAssemblyReference.cache
 E:\Temp\AX\Src\Framework\Ax.Framwork\AxCRL.Services\obj\Debug\AxCRL.Services.dll
 E:\Temp\AX\Src\Framework\Ax.Framwork\AxCRL.Services\obj\Debug\AxCRL.Services.pdb

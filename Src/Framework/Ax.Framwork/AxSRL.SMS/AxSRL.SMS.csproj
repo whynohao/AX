@@ -31,12 +31,16 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>axframwork.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="cn.jpush.api, Version=3.3.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Service\Ax.Server\bin\cn.jpush.api.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core">
       <HintPath>..\..\Wisdom_ZhongDe\Src\Service\Ax.Server\bin\Microsoft.AspNet.SignalR.Core.dll</HintPath>
       <Private>False</Private>
@@ -66,6 +70,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Runtime.Serialization" />

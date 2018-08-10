@@ -27,7 +27,7 @@ namespace AxCRL.Template.DataSource
         /// </summary>
         public const string UsingAttachment = "UsingAttachment";
     }
-    
+
     public class FieldProperty
     {
         public const string DataType = "DataType";
@@ -53,6 +53,9 @@ namespace AxCRL.Template.DataSource
         public const string SummaryRenderer = "SummaryRenderer";
         public const string AttributeField = "AttributeField";
         public const string Precision = "Precision";
+        public const string SelectSql = "SelectSql";
+        public const string SelectFields = "SelectFields";
+
         /// <summary>
         /// 步进值属性字符串
         /// </summary>
@@ -61,13 +64,13 @@ namespace AxCRL.Template.DataSource
         /// 字体设置
         /// </summary>
         public const string FontName = "FontName";
-        
+
         /// <summary>
         /// 下拉grid
         /// yangj 20170629 增加
         /// </summary>
         public const string GridAttribute = "GridAttribute";
-        
+
     }
     /// <summary>
     /// 动态字段关系
@@ -81,13 +84,14 @@ namespace AxCRL.Template.DataSource
         /// </summary>
         public Dictionary<int, Dictionary<string, LibDynamicFildInfo>> DynamicFildRelation
         {
-            get {
+            get
+            {
                 if (_DynamicFildRelation == null)
                 { _DynamicFildRelation = new Dictionary<int, Dictionary<string, LibDynamicFildInfo>>(); }
-                
+
                 return _DynamicFildRelation;
             }
-            
+
             set { _DynamicFildRelation = value; }
         }
     }
@@ -99,14 +103,14 @@ namespace AxCRL.Template.DataSource
         private string _MapToField;
         private string _FieldForValue;
         private object _Data;
-        
-        public LibDynamicFildInfo (string mapToFild, string fieldForValue)
+
+        public LibDynamicFildInfo(string mapToFild, string fieldForValue)
         {
             this._MapToField = mapToFild;
             this._FieldForValue = fieldForValue;
         }
-        
-        public LibDynamicFildInfo (string mapToFild, string fieldForValue, object data)
+
+        public LibDynamicFildInfo(string mapToFild, string fieldForValue, object data)
         {
             this._MapToField = mapToFild;
             this._FieldForValue = fieldForValue;
@@ -118,7 +122,7 @@ namespace AxCRL.Template.DataSource
         public string ParentForValue
         {
             get { return _ParentForValue; }
-            
+
             set { _ParentForValue = value; }
         }
         /// <summary>
@@ -127,7 +131,7 @@ namespace AxCRL.Template.DataSource
         public string ParentMapToField
         {
             get { return _ParentMapToField; }
-            
+
             set { _ParentMapToField = value; }
         }
         /// <summary>
@@ -136,7 +140,7 @@ namespace AxCRL.Template.DataSource
         public string MapToField
         {
             get { return _MapToField; }
-            
+
             set { _MapToField = value; }
         }
         /// <summary>
@@ -145,7 +149,7 @@ namespace AxCRL.Template.DataSource
         public string FieldForValue
         {
             get { return _FieldForValue; }
-            
+
             set { _FieldForValue = value; }
         }
         /// <summary>
@@ -154,12 +158,13 @@ namespace AxCRL.Template.DataSource
         public object Data
         {
             get { return _Data; }
-            
+
             set { _Data = value; }
         }
     }
-    
-    public enum LibSummary {
+
+    public enum LibSummary
+    {
         None = 0,
         Count = 1,
         Sum = 2,
@@ -167,8 +172,9 @@ namespace AxCRL.Template.DataSource
         Max = 4,
         Average = 5
     }
-    
-    public enum LibQtyLimit {
+
+    public enum LibQtyLimit
+    {
         None = 0,
         GreaterThanZero = 1,
         LessThanZero = 2,
@@ -178,14 +184,16 @@ namespace AxCRL.Template.DataSource
         UnequalToZero = 6,
         ZeroBetweenOne = 7,
     }
-    
-    public enum FieldType {
+
+    public enum FieldType
+    {
         None = 0,
         Virtual = 1,
         Relative = 2,
         SetValue = 3
     }
-    
+
+
     public class FieldSize
     {
         public const int Size10 = 10;
@@ -200,103 +208,107 @@ namespace AxCRL.Template.DataSource
         public const int Size2000 = 2000;
         public const int Size4000 = 4000;
         public const int Size5000 = 5000;
+        public const int Max = -1;
     }
-    
-    public enum InputType {
+
+    public enum InputType
+    {
         Text = 0,
         Password = 1,
         File = 3,
         Url = 4,
         Email = 5
     }
-    
+
     public class FilterSetting
     {
         private int _Day = 0;
         private bool _IsRange = false;
         private string _Name;
-        
+
         public string Name
         {
             get { return _Name; }
-            
+
             set { _Name = value; }
         }
-        
+
         public FilterSetting()
         {
         }
-        
-        public FilterSetting (string name, int day)
+
+        public FilterSetting(string name, int day)
         {
             this._Name = name;
             this._Day = day;
         }
-        
+
         /// <summary>
         /// 是否是一个区间
         /// </summary>
         public bool IsRange
         {
             get { return _IsRange; }
-            
+
             set { _IsRange = value; }
         }
-        
+
         /// <summary>
         /// 间隔天数
         /// </summary>
         public int Day
         {
             get { return _Day; }
-            
+
             set { _Day = value; }
         }
     }
-    
-    
-    
+
+
+
     #region [数据表索引]
-    
+
     /// <summary>
     /// 索引排序规则
     /// </summary>
-    public enum IndexOrderWay {
+    public enum IndexOrderWay
+    {
         ASC = 0,
         DESC = 1,
     }
     /// <summary>
     /// 数据库索引
     /// </summary>
-    [Serializable]    
+    [Serializable]
     public class DBIndex
     {
         private string _name;
         private DBIndexFieldCollection _dbIndexFields = null;
         private bool _isUnique = false;
-        
-        public DBIndex (string name, DBIndexFieldCollection dbIndexFields)
+
+        public DBIndex(string name, DBIndexFieldCollection dbIndexFields)
         {
             _name = name;
             _dbIndexFields = dbIndexFields;
         }
-        
-        public DBIndex (string name, DBIndexFieldCollection dbIndexFields, bool isUnique)
+
+        public DBIndex(string name, DBIndexFieldCollection dbIndexFields, bool isUnique)
         {
             _name = name;
             _dbIndexFields = dbIndexFields;
             _isUnique = isUnique;
         }
-        
+
         /// <summary>
         /// 索引字段集合
         /// </summary>
         public DBIndexFieldCollection DbIndexFields
         {
-            get {
+            get
+            {
                 if (_dbIndexFields == null)
                 { _dbIndexFields = new DBIndexFieldCollection(); }
-                
+
                 return _dbIndexFields;
             }
         }
@@ -306,17 +318,17 @@ namespace AxCRL.Template.DataSource
         public string Name
         {
             get { return _name; }
-            
+
             set { _name = value; }
         }
-        
+
         /// <summary>
         /// 是否是唯一索引
         /// </summary>
         public bool IsUnique
         {
             get { return _isUnique; }
-            
+
             set { _isUnique = value; }
         }
     }
@@ -328,13 +340,13 @@ namespace AxCRL.Template.DataSource
     {
         private string _name;
         private IndexOrderWay _indexOrderWay = IndexOrderWay.ASC;
-        
-        public DBIndexField (string name)
+
+        public DBIndexField(string name)
         {
             this._name = name;
         }
-        
-        public DBIndexField (string name, IndexOrderWay indexOrderWay)
+
+        public DBIndexField(string name, IndexOrderWay indexOrderWay)
         {
             this._name = name;
             this._indexOrderWay = indexOrderWay;
@@ -345,7 +357,7 @@ namespace AxCRL.Template.DataSource
         public IndexOrderWay IndexOrderWay
         {
             get { return _indexOrderWay; }
-            
+
             set { _indexOrderWay = value; }
         }
         /// <summary>
@@ -354,19 +366,19 @@ namespace AxCRL.Template.DataSource
         public string Name
         {
             get { return _name; }
-            
+
             set { _name = value; }
         }
     }
     [Serializable]
     public class DBIndexFieldCollection : Collection<DBIndexField>
     {
-    
+
     }
     [Serializable]
     public class DBIndexCollection : Collection<DBIndex>
     {
-    
+
     }
     #endregion
     /// <summary>
@@ -391,61 +403,66 @@ namespace AxCRL.Template.DataSource
         /// 分组时，GroupIndex != 0 时的关联源int[0]和字段索引int[1]
         /// </summary>
         public List<int[]> GroupRelIndexs { get; set; }
-        
+
         public FieldAddr()
         {
         }
-        
-        public FieldAddr (int fieldIndex, int relSourceIndex, int relFieldIndex)
+
+        public FieldAddr(int fieldIndex, int relSourceIndex, int relFieldIndex)
         {
             this.FieldIndex = fieldIndex;
             this.RelSourceIndex = relSourceIndex;
             this.RelFieldIndex = relFieldIndex;
         }
-        
-        public void ReadObjectData (LibSerializationInfo info)
+
+        public void ReadObjectData(LibSerializationInfo info)
         {
             this.FieldIndex = info.ReadInt32();
             this.RelSourceIndex = info.ReadInt32();
             this.RelFieldIndex = info.ReadInt32();
             int count = info.ReadInt32();
-            
-            if (count > 0) {
+
+            if (count > 0)
+            {
                 this.GroupRelIndexs = new List<int[]>();
-                
-                for (int i = 0; i < count; i++) {
+
+                for (int i = 0; i < count; i++)
+                {
                     int length = info.ReadInt32();
                     //this.GroupRelIndexs[i] = new int[length];
-                    this.GroupRelIndexs.Add (new int[length]);
-                    
-                    for (int r = 0; r < length; r++) {
+                    this.GroupRelIndexs.Add(new int[length]);
+
+                    for (int r = 0; r < length; r++)
+                    {
                         this.GroupRelIndexs[i][r] = info.ReadInt32();
                     }
                 }
             }
         }
-        
-        public void WriteObjectData (LibSerializationInfo info)
+
+        public void WriteObjectData(LibSerializationInfo info)
         {
-            info.WriteInt32 (this.FieldIndex);
-            info.WriteInt32 (this.RelSourceIndex);
-            info.WriteInt32 (this.RelFieldIndex);
+            info.WriteInt32(this.FieldIndex);
+            info.WriteInt32(this.RelSourceIndex);
+            info.WriteInt32(this.RelFieldIndex);
             int count = this.GroupRelIndexs == null ? 0 : this.GroupRelIndexs.Count;
-            info.WriteInt32 (count);
-            
-            for (int i = 0; i < count; i++) {
+            info.WriteInt32(count);
+
+            for (int i = 0; i < count; i++)
+            {
                 int length = this.GroupRelIndexs[i].Length;
-                info.WriteInt32 (length);
-                
-                for (int r = 0; r < length; r++) {
-                    info.WriteInt32 (this.GroupRelIndexs[i][r]);
+                info.WriteInt32(length);
+
+                for (int r = 0; r < length; r++)
+                {
+                    info.WriteInt32(this.GroupRelIndexs[i][r]);
                 }
             }
         }
-        
+
     }
-    
-    
+
+
     [Serializable]
     public class GridAttribute
     {
@@ -453,69 +470,73 @@ namespace AxCRL.Template.DataSource
         public string ProgId
         {
             get { return _ProgId; }
-            
+
             set { _ProgId = value; }
         }
         private string _FuncName; //方法名
         public string FuncName
         {
             get { return _FuncName; }
-            
+
             set { _FuncName = value; }
         }
         private string _ValueField; //填充字段
         public string ValueField
         {
             get { return _ValueField; }
-            
+
             set { _ValueField = value; }
         }
         private List<GridField> _ShowField; //显示字段(包含填充字段)
         public List<GridField> ShowField
         {
             get { return _ShowField; }
-            
+
             set { _ShowField = value; }
         }
         private string _ParamField; //参数字段
         public string ParamField
         {
             get { return _ParamField; }
-            
+
             set { _ParamField = value; }
         }
     }
-    
+
     [Serializable]
     public class GridField
     {
-        public GridField (string f, string t)
+        public GridField(string f, string t)
         {
             this.FieldName = f;
             this.TextName = t;
         }
-        
+
         private string _FieldName; //字段名称
         private string _TextName; //显示名称
-        
+
         public string FieldName
         {
-            get {
+            get
+            {
                 return _FieldName;
             }
-            
-            set {
+
+            set
+            {
                 _FieldName = value;
             }
         }
-        
+
         public string TextName
         {
-            get {
+            get
+            {
                 return _TextName;
             }
-            
-            set {
+
+            set
+            {
                 _TextName = value;
             }
         }

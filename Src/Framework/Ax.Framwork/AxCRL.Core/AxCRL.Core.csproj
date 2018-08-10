@@ -20,7 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,17 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>axframwork.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AxCRL.Comm, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c84a53ece4927174, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Wisdom_ZhongDe\Src\Service\Ax.Server\bin\AxCRL.Comm.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="AxCRL.Data">
       <HintPath>..\..\Wisdom_ZhongDe\Src\Service\Ax.Server\bin\AxCRL.Data.dll</HintPath>
       <Private>False</Private>
@@ -108,6 +103,13 @@
     <None Include="app.config" />
     <None Include="axframwork.snk" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AxCRL.Comm\AxCRL.Comm.csproj">
+      <Project>{99dff188-2dd7-474d-9559-19b357a331ff}</Project>
+      <Name>AxCRL.Comm</Name>
+      <Private>False</Private>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

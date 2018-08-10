@@ -205,7 +205,8 @@ Ax.utils.LibToolBarBuilder = {
                 }
             }
         };
-        var permissionList = checkAllPermission();
+        //var permissionList = checkAllPermission();
+        var permissionList = [];
         var select = Ext.create(Ext.Action, {
             text: '查询',
             iconCls: 'fa fa-search',
@@ -665,7 +666,7 @@ Ax.utils.LibToolBarBuilder = {
                             continue;
                         buildBandCol(columns[l], gridScheme.GridFields);
                     }
-                    if (gridScheme != undefined)
+                    if (my.gridScheme != undefined)
                         displayScheme.GridScheme[0] = gridScheme;
                     Ext.Ajax.request({
                         url: '/billSvc/saveBillListingScheme',
@@ -833,7 +834,8 @@ Ax.utils.LibToolBarBuilder = {
             }
             return true;
         }
-        var permissionList = checkAllPermission();
+        //var permissionList = checkAllPermission();
+        var permissionList = [];
         //新增
         var addNew = Ext.create(Ext.Action, {
             xtype: 'splitbutton',
@@ -861,6 +863,7 @@ Ax.utils.LibToolBarBuilder = {
             iconCls: 'fa fa-edit',
             hidden: contains(permissionList, 8),
             handler: function () {
+                debugger;
                 var success = true;
                 billAction = vcl.billAction;
                 if (vcl.isEdit) {
@@ -1030,6 +1033,7 @@ Ax.utils.LibToolBarBuilder = {
         var saveToDraft = Ext.create(Ext.Action, {
             text: '存为草稿',
             iconCls: 'fa fa-file-word',
+            hidden: true,
             handler: function () {
                 vcl.doSaveToDraft();
                 setAction(vcl.billType, vcl.isEdit, false);
@@ -1063,6 +1067,7 @@ Ax.utils.LibToolBarBuilder = {
         var returnListing = Ext.create(Ext.Action, {
             text: '清单',
             iconCls: 'fa fa-file-text',
+            hidden: true,
             handler: function () {
                 var funcMenu = Ext.getCmp('billMenu-win');
                 if (funcMenu) {
@@ -1386,6 +1391,48 @@ Ax.utils.LibToolBarBuilder = {
                     invalid.setDisabled(true);
                     endCase.setDisabled(true);
                 }
+
+                //debugger;
+                //vcl.form.every(function (item) {
+                //    vcl.form.items.each(function (item) {
+                //        if (item.xtype == "tabpanel") {
+                //            item.items.each(function (childItem) {
+                //                if (childItem.xtype == "panel") {
+                //                    childItem.items.each(function (childItemDetial) {
+                //                        childItemDetial.setReadOnly(true);
+                //                    })
+                //                }
+                //            })
+                //        }
+                //        else if (item.xtype == "panel") {
+
+                //        }
+                //        else {
+                //            item.setReadOnly(true);
+                //            if (item.onEdit != undefined) {
+                //                item.onEdit();
+                //            }
+                //        }
+                //    });
+                //});
+                //var data =vcl.form panel.items.items["0"].items;
+                //data.each(function (item) {
+                //    if (item.xtype == "tabpanel") {
+                //        item.items.each(function (childItem) {
+                //            if (childItem.xtype == "panel") {
+                //                childItem.items.each(function (childItemDetial) {
+                //                    childItemDetial.setReadOnly(true);
+                //                })
+                //            }
+                //        })
+                //    }
+                //    else if (item.xtype == "panel") {
+
+                //    }
+                //    else {
+                //        item.setReadOnly(true);
+                //    }
+                //});
             } else {
                 addNew.setDisabled(false);
                 edit.setText("修改");
@@ -1474,6 +1521,7 @@ Ax.utils.LibToolBarBuilder = {
             text: '修改',
             iconCls: 'fa fa-edit',
             handler: function () {
+                debugger;
                 var success = true;
                 if (vcl.isEdit) {
                     success = vcl.doSave();

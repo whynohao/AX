@@ -764,11 +764,11 @@ namespace Ax.Ui.Controllers
                 //权限判断
                 if (userId.ToLower() != "admin")
                 {
-                    DMUserPermission userPermission = DMUserPermissionCache.Default.GetCacheItem(personId);
-                    if (!userPermission.CheckCan(string.Empty, docId, DMFuncPermissionEnum.Download))
-                    {
-                        throw new Exception("没有权限下载该文件");
-                    }
+                    //DMUserPermission userPermission = DMUserPermissionCache.Default.GetCacheItem(personId);
+                    //if (!userPermission.CheckCan(string.Empty, docId, DMFuncPermissionEnum.Download))
+                    //{
+                    //    throw new Exception("没有权限下载该文件");
+                    //}
                 }
 
 

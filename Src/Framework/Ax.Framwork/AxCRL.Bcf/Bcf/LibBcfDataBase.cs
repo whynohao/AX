@@ -39,7 +39,7 @@ namespace AxCRL.Bcf
                     _extendBcfParam = new Dictionary<string, object>();
                 return _extendBcfParam;
             }
-        }      
+        }
         public LibBcfDataBase()
         {
 
@@ -384,7 +384,8 @@ namespace AxCRL.Bcf
         {
             dataAccess.ExecuteDataTables(dataSet, LibCommUtils.GetStoredProcedureName(key), pks);
             //附加同步数据到各站点的配置及历史记录
-            if (dataSet.Tables.Contains(LibFuncPermission.SynchroDataSettingTableName) && LibTemplate.HasAxpLinkSite)
+            //if (dataSet.Tables.Contains(LibFuncPermission.SynchroDataSettingTableName) && LibTemplate.HasAxpLinkSite)
+            if (dataSet.Tables.Contains(LibFuncPermission.SynchroDataSettingTableName))
             {
                 string progId = key;
                 string internalId = string.Empty;
@@ -539,7 +540,7 @@ namespace AxCRL.Bcf
                                                 continue;
                                             if (dynamicRelation == null)
                                             {
-                                                if (data.Value != null&& curTable.Columns.Contains(data.Key))
+                                                if (data.Value != null && curTable.Columns.Contains(data.Key))
                                                     curRow[data.Key] = data.Value;
                                             }
                                             else
@@ -730,6 +731,18 @@ namespace AxCRL.Bcf
                         if (LibSysUtils.ToBoolean(curRow[name]) != LibSysUtils.ToBoolean((curRow[name, DataRowVersion.Original])))
                             valueBuilder.AppendFormat("{0}={1},", name, LibSysUtils.ToInt32(curRow[name]));
                         break;
+                    case LibDataType.DateTime:
+                        if (LibSysUtils.ToString(curRow[name]) != LibSysUtils.ToString((curRow[name, DataRowVersion.Original])))
+                            valueBuilder.AppendFormat("{0}='{1}',", name, LibSysUtils.ToString(curRow[name]));
+                        break;
+                    case LibDataType.Date:
+                        if (LibSysUtils.ToString(curRow[name]) != LibSysUtils.ToString((curRow[name, DataRowVersion.Original])))
+                            valueBuilder.AppendFormat("{0}='{1}',", name, LibSysUtils.ToString(curRow[name]));
+                        break;
+                    case LibDataType.Time:
+                        if (LibSysUtils.ToString(curRow[name]) != LibSysUtils.ToString((curRow[name, DataRowVersion.Original])))
+                            valueBuilder.AppendFormat("{0}='{1}',", name, LibSysUtils.ToString(curRow[name]));
+                        break;
                     default:
                         break;
                 }
@@ -883,9 +896,9 @@ namespace AxCRL.Bcf
                                 if (string.IsNullOrEmpty(LibSysUtils.ToString(curRow[name])))
                                     curBcf.ManagerMessage.AddMessage(LibMessageKind.Error, string.Format("字段{0}不能为空。", table.Columns[name].Caption));
                             }
-                            else if (controlType== LibControlType.Date)
+                            else if (controlType == LibControlType.Date)
                             {
-                                if (LibSysUtils.ToInt32(curRow[name])==0)
+                                if (LibSysUtils.ToInt32(curRow[name]) == 0)
                                     curBcf.ManagerMessage.AddMessage(LibMessageKind.Error, string.Format("字段{0}不能为空。", table.Columns[name].Caption));
                             }
                         }

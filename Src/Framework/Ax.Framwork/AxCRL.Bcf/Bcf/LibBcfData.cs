@@ -119,11 +119,11 @@ namespace AxCRL.Bcf
         static LibBcfData()
         {
             //初始即查找是否具有按部门岗位审核的相关字段
-            LibSqlModel sqlModel = LibSqlModelCache.Default.GetSqlModel("axp.ApproveFlow");
-            if (sqlModel != null && sqlModel.Tables.Count > 2 && sqlModel.Tables[2].Columns.Contains("DUTYID"))
-            {
-                HasAduitOfDuty = true;
-            }
+            //LibSqlModel sqlModel = LibSqlModelCache.Default.GetSqlModel("axp.ApproveFlow");
+            //if (sqlModel != null && sqlModel.Tables.Count > 2 && sqlModel.Tables[2].Columns.Contains("DUTYID"))
+            //{
+            //    HasAduitOfDuty = true;
+            //}
         }
 
         #region [单据操作检查]
@@ -642,13 +642,24 @@ namespace AxCRL.Bcf
                 }
                 //对主键赋值
                 string fieldName = masterRow.Table.PrimaryKey[masterRow.Table.PrimaryKey.Length - 1].ColumnName;
-                string codingNo = LibCodingNoServer.Default.GetCodingNo(this.Template.BillType, this.ProgId, fieldName, masterRow, true, this.DataAccess);
-                if (!string.IsNullOrEmpty(codingNo))
-                    masterRow[fieldName] = codingNo;
+
+                #region 实体编码
+                string codingNo = string.Empty;
+                try
+                {
+                    codingNo = LibCodingNoServer.Default.GetCodingNo(this.Template.BillType, this.ProgId, fieldName, masterRow, true, this.DataAccess);
+                    if (!string.IsNullOrEmpty(codingNo))
+                        masterRow[fieldName] = codingNo;
+                }
+                catch (Exception)
+                {
+                }
+                #endregion
+
                 //为系统字段赋值
                 masterRow["CREATORID"] = this.Handle.PersonId;
                 masterRow["CREATORNAME"] = this.Handle.PersonName;
-                masterRow["CREATETIME"] = LibDateUtils.GetCurrentDateTime();
+                masterRow["CREATETIME"] = LibDateUtils.Now();
                 if (this.Template.BillType == BillType.Bill && masterRow.Table.Columns.Contains("BILLDATE"))
                     masterRow["BILLDATE"] = LibDateUtils.GetCurrentDate();
             }
@@ -799,7 +810,8 @@ namespace AxCRL.Bcf
         {
             if (dataSet == null)
                 return;
-            if (dataSet.Tables.Contains(LibFuncPermission.SynchroDataSettingTableName) && LibTemplate.HasAxpLinkSite)
+            //if (dataSet.Tables.Contains(LibFuncPermission.SynchroDataSettingTableName) && LibTemplate.HasAxpLinkSite)
+            if (dataSet.Tables.Contains(LibFuncPermission.SynchroDataSettingTableName))
             {
                 string progId = this.ProgId;
                 string internalId = string.Empty;
@@ -1082,42 +1094,53 @@ namespace AxCRL.Bcf
             string fieldName = masterRow.Table.PrimaryKey[masterRow.Table.PrimaryKey.Length - 1].ColumnName;
             CodingRule codingRule;
             bool addNew = isImportState;
-            string codingValue = LibCodingNoServer.Default.GetCodingNo(this.Template.BillType, this.ProgId, fieldName, masterRow, addNew, out codingRule, this.DataAccess);
-            if ((isImportState || codingRule.CreateOnSave) && !string.IsNullOrEmpty(codingValue))
+
+            #region 编码
+            string codingValue = string.Empty;
+            try
             {
-                this.CurrentCodingNo = codingValue;
-                List<DataTable> dtList = new List<DataTable>();
-                try
+                codingValue = LibCodingNoServer.Default.GetCodingNo(this.Template.BillType, this.ProgId, fieldName, masterRow, addNew, out codingRule, this.DataAccess);
+                if ((isImportState || codingRule.CreateOnSave) && !string.IsNullOrEmpty(codingValue))
                 {
-                    foreach (DataTable table in this.DataSet.Tables)
+                    this.CurrentCodingNo = codingValue;
+                    List<DataTable> dtList = new List<DataTable>();
+                    try
                     {
-                        if (this.DataSet.Tables.Count > 0)
+                        foreach (DataTable table in this.DataSet.Tables)
                         {
-                            table.BeginLoadData();
-                            dtList.Add(table);
-                            foreach (DataRow curRow in table.Rows)
+                            if (this.DataSet.Tables.Count > 0)
                             {
-                                curRow.BeginEdit();
-                                try
+                                table.BeginLoadData();
+                                dtList.Add(table);
+                                foreach (DataRow curRow in table.Rows)
                                 {
-                                    curRow[fieldName] = codingValue;
-                                }
-                                finally
-                                {
-                                    curRow.EndEdit();
+                                    curRow.BeginEdit();
+                                    try
+                                    {
+                                        curRow[fieldName] = codingValue;
+                                    }
+                                    finally
+                                    {
+                                        curRow.EndEdit();
+                                    }
                                 }
                             }
                         }
                     }
-                }
-                finally
-                {
-                    foreach (var table in dtList)
+                    finally
                     {
-                        table.EndLoadData();
+                        foreach (var table in dtList)
+                        {
+                            table.EndLoadData();
+                        }
                     }
                 }
             }
+            catch (Exception)
+            {
+
+            }
+            #endregion
         }
 
         private void ReturnCodingNo(DataRow masterRow)
@@ -1130,35 +1153,39 @@ namespace AxCRL.Bcf
         private void SetSystemFieldValue(DataRow masterRow)
         {
             long currentTime = LibDateUtils.GetCurrentDateTime();
+
             masterRow.BeginEdit();
             try
             {
                 if (this.BillAction == BillAction.AddNew || this.BillAction == BillAction.SubmitDraft)
-                    this.SetCurrentState(masterRow);
+                {
+                    //设置单据状态
+                    //this.SetCurrentState(masterRow);
+                }
                 if (this.BillAction == BillAction.AddNew || this.BillAction == BillAction.SaveToDraft)
                 {
-                    masterRow["CREATETIME"] = currentTime;
+                    masterRow["CREATETIME"] = LibDateUtils.Now();
                     masterRow["INTERNALID"] = Guid.NewGuid().ToString();
                     masterRow["CREATORID"] = this.Handle.PersonId;
                     masterRow["CREATORNAME"] = this.Handle.PersonName;
                 }
-                if (this.Template.BillType == BillType.Master)
-                {
-                    int validityStartDate = LibSysUtils.ToInt32(masterRow["VALIDITYSTARTDATE"]);
-                    int validityEndDate = LibSysUtils.ToInt32(masterRow["VALIDITYENDDATE"]);
-                    if (validityEndDate != 0 && validityStartDate > validityEndDate)
-                    {
-                        this.ManagerMessage.AddMessage(LibMessageKind.Error, "有效期开始日期大于有效期结束日期");
-                    }
-                    else
-                    {
-                        bool isValidity = LibSysUtils.ToBoolean(masterRow["ISVALIDITY"]);
-                        int curDate = LibDateUtils.GetCurrentDate();
-                        bool curIsValidity = (curDate >= validityStartDate && (curDate <= validityEndDate || validityEndDate == 0));
-                        if (isValidity != curIsValidity)
-                            masterRow["ISVALIDITY"] = curIsValidity;
-                    }
-                }
+                //if (this.Template.BillType == BillType.Master)
+                //{
+                //    int validityStartDate = LibSysUtils.ToInt32(masterRow["VALIDITYSTARTDATE"]);
+                //    int validityEndDate = LibSysUtils.ToInt32(masterRow["VALIDITYENDDATE"]);
+                //    if (validityEndDate != 0 && validityStartDate > validityEndDate)
+                //    {
+                //        this.ManagerMessage.AddMessage(LibMessageKind.Error, "有效期开始日期大于有效期结束日期");
+                //    }
+                //    else
+                //    {
+                //        bool isValidity = LibSysUtils.ToBoolean(masterRow["ISVALIDITY"]);
+                //        int curDate = LibDateUtils.GetCurrentDate();
+                //        bool curIsValidity = (curDate >= validityStartDate && (curDate <= validityEndDate || validityEndDate == 0));
+                //        if (isValidity != curIsValidity)
+                //            masterRow["ISVALIDITY"] = curIsValidity;
+                //    }
+                //}
                 switch (BillAction)
                 {
                     case BillAction.Release:
@@ -1691,6 +1718,14 @@ namespace AxCRL.Bcf
 
         #endregion
 
+        #region 打印
+        public virtual DataSet Print(string[] pks)
+        {
+            DataSet ds = BrowseTo(pks);
+            return ds;
+        }
+        #endregion
+
         /// <summary>
         /// 移除缓存
         /// </summary>
@@ -1728,7 +1763,7 @@ namespace AxCRL.Bcf
             if (this.Template.FuncPermission.UsingDynamicColumn && entryParam != null)
                 this.DataSet = this.ChangeTableStructure(entryParam);
             LibBillTpl tpl = (LibBillTpl)base.GetViewTemplate(entryParam);
-            tpl.ShowAuditState = this.UsingAudit;
+            //tpl.ShowAuditState = this.UsingAudit;
             return tpl;
         }
 

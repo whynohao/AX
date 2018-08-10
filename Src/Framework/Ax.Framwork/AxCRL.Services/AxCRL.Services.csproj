@@ -20,7 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>0</WarningLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,7 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>axframwork.snk</AssemblyOriginatorKeyFile>
@@ -41,6 +41,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Wisdom_ZhongDe\Src\Service\Ax.Server\bin\AxCRL.Core.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="FastReport, Version=2017.3.2.0, Culture=neutral, PublicKeyToken=db7e5ce63278458c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\FastReport\FastReport.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\Wisdom_ZhongDe\Src\Service\Ax.Server\bin\Newtonsoft.Json.dll</HintPath>
@@ -54,6 +58,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
@@ -80,6 +85,7 @@
     <Compile Include="Services\BillService.cs" />
     <Compile Include="Services\FileTransferService.cs" />
     <Compile Include="Services\MailService.cs" />
+    <Compile Include="Services\PrintService.cs" />
     <Compile Include="Services\SystemManager.cs" />
     <Compile Include="Services\SystemService.cs" />
     <Compile Include="Services\WsService.cs" />
@@ -101,6 +107,7 @@
     <ProjectReference Include="..\AxCRL.Data\AxCRL.Data.csproj">
       <Project>{86f19ebb-40fe-4674-9d7f-8f9fd3e5c125}</Project>
       <Name>AxCRL.Data</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\AxCRL.Template\AxCRL.Template.csproj">
       <Project>{34acdb52-11e2-4390-9b82-c8178cc19dde}</Project>

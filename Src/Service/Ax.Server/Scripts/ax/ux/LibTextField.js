@@ -30,6 +30,9 @@ Ext.define('Ax.ux.form.LibTextField', {
             }
         }
         me.callParent([e]);
+    },
+    onEdit: function (e) {
+        alert("Edit");
     }
 });
 

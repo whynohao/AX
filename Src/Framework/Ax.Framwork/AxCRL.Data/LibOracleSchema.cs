@@ -115,6 +115,9 @@ namespace AxCRL.Data
             public const string NVARCHAR = "NVARCHAR2";
             public const string TINYINT = "INTEGER";
             public const string VARCHAR = "VARCHAR2";
+            public const string DateTime = "datetime";
+            public const string Date = "date";
+            public const string Time = "time";
 
             /// <summary>
             /// Initialize using connection.

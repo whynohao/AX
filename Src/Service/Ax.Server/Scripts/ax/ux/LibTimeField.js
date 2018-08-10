@@ -7,6 +7,7 @@ Ext.define('Ax.ux.form.LibTimeField', {
     altFormats: 'His|gis|is|s',
     enableKeyEvents: true,
     initComponent: function () {
+        debugger;
         this.id = this.name + this.tableIndex + '_' + DesktopApp.ActiveWindow;
         this.callParent();
     },

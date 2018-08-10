@@ -1,4 +1,6 @@
-﻿using AxCRL.Comm.Runtime;
+﻿using AxCRL.Bcf;
+using AxCRL.Comm.Bill;
+using AxCRL.Comm.Runtime;
 using AxCRL.Comm.Utils;
 using AxCRL.Core.Cache;
 using AxCRL.Core.Comm;
@@ -10,11 +12,13 @@ using AxCRL.Template.DataSource;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.ServiceModel.Channels;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace AxCRL.Services
 {
@@ -86,7 +90,7 @@ namespace AxCRL.Services
             UpLoadFileResult upLoadFileResult = new UpLoadFileResult();
             string encodingName = "utf-8";
             string imgType = string.Empty;
-            List<string> typeList = new List<string>() { "JPG","BMP","PNG","JPEG"};
+            List<string> typeList = new List<string>() { "JPG", "BMP", "PNG", "JPEG" };
             using (MemoryStream ms = new MemoryStream())
             {
                 file.CopyTo(ms);
@@ -112,13 +116,13 @@ namespace AxCRL.Services
                 else
                     fileName = orgFileName.Replace(orgFileName.Substring(0, orgFileName.LastIndexOf('.')), fileName);
                 //判断图片格式
-                imgType=fileName.Substring(fileName.LastIndexOf('.')+1).ToUpper();
+                imgType = fileName.Substring(fileName.LastIndexOf('.') + 1).ToUpper();
                 if (!typeList.Contains(imgType))
                 {
                     upLoadFileResult.FileName = "errorType";
                     upLoadFileResult.success = false;
                     return upLoadFileResult;
-                }  
+                }
                 //一直读到空行为止  
                 while (true)
                 {
@@ -150,6 +154,92 @@ namespace AxCRL.Services
             }
             return upLoadFileResult;
         }
+
+        public UpLoadFileResult UpLoadFile1(HttpPostedFile file, string progId = "")
+        {
+            UpLoadFileResult upLoadFileResult = new UpLoadFileResult();
+
+            bool isLocalHost = true;
+
+            string fileName = LibDateUtils.Now().Ticks.ToString();
+            fileName = file.FileName.Replace(file.FileName.Substring(0, file.FileName.LastIndexOf('.')), fileName);
+            string filePath = Path.Combine(EnvProvider.Default.RuningPath, "TempData", "ImportData", fileName);
+            string url = Path.Combine("\\TempData", "ImportData", fileName);
+
+            #region 对应实体图片路径
+            if (!string.IsNullOrEmpty(progId))
+            {
+                string sql = string.Format(" SELECT Url,LocalHost FROM ComImagePath WHERE Progid='{0}' ", progId);
+                DataSet dataSet = new LibDataAccess().ExecuteDataSet(sql);
+                if (dataSet != null && dataSet.Tables.Count > 0 && dataSet.Tables[0].Rows.Count > 0)
+                {
+                    DataRow dr = dataSet.Tables[0].Rows[0];
+                    isLocalHost = LibSysUtils.ToBoolean(dr["LocalHost"]);
+                    url = LibSysUtils.Combine(LibSysUtils.ToString(dr["Url"]), fileName);
+                    filePath = LibSysUtils.Combine(EnvProvider.Default.RuningPath, url);
+                }
+            }
+            #endregion
+
+            #region 新增图片实体
+            LibEntryParam entryParam = new LibEntryParam();
+
+            DataSet dataset = null;
+            LibBcfData bcfData = (LibBcfData)LibBcfSystem.Default.GetBcfInstance("KanTime.Picture");
+            dataset = bcfData.AddNew(entryParam);
+
+            #region 填充数据
+            dataset.EnforceConstraints = false;
+            try
+            {
+                #region  表头
+                DataRow masterRow = dataset.Tables[0].Rows[0];
+                masterRow.BeginEdit();
+                masterRow["Name"] = fileName;
+                masterRow["Url"] = url;
+                masterRow.EndEdit();
+                #endregion
+
+                #region 明细
+                //dataset.Tables[1].BeginLoadData();
+                //dataset.Tables[1].EndLoadData();
+                #endregion
+            }
+            finally
+            {
+                dataset.EnforceConstraints = true;
+            }
+            dataset = bcfData.InnerSave(BillAction.AddNew, null, dataset);
+            if (bcfData.ManagerMessage.IsThrow)
+            {
+                StringBuilder strMsg = new StringBuilder();
+                foreach (var item in bcfData.ManagerMessage.MessageList)
+                {
+                    strMsg.AppendFormat("{0}", item.Message);
+                }
+                throw new Exception(strMsg.ToString());
+            }
+            #endregion
+
+            #endregion
+
+            file.SaveAs(filePath);
+
+            #region 返回本机或外网地址
+            if (isLocalHost)
+            {
+                upLoadFileResult.FileName = url;
+            }
+            else
+            {
+                upLoadFileResult.FileName = LibSysUtils.Combine(EnvProvider.Default.UploadHostName, url);
+            }
+            #endregion
+
+            upLoadFileResult.success = true;
+            return upLoadFileResult;
+        }
+
         public UpLoadFileResult UpLoadFile(Stream stream)
         {
             string dirPath = Path.Combine(EnvProvider.Default.RuningPath, "TempData", "ImportData");
@@ -474,6 +564,7 @@ namespace AxCRL.Services
     {
         public string parentId { get; set; }
         public string MENUITEM { get; set; }
+        public string MenuUrl { get; set; }
         public string PROGID { get; set; }
         public string PROGNAME { get; set; }
         public int BILLTYPE { get; set; }

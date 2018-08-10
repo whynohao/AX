@@ -32,6 +32,6 @@ D:\TEMP\AX\Src\Framework\Ax.Framwork\AxCRL.Parser\obj\Debug\AxCRL.Parser.dll
 D:\TEMP\AX\Src\Framework\Ax.Framwork\AxCRL.Parser\obj\Debug\AxCRL.Parser.pdb
 E:\Temp\AX\Src\Service\Ax.Server\bin\AxCRL.Parser.dll
 E:\Temp\AX\Src\Service\Ax.Server\bin\AxCRL.Parser.pdb
-E:\Temp\AX\Src\Framework\Ax.Framwork\AxCRL.Parser\obj\Debug\AxCRL.Parser.csprojResolveAssemblyReference.cache
 E:\Temp\AX\Src\Framework\Ax.Framwork\AxCRL.Parser\obj\Debug\AxCRL.Parser.dll
 E:\Temp\AX\Src\Framework\Ax.Framwork\AxCRL.Parser\obj\Debug\AxCRL.Parser.pdb
+E:\Temp\AX\Src\Framework\Ax.Framwork\AxCRL.Parser\obj\Debug\AxCRL.Parser.csprojResolveAssemblyReference.cache

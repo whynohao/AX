@@ -41,8 +41,8 @@ D:\TEMP\AX\Src\Framework\Ax.Framwork\AxCRL.Bcf\obj\Debug\AxCRL.Bcf.csprojResolve
 D:\TEMP\AX\Src\Framework\Ax.Framwork\AxCRL.Bcf\obj\Debug\AxCRL.Bcf.dll
 D:\TEMP\AX\Src\Framework\Ax.Framwork\AxCRL.Bcf\obj\Debug\AxCRL.Bcf.pdb
 E:\Temp\AX\Src\Framework\Ax.Framwork\AxCRL.Bcf\obj\Debug\AxCRL.Bcf.csprojResolveAssemblyReference.cache
-E:\Temp\AX\Src\Framework\Ax.Framwork\AxCRL.Bcf\obj\Debug\AxCRL.Bcf.dll
-E:\Temp\AX\Src\Framework\Ax.Framwork\AxCRL.Bcf\obj\Debug\AxCRL.Bcf.pdb
 E:\Temp\AX\Src\Service\Ax.Server\bin\AxCRL.Bcf.dll.config
 E:\Temp\AX\Src\Service\Ax.Server\bin\AxCRL.Bcf.dll
 E:\Temp\AX\Src\Service\Ax.Server\bin\AxCRL.Bcf.pdb
+E:\Temp\AX\Src\Framework\Ax.Framwork\AxCRL.Bcf\obj\Debug\AxCRL.Bcf.dll
+E:\Temp\AX\Src\Framework\Ax.Framwork\AxCRL.Bcf\obj\Debug\AxCRL.Bcf.pdb

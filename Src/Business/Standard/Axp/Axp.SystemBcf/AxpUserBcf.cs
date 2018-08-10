@@ -35,7 +35,7 @@ namespace Axp.SystemBcf
             List<int> appTypeList = new List<int>();
             int clientType = 0;
             //同一个账户下的UserApp子表中的App类型不能重复
-            foreach(DataRow curRow in this.DataSet.Tables[1].Rows)
+            foreach (DataRow curRow in this.DataSet.Tables[1].Rows)
             {
                 switch (curRow.RowState)
                 {
@@ -49,7 +49,7 @@ namespace Axp.SystemBcf
                         }
                         else
                         {
-                            this.ManagerMessage.AddMessage(LibMessageKind.Error, string.Format("APP明细，行号:{0},同一个账户下的UserApp子表中的App类型不能重复。",curRow["ROW_ID"]));
+                            this.ManagerMessage.AddMessage(LibMessageKind.Error, string.Format("APP明细，行号:{0},同一个账户下的UserApp子表中的App类型不能重复。", curRow["ROW_ID"]));
                         }
                         break;
                 }
@@ -107,9 +107,9 @@ namespace Axp.SystemBcf
 
     public class AxpUserBcfTemplate : LibTemplate
     {
-        private const string masterTableName = "AXPUSER";
-        private const string tableAppName = "AXPUSERAPP";
-        private const string siteTableName = "AXPUSERSITE";
+        private const string masterTableName = "AxpUser";
+        private const string tableAppName = "AxpUserApp";
+        private const string siteTableName = "AxpUserSite";
         public AxpUserBcfTemplate(string progId)
             : base(progId, BillType.Master, "系统账户")
         {
@@ -119,20 +119,24 @@ namespace Axp.SystemBcf
         protected override void BuildDataSet()
         {
             this.DataSet = new DataSet();
-            string primaryName = "USERID";
+            string primaryName = "Id";
             DataTable masterTable = new DataTable(masterTableName);
             DataSourceHelper.AddColumn(new DefineField(masterTable, primaryName, "用户账号", FieldSize.Size20) { AllowEmpty = false, AllowCopy = false });
-            DataSourceHelper.AddColumn(new DefineField(masterTable, "USERPASSWORD", "用户密码", FieldSize.Size50) { AllowCondition = false, InputType = InputType.Password });
+            DataSourceHelper.AddColumn(new DefineField(masterTable, "Name", "用户名称", FieldSize.Size50));
+            DataSourceHelper.AddColumn(new DefineField(masterTable, "Password", "用户密码", FieldSize.Size50) { AllowCondition = false, InputType = InputType.Password });
+            DataSourceHelper.AddColumn(new DefineField(masterTable, "UserImage", "用户头像", FieldSize.Size50));
             DataSourceHelper.AddColumn(new DefineField(masterTable, "PERSONID", "人员代码", FieldSize.Size20)
             {
                 ControlType = LibControlType.IdName,
+                SelectSql = "Select A.PERSONID as Id,A.PERSONNAME as Name From COMPERSON A",
+                SelectFields = "A.PERSONNAME",
                 RelativeSource = new RelativeSourceCollection() {
                  new RelativeSource("com.Person"){  RelFields = new RelFieldCollection()
                      { new RelField("PERSONNAME", LibDataType.NText,FieldSize.Size50,"人员名称"),
-                       new RelField("PHONENO",LibDataType.Text,FieldSize.Size20,"手机","PERSONPHONE"),
-                       new RelField("CORNET",LibDataType.Text,FieldSize.Size20,"短号","PERSONPHONENO"),
-                       new RelField("HEADPORTRAIT",LibDataType.NText,FieldSize.Size500,"头像","PERSONHEADPORTRAIT"),
-                       new RelField("MAIL",LibDataType.Text,FieldSize.Size50,"邮箱","PERSONMAIL")
+                       //new RelField("PHONENO",LibDataType.Text,FieldSize.Size20,"手机","PERSONPHONE"),
+                       //new RelField("CORNET",LibDataType.Text,FieldSize.Size20,"短号","PERSONPHONENO"),
+                       //new RelField("HEADPORTRAIT",LibDataType.NText,FieldSize.Size500,"头像","PERSONHEADPORTRAIT"),
+                       //new RelField("MAIL",LibDataType.Text,FieldSize.Size50,"邮箱","PERSONMAIL")
                      }}
                 }
             });
@@ -143,7 +147,8 @@ namespace Axp.SystemBcf
                  new RelativeSource("axp.Role"){  RelFields = new RelFieldCollection()
                      { new RelField("ROLENAME", LibDataType.NText,FieldSize.Size50,"角色名称") }}
                 }
-            });           
+            });
+            DataSourceHelper.AddColumn(new DefineField(masterTable, "PhoneId", "手机标识", FieldSize.Size50) { AllowCondition = false, InputType = InputType.Password });
             DataSourceHelper.AddColumn(new DefineField(masterTable, "ISUSE", "启用") { DataType = LibDataType.Boolean, ControlType = LibControlType.YesNo, DefaultValue = true });
             DataSourceHelper.AddColumn(new DefineField(masterTable, "WALLPAPER", "壁纸", FieldSize.Size100) { DataType = LibDataType.NText, ControlType = LibControlType.NText, ReadOnly = true });
             DataSourceHelper.AddColumn(new DefineField(masterTable, "WALLPAPERSTRETCH", "充满桌面") { DataType = LibDataType.Boolean, ControlType = LibControlType.YesNo, ReadOnly = true, DefaultValue = true });
@@ -165,7 +170,7 @@ namespace Axp.SystemBcf
                 ControlType = LibControlType.KeyValueOption,// 需要以键值对的形式给出选项，以便Int32的值可以与枚举项的值对应
                 KeyValueOption = appTypeOptionList
             });
-            DataSourceHelper.AddColumn(new DefineField(bodyTable, "CLIENTID", "客户端ID", FieldSize.Size100));           
+            DataSourceHelper.AddColumn(new DefineField(bodyTable, "CLIENTID", "客户端ID", FieldSize.Size100));
             bodyTable.PrimaryKey = new DataColumn[] { bodyTable.Columns[primaryName], bodyTable.Columns["ROW_ID"] };
 
             this.DataSet.Tables.Add(bodyTable);
@@ -188,16 +193,16 @@ namespace Axp.SystemBcf
                         }
                     }
                 }
-            });           
+            });
             siteTable.PrimaryKey = new DataColumn[] { siteTable.Columns[primaryName], siteTable.Columns["ROW_ID"] };
             this.DataSet.Tables.Add(siteTable);
             this.DataSet.Relations.Add(string.Format("{0}_{1}", masterTableName, siteTableName), masterTable.Columns[primaryName], siteTable.Columns[primaryName]);
             //*/    
-        }       
+        }
         protected override void DefineViewTemplate(DataSet dataSet)
         {
             LibBillLayout layout = new LibBillLayout(this.DataSet);
-            layout.HeaderRange = layout.BuildControlGroup(0, string.Empty, new List<string>() { "USERID", "USERPASSWORD", "PERSONID", "PERSONNAME", "ROLEID", "ROLENAME", "ISUSE", "WALLPAPER", "WALLPAPERSTRETCH" });
+            layout.HeaderRange = layout.BuildControlGroup(0, string.Empty, new List<string>() { "Id", "Name", "Password", "UserImage", "PERSONID" });
             layout.TabRange.Add(layout.BuildGrid(1, "APP明细"));
             layout.TabRange.Add(layout.BuildGrid(2, "可访问站点配置"));
             this.ViewTemplate = new LibBillTpl(this.DataSet, layout);

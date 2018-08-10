@@ -179,14 +179,21 @@ namespace AxCRL.Core.Excel
             }
             catch (Exception ex)
             {
-                string path = System.IO.Path.Combine(AxCRL.Comm.Runtime.EnvProvider.Default.MainPath, "Output", "Error", "Excel", string.Format("{0}.txt", DateTime.Now.Ticks));
-                using (System.IO.FileStream fs = new System.IO.FileStream(path, System.IO.FileMode.Create))
+                if (dataSet.HasErrors)
                 {
-                    using (System.IO.StreamWriter sw = new System.IO.StreamWriter(fs))
+                    string errorData = string.Empty;
+                    foreach (DataTable dt in dataSet.Tables)
                     {
-                        sw.Write(ex);
+                        foreach (DataRow dr in dt.GetErrors())
+                        {
+                            errorData += string.Format(" {0}",dr.RowError);
+                        }
                     }
+                    Exception dsEx = new Exception(errorData);
+                    LibLog.WriteLog(dsEx);
                 }
+
+                LibLog.WriteLog(ex);
                 throw;
             }
         }
